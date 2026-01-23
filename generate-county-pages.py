@@ -71,7 +71,7 @@ PRIMARY_TEMPLATE = '''<!DOCTYPE html>
     <main>
         <nav class="breadcrumb"><a href="/">Farmers First</a> / <a href="/#areas">$state_full</a> / $county County</nav>
         <h1>Crop Insurance for <span>$county County</span>, $state_full</h1>
-        <div class="intro"><p><strong>Farmers First Agri Service</strong> is your local independent crop insurance agency serving $county County. We help farmers in $towns_text protect their operations with the right coverage — and we work for <em>you</em>, not the insurance company.</p></div>
+        <div class="intro"><p><strong>Farmers First Agri Service</strong> is your local crop insurance agency serving $county County. We help farmers in $towns_text protect their operations with the right coverage.</p></div>
         <p>Whether you're growing corn and soybeans, managing dairy, running beef cattle on pasture, or operating a diversified farm — we have coverage options that fit your $county County operation.</p>
         <div class="cta-box"><h3>Get Your Free Crop Insurance Quote</h3><p>Talk directly with a local agent who knows $county County farming</p><a href="tel:715-553-0392" class="phone">715-553-0392</a></div>
         <h2>Communities We Serve in $county County</h2>
@@ -111,7 +111,7 @@ PRIMARY_TEMPLATE = '''<!DOCTYPE html>
             <div class="team-card"><h4>Sig Lindquist, CCA</h4><p class="role">Certified Crop Advisor</p><p class="phone"><a href="tel:715-797-2428">715-797-2428</a></p></div>
         </div>
         <div class="cta-box"><h3>Ready to Review Your Coverage?</h3><p>Free quotes • No pressure • Local expertise</p><a href="tel:715-553-0392" class="phone">Call 715-553-0392</a></div>
-        <div class="partner-section"><h3>FROM THE FARMERS FIRST NETWORK</h3><div class="partner-links"><a href="https://agsist.com" class="partner-link">📊 AgSist — Free Ag Dashboard</a><a href="https://lokedrone.com" class="partner-link">🚁 Loke Drone — Ag Spraying</a><a href="https://usdronemap.com" class="partner-link">🗺️ US Drone Map</a></div></div>
+        <div class="partner-section"><h3>FROM THE FARMERS FIRST NETWORK</h3><div class="partner-links"><a href="https://agsist.com" class="partner-link">📊 AgSist — Free Ag Dashboard</a><a href="https://lokedrone.com" class="partner-link">✈️ Loke Drone — Ag Spraying</a><a href="https://usdronemap.com" class="partner-link">🗺️ US Drone Map</a></div></div>
         <div class="related-counties"><h3>ALSO SERVING NEARBY COUNTIES</h3>$related_links</div>
     </main>
     <footer><div class="footer-links"><a href="/">Home</a><a href="/#services">Services</a><a href="https://agsist.com">Ag Dashboard</a><a href="https://lokedrone.com">Drone Services</a></div><p class="footer-copy">© 2017–2025 Farmers First Agri Service • Chetek, Wisconsin</p></footer>
@@ -135,7 +135,7 @@ SECONDARY_TEMPLATE = '''<!DOCTYPE html>
     <main>
         <nav class="breadcrumb"><a href="/">Home</a> / <a href="/#areas">$state_full</a> / $county County</nav>
         <h1>Crop Insurance for <span>$county County</span>, $state_full</h1>
-        <p>Farmers First Agri Service provides crop insurance coverage for $county County farmers. As an independent agency based in Chetek, Wisconsin, we serve farmers throughout $state_full with multi-peril crop insurance, revenue protection, and PRF pasture coverage.</p>
+        <p>Farmers First Agri Service provides crop insurance coverage for $county County farmers. Based in Chetek, Wisconsin, we serve farmers throughout $state_full with multi-peril crop insurance, revenue protection, and PRF pasture coverage.</p>
         <div class="cta-box"><h3>Free Crop Insurance Quote</h3><p>Talk to a local agent today</p><a href="tel:715-553-0392" class="phone">715-553-0392</a></div>
         <h2>COVERAGE OPTIONS</h2>
         <ul class="info-list">
@@ -147,7 +147,7 @@ SECONDARY_TEMPLATE = '''<!DOCTYPE html>
         <h2>CONTACT</h2>
         <p><strong>Nate Weness</strong> — Crop Insurance — <a href="tel:715-553-0392" style="color:var(--accent)">715-553-0392</a><br>
         <strong>Sig Lindquist, CCA</strong> — 590 Plans — <a href="tel:715-797-2428" style="color:var(--accent)">715-797-2428</a></p>
-        <div class="partner-section"><h3>FROM THE FARMERS FIRST NETWORK</h3><div class="partner-links"><a href="https://agsist.com" class="partner-link">📊 AgSist</a><a href="https://lokedrone.com" class="partner-link">🚁 Loke Drone</a><a href="https://usdronemap.com" class="partner-link">🗺️ US Drone Map</a></div></div>
+        <div class="partner-section"><h3>FROM THE FARMERS FIRST NETWORK</h3><div class="partner-links"><a href="https://agsist.com" class="partner-link">📊 AgSist</a><a href="https://lokedrone.com" class="partner-link">✈️ Loke Drone</a><a href="https://usdronemap.com" class="partner-link">🗺️ US Drone Map</a></div></div>
         <div class="related"><h3>NEARBY COUNTIES</h3>$related_links</div>
     </main>
     <footer><a href="/">Farmers First Agri Service</a> • Chetek, WI</footer>
