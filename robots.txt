@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Sitemap location
 Sitemap: https://farmers1st.com/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
