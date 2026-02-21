@@ -38,8 +38,9 @@ header{background:var(--white);border-bottom:4px solid var(--grn);position:stick
 nav{display:flex;gap:2px;align-items:center}
 nav a{font-size:.82rem;font-weight:600;color:var(--t600);text-decoration:none;padding:10px 14px;text-transform:uppercase;letter-spacing:.5px;transition:color .12s}
 nav a:hover{color:var(--grn)}
-.ph-btn{background:var(--grn);color:var(--white);padding:10px 16px;text-decoration:none;font-weight:700;font-size:.75rem;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;transition:background .12s}
+.ph-btn{background:var(--grn);color:var(--white);text-decoration:none;font-weight:700;font-size:.75rem;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;transition:background .12s;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;line-height:1.3}
 .ph-btn:hover{background:var(--grn3)}
+.ph-btn a{color:inherit;text-decoration:none;font-size:.68rem;font-weight:700;letter-spacing:.3px}
 .mob-btn{display:none;background:var(--white);border:2px solid var(--b200);color:var(--t700);padding:10px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent}
 .hero{background:var(--white);border-bottom:2px solid var(--b100);padding:40px 24px 48px}
 .hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 450px;gap:40px;align-items:start}
@@ -181,7 +182,7 @@ nav a:hover{color:var(--grn)}
 .ctab{background:var(--white);border-top:4px solid var(--grn);padding:44px 24px;text-align:center}
 .ctab h2{font-size:1.5rem;font-weight:900;color:var(--t900);margin-bottom:6px;text-transform:uppercase}
 .ctab p{color:var(--t500);margin-bottom:16px;font-size:.88rem}
-.ctab .big{font-family:'JetBrains Mono',monospace;font-size:2rem;color:var(--grn);text-decoration:none;font-weight:800;display:inline-block;border:3px solid var(--grn);padding:14px 36px;transition:all .12s}
+.ctab .big{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--grn);text-decoration:none;font-weight:800;display:inline-block;border:3px solid var(--grn);padding:12px 30px;transition:all .12s;margin:4px}
 .ctab .big:hover{background:var(--grn);color:var(--white)}
 .net{background:var(--white);border-top:2px solid var(--b100);padding:28px 24px;text-align:center}
 .net h3{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--t400);margin-bottom:12px;font-weight:700;text-transform:uppercase}
@@ -194,8 +195,8 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 .fg a{display:block;color:#555;text-decoration:none;font-size:.78rem;padding:2px 0;transition:color .12s}.fg a:hover{color:var(--white)}
 .fb{max-width:1200px;margin:20px auto 0;padding-top:12px;border-top:1px solid #222;font-size:.62rem;color:#444;text-align:center;line-height:1.8}
 @media(max-width:960px){.hero-in{grid-template-columns:1fr;gap:28px}.sg,.ag{grid-template-columns:1fr}.dg{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr 1fr}.agsist-in{flex-direction:column;text-align:center}}
-@media(max-width:680px){html,body{overflow-x:hidden}nav{display:none}.mob-btn{display:block}nav.on{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--white);border-bottom:4px solid var(--grn);padding:12px 20px;z-index:99}.logo-link{height:44px}.logo-img{height:44px}.hbar{height:62px;padding:0 16px}.ph-btn{font-size:.65rem;padding:8px 10px}.hero{padding:24px 16px 32px}.hero h1{font-size:1.6rem}.sp-n{font-size:3.2rem}.sp{padding:18px 14px}.br{grid-template-columns:62px 1fr 32px;gap:4px}.br .nm{font-size:.68rem}.br .tip{left:10px;right:10px;width:auto;bottom:calc(100% + 4px)}.hlinks{flex-direction:column}.hlinks a{text-align:center}.sub-in{flex-direction:column;text-align:center;gap:8px}.sf{max-width:100%;min-width:0;width:100%}.rpt{padding:32px 16px}.sec{padding:40px 0}.sh,.h2{font-size:1.3rem}.ag{grid-template-columns:1fr}.tg{grid-template-columns:1fr;max-width:280px}.ctab .big{font-size:1.3rem;padding:10px 24px}.fg{grid-template-columns:1fr;gap:16px;text-align:center}.wrap{padding:0 16px}.otlk-prices{grid-template-columns:1fr 1fr}.otlk-grid{grid-template-columns:1fr}.otlk-flash{font-size:.6rem;padding:8px 16px}.otlk-in{padding:20px 16px 28px}.otlk-acts{padding:16px}}
-@media(max-width:380px){.hero h1{font-size:1.4rem}.sp-n{font-size:2.8rem}.ph-btn{font-size:.6rem;padding:7px 8px}}
+@media(max-width:680px){html,body{overflow-x:hidden}nav{display:none}.mob-btn{display:block}nav.on{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--white);border-bottom:4px solid var(--grn);padding:12px 20px;z-index:99}.logo-link{height:44px}.logo-img{height:44px}.hbar{height:62px;padding:0 16px}.ph-btn{font-size:.6rem;padding:6px 10px}.hero{padding:24px 16px 32px}.hero h1{font-size:1.6rem}.sp-n{font-size:3.2rem}.sp{padding:18px 14px}.br{grid-template-columns:62px 1fr 32px;gap:4px}.br .nm{font-size:.68rem}.br .tip{left:10px;right:10px;width:auto;bottom:calc(100% + 4px)}.hlinks{flex-direction:column}.hlinks a{text-align:center}.sub-in{flex-direction:column;text-align:center;gap:8px}.sf{max-width:100%;min-width:0;width:100%}.rpt{padding:32px 16px}.sec{padding:40px 0}.sh,.h2{font-size:1.3rem}.ag{grid-template-columns:1fr}.tg{grid-template-columns:1fr;max-width:280px}.ctab .big{font-size:1.1rem;padding:10px 20px;display:block;margin:4px auto;max-width:260px}.fg{grid-template-columns:1fr;gap:16px;text-align:center}.wrap{padding:0 16px}.otlk-prices{grid-template-columns:1fr 1fr}.otlk-grid{grid-template-columns:1fr}.otlk-flash{font-size:.6rem;padding:8px 16px}.otlk-in{padding:20px 16px 28px}.otlk-acts{padding:16px}}
+@media(max-width:380px){.hero h1{font-size:1.4rem}.sp-n{font-size:2.8rem}.ph-btn{font-size:.58rem;padding:5px 8px}}
 </style>
 </head>
 <body>
@@ -203,7 +204,10 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <a href="/" class="logo-link"><img src="/logo.png" alt="Farmers First Agri Service" class="logo-img"></a>
 <button class="mob-btn" onclick="document.querySelector('nav').classList.toggle('on')" aria-label="Menu">MENU</button>
 <nav><a href="#index">Index</a><a href="#outlook">Outlook</a><a href="#report">Report</a><a href="#services">Insurance</a><a href="#areas">Territory</a><a href="#faq">FAQ</a><a href="#team">Contact</a></nav>
-<a href="tel:715-797-2428" class="ph-btn">715-797-2428</a>
+<div class="ph-btn">
+  <a href="tel:715-553-0392">715-553-0392 // Nate</a>
+  <a href="tel:715-797-2428">715-797-2428 // Sig</a>
+</div>
 </div></header>
 
 <section class="hero" id="index"><div class="hero-in"><div>
@@ -367,7 +371,15 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <article class="tc"><div class="tc-a">SL</div><h3>Sig Lindquist, CCA</h3><div class="rl">CERTIFIED CROP ADVISOR</div><div class="ph"><a href="tel:715-797-2428">715-797-2428</a></div></article>
 </div></div></section>
 
-<div class="ctab"><h2>March 15 Sales Closing Is Coming</h2><p>Get your numbers run before the deadline.</p><a href="tel:715-797-2428" class="big">715-797-2428</a></div>
+<div class="ctab">
+  <h2>March 15 Sales Closing Is Coming</h2>
+  <p>Get your numbers run before the deadline.</p>
+  <div style="display:inline-flex;flex-direction:column;gap:8px;align-items:center">
+    <a href="tel:715-553-0392" class="big">715-553-0392 // Nate</a>
+    <a href="tel:715-797-2428" class="big">715-797-2428 // Sig</a>
+  </div>
+</div>
+
 <div class="net"><h3>FARMERS FIRST NETWORK</h3><div class="nl">
 <a href="https://agsist.com" target="_blank" rel="noopener">AgSist // Grain Bids & Cash Prices</a>
 <a href="https://lokedrone.com" target="_blank" rel="noopener">Loke Drone // Ag Spraying</a>
