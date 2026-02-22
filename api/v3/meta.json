@@ -1,0 +1,102 @@
+{
+  "ffai_version": "3.0",
+  "name": "Farmers First Ag Index",
+  "description": "Statistically validated index of U.S. agricultural financial conditions. Predicts national ag production loan delinquency using Federal Reserve economic data.",
+  "publisher": {
+    "name": "Farmers First Agri Service",
+    "location": "Chetek, WI",
+    "url": "https://farmers1st.com",
+    "contact": "sig@farmers1st.com"
+  },
+  "model": {
+    "type": "OLS regression with expanding-window estimation",
+    "target": "USDA national ag production loan delinquency (DRFAPGACBS)",
+    "predictors": ["Soybean price (PSOYBUSDM)", "Federal Funds rate (FEDFUNDS)"],
+    "training_start": "Q1 2003",
+    "minimum_training_window": "20 quarters",
+    "scoring_method": "Expanding window (no look-ahead bias)"
+  },
+  "validation": {
+    "observations": 91,
+    "loo_cross_validation_r": 0.49,
+    "loo_p_value": "<0.000001",
+    "expanding_window_r": 0.51,
+    "expanding_window_p": "<0.00001",
+    "bonferroni_tests": 50,
+    "bonferroni_adjusted_p": 0.00003,
+    "r_squared": 0.28,
+    "regime_accuracy": 0.732,
+    "regime_accuracy_note": "73.2% of quarters correctly classified above/below median delinquency"
+  },
+  "components": {
+    "composite": {
+      "description": "National agricultural financial conditions. Higher = lower delinquency risk.",
+      "range": "0-100",
+      "method": "Soybean price + Federal Funds rate regression scored against expanding historical window"
+    },
+    "grain": {
+      "description": "Row crop margin conditions. Revenue (corn/soy/wheat) minus costs (energy/fertilizer/machinery/interest).",
+      "range": "0-100",
+      "weights_revenue": {"corn": 0.50, "soybeans": 0.35, "wheat": 0.15},
+      "weights_cost": {"crude_oil": 0.25, "diesel": 0.15, "fertilizer": 0.20, "machinery": 0.10, "fed_funds": 0.30}
+    },
+    "dairy": {
+      "description": "Dairy margin conditions. Revenue (milk/cheese/butter) minus costs (corn/soy feed, energy, interest).",
+      "range": "0-100",
+      "weights_revenue": {"milk": 0.50, "cheese": 0.30, "butter": 0.20},
+      "weights_cost": {"corn": 0.45, "soybeans": 0.20, "crude_oil": 0.15, "fed_funds": 0.20}
+    },
+    "livestock": {
+      "description": "Livestock margin conditions. Revenue (cattle/hogs) minus costs (corn/soy feed, energy, interest).",
+      "range": "0-100",
+      "weights_revenue": {"cattle": 0.65, "hogs": 0.35},
+      "weights_cost": {"corn": 0.50, "soybeans": 0.15, "crude_oil": 0.15, "fed_funds": 0.20}
+    },
+    "outlook": {
+      "description": "Forward 12-15 month outlook based on Federal Funds rate trajectory. Rate cuts predict improving conditions 4-5 quarters ahead.",
+      "range": "0-100",
+      "method": "4-quarter change in Federal Funds rate, scored against expanding window",
+      "lead_lag_r": -0.52,
+      "lead_lag_quarters": "4-5"
+    }
+  },
+  "regimes": {
+    "STRONG":    {"min": 70, "max": 100, "interpretation": "Strong conditions. Low delinquency risk. Favorable for expansion."},
+    "FAVORABLE": {"min": 55, "max": 70,  "interpretation": "Above-average conditions. Manageable risk."},
+    "GUARDED":   {"min": 40, "max": 55,  "interpretation": "Below-average conditions. Watch margins. Maximize insurance."},
+    "STRESSED":  {"min": 0,  "max": 40,  "interpretation": "Elevated stress. High delinquency risk. Preserve cash."}
+  },
+  "structural_validation": {
+    "grain_vs_dairy_r": -0.45,
+    "grain_vs_dairy_note": "Inverse: corn is revenue for grain, cost for dairy",
+    "dairy_vs_livestock_r": 0.60,
+    "dairy_vs_livestock_note": "Correlated: shared feed cost structure"
+  },
+  "data_sources": [
+    {"id": "PMAIZMTUSDM",     "name": "Corn",              "unit": "$/metric ton", "role": "Grain revenue, Dairy/Livestock cost"},
+    {"id": "PSOYBUSDM",       "name": "Soybeans",          "unit": "$/metric ton", "role": "Grain revenue, Composite predictor, Dairy/Livestock cost"},
+    {"id": "PWHEAMTUSDM",     "name": "Wheat",             "unit": "$/metric ton", "role": "Grain revenue"},
+    {"id": "POILWTIUSDM",     "name": "Crude Oil (WTI)",   "unit": "$/barrel",     "role": "Input cost (all sectors)"},
+    {"id": "WPU057303",       "name": "Diesel PPI",        "unit": "Index",        "role": "Grain input cost"},
+    {"id": "WPU0652",         "name": "Fertilizer PPI",    "unit": "Index",        "role": "Grain input cost"},
+    {"id": "WPU111",          "name": "Farm Machinery PPI", "unit": "Index",       "role": "Grain input cost"},
+    {"id": "WPU01610102",     "name": "Raw Milk PPI",      "unit": "Index",        "role": "Dairy revenue"},
+    {"id": "PCU311513311513", "name": "Cheese PPI",        "unit": "Index",        "role": "Dairy revenue"},
+    {"id": "WPU023201",       "name": "Butter PPI",        "unit": "Index",        "role": "Dairy revenue"},
+    {"id": "WPU0131",         "name": "Cattle PPI",        "unit": "Index",        "role": "Livestock revenue"},
+    {"id": "WPU013201",       "name": "Hog PPI",           "unit": "Index",        "role": "Livestock revenue"},
+    {"id": "FEDFUNDS",        "name": "Federal Funds Rate", "unit": "%",           "role": "Composite predictor, Cost component (all sectors), Outlook driver"},
+    {"id": "CPIAUCSL",        "name": "CPI",               "unit": "Index",        "role": "Inflation adjustment"},
+    {"id": "GS10",            "name": "10Y Treasury",       "unit": "%",           "role": "Long-term rate environment"},
+    {"id": "DRFAPGACBS",      "name": "Ag Loan Delinquency","unit": "%",           "role": "Validation target (not used in scoring)"}
+  ],
+  "endpoints": {
+    "current": "https://farmers1st.com/api/v3/current.json",
+    "history": "https://farmers1st.com/api/v3/history.json",
+    "meta":    "https://farmers1st.com/api/v3/meta.json",
+    "badge_js":"https://farmers1st.com/api/v3/badge.js"
+  },
+  "update_frequency": "Quarterly (after FRED publishes complete quarter data)",
+  "license": "CC BY 4.0 — Free to use with attribution to Farmers First Agri Service (farmers1st.com)",
+  "methodology_pdf": "https://farmers1st.com/ffai_v3_methodology.pdf"
+}

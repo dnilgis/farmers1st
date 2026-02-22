@@ -1,0 +1,38 @@
+{
+  "ffai_version": "3.0",
+  "generated": "2026-02-22T00:00:00Z",
+  "quarter": "Q4'25",
+  "date": "2025-10-01",
+  "composite": 68.0,
+  "regime": "FAVORABLE",
+  "sub_indexes": {
+    "grain": 9.8,
+    "dairy": 53.3,
+    "livestock": 94.6
+  },
+  "outlook": 61.4,
+  "previous": {
+    "quarter": "Q3'25",
+    "composite": 69.3,
+    "grain": 2.2,
+    "dairy": 72.5,
+    "livestock": 100.0,
+    "outlook": 64.0
+  },
+  "regimes": {
+    "grain": "STRESSED",
+    "dairy": "GUARDED",
+    "livestock": "STRONG",
+    "outlook": "FAVORABLE"
+  },
+  "regime_thresholds": {
+    "STRONG": "70-100",
+    "FAVORABLE": "55-70",
+    "GUARDED": "40-55",
+    "STRESSED": "0-40"
+  },
+  "next_update": "2026-04",
+  "source": "https://farmers1st.com",
+  "api_docs": "https://farmers1st.com/api/",
+  "license": "CC BY 4.0"
+}

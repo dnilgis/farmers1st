@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FFAI API — Farmers First Ag Index Developer Docs</title>
+<meta name="description" content="Free JSON API for the Farmers First Ag Index. 72 quarters of agricultural financial conditions data. CC BY 4.0.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://farmers1st.com/api/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f0;--white:#fff;--b100:#e8e8e2;--b200:#d4d4cc;--t900:#1a1a1a;--t700:#3a3a3a;--t500:#777;--t400:#999;--grn:#2d6a2e;--grn3:#1b4d1c;--grnL:#e8f5e9;--amb:#b8860b;--red:#a63030}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t700);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',monospace}
+header{background:var(--white);border-bottom:4px solid var(--grn);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header a{color:var(--grn);text-decoration:none;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+header h1{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--t900)}
+main{max-width:800px;margin:0 auto;padding:40px 24px 60px}
+h2{font-size:1.3rem;font-weight:900;color:var(--t900);margin:40px 0 12px;text-transform:uppercase;letter-spacing:.3px;border-bottom:3px solid var(--grn);padding-bottom:6px;display:inline-block}
+h3{font-size:1rem;font-weight:800;color:var(--t900);margin:24px 0 8px}
+p{margin-bottom:12px;color:var(--t700);font-size:.92rem}
+a{color:var(--grn)}
+code{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--white);padding:2px 6px;border:1px solid var(--b100)}
+pre{background:var(--t900);color:#ccc;padding:20px;overflow-x:auto;margin:12px 0 20px;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;border-left:4px solid var(--grn)}
+pre .k{color:#5cb85c}
+pre .s{color:#daa520}
+pre .c{color:#666}
+pre .n{color:#6ca6cd}
+.ep{background:var(--white);border:2px solid var(--b100);padding:16px 20px;margin:12px 0 20px}
+.ep-url{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--grn);word-break:break-all}
+.ep-desc{font-size:.85rem;color:var(--t500);margin-top:4px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.5px;padding:3px 8px;font-weight:700;text-transform:uppercase;margin-right:6px}
+.tag-get{background:var(--grnL);color:var(--grn3)}.tag-json{background:#e8f0fe;color:#1a5276}
+table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:.85rem}
+th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.5px;text-transform:uppercase;color:var(--t500);padding:8px 12px;border-bottom:2px solid var(--t900)}
+td{padding:8px 12px;border-bottom:1px solid var(--b100);vertical-align:top}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;color:var(--t900);white-space:nowrap}
+.badge-demo{background:var(--white);border:2px solid var(--b100);padding:24px;margin:12px 0 20px;text-align:center}
+.badge-demo h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;color:var(--t400);margin-bottom:12px;text-transform:uppercase}
+.note{background:#fdf6e3;border-left:4px solid var(--amb);padding:12px 16px;margin:12px 0 20px;font-size:.85rem;color:var(--t700)}
+.note strong{color:var(--t900)}
+footer{max-width:800px;margin:0 auto;padding:24px;border-top:1px solid var(--b200);font-size:.78rem;color:var(--t400);text-align:center}
+@media(max-width:680px){main{padding:24px 16px 40px}pre{padding:14px;font-size:.7rem}table{font-size:.78rem}td,th{padding:6px 8px}.ep{padding:12px 14px}}
+</style>
+</head>
+<body>
+<header>
+<h1>FFAI API <span style="font-weight:400;color:var(--t500);font-size:.75rem">v3.0</span></h1>
+<a href="/">&larr; Back to FFAI</a>
+</header>
+
+<main>
+<p style="font-size:1rem;color:var(--t900);font-weight:600;margin-bottom:20px">Free, open access to 72 quarters of validated U.S. agricultural financial conditions data. No API key. No rate limits. No auth. Just JSON.</p>
+
+<div class="note"><strong>License:</strong> CC BY 4.0 — use freely with attribution to Farmers First Agri Service (<a href="https://farmers1st.com">farmers1st.com</a>). Updated quarterly after FRED publishes complete quarter data.</div>
+
+<h2>Endpoints</h2>
+
+<h3>Current Quarter</h3>
+<div class="ep">
+<span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span>
+<div class="ep-url">https://farmers1st.com/api/v3/current.json</div>
+<div class="ep-desc">Latest FFAI composite, sub-indexes, regime, and outlook. ~1 KB.</div>
+</div>
+
+<h3>Historical Time Series</h3>
+<div class="ep">
+<span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span>
+<div class="ep-url">https://farmers1st.com/api/v3/history.json</div>
+<div class="ep-desc">All 72 quarters (Q1 2008 – Q4 2025). Composite + grain/dairy/livestock sub-indexes. ~12 KB.</div>
+</div>
+
+<h3>Model Metadata & Data Dictionary</h3>
+<div class="ep">
+<span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span>
+<div class="ep-url">https://farmers1st.com/api/v3/meta.json</div>
+<div class="ep-desc">Complete model specification: validation stats, component weights, regime thresholds, all 16 FRED series IDs, structural validation. ~5 KB.</div>
+</div>
+
+<h3>Embeddable Badge</h3>
+<div class="ep">
+<span class="tag tag-get">GET</span><span class="tag" style="background:#fce8e8;color:var(--red)">JS</span>
+<div class="ep-url">https://farmers1st.com/api/v3/badge.js</div>
+<div class="ep-desc">Self-rendering widget. Drop two lines of HTML onto any page.</div>
+</div>
+
+<h2>Response Format</h2>
+
+<h3>current.json</h3>
+<pre>{
+  <span class="s">"quarter"</span>:   <span class="s">"Q4'25"</span>,
+  <span class="s">"composite"</span>: <span class="n">68.0</span>,
+  <span class="s">"regime"</span>:    <span class="s">"FAVORABLE"</span>,
+  <span class="s">"sub_indexes"</span>: {
+    <span class="s">"grain"</span>:     <span class="n">9.8</span>,
+    <span class="s">"dairy"</span>:     <span class="n">53.3</span>,
+    <span class="s">"livestock"</span>: <span class="n">94.6</span>
+  },
+  <span class="s">"outlook"</span>:   <span class="n">61.4</span>,
+  <span class="s">"regimes"</span>: {
+    <span class="s">"grain"</span>: <span class="s">"STRESSED"</span>,
+    <span class="s">"dairy"</span>: <span class="s">"GUARDED"</span>,
+    <span class="s">"livestock"</span>: <span class="s">"STRONG"</span>,
+    <span class="s">"outlook"</span>: <span class="s">"FAVORABLE"</span>
+  },
+  <span class="s">"previous"</span>: { <span class="c">... previous quarter ...</span> }
+}</pre>
+
+<h3>history.json</h3>
+<pre>{
+  <span class="s">"count"</span>: <span class="n">72</span>,
+  <span class="s">"quarters"</span>: [
+    {
+      <span class="s">"quarter"</span>: <span class="s">"Q1'08"</span>,
+      <span class="s">"date"</span>:    <span class="s">"2008-01-01"</span>,
+      <span class="s">"composite"</span>: <span class="n">55.2</span>,
+      <span class="s">"grain"</span>:     <span class="n">100.0</span>,
+      <span class="s">"dairy"</span>:     <span class="n">4.8</span>,
+      <span class="s">"livestock"</span>: <span class="n">4.8</span>
+    },
+    <span class="c">... 71 more quarters ...</span>
+  ]
+}</pre>
+
+<h2>Fields</h2>
+<table>
+<tr><th>Field</th><th>Type</th><th>Description</th></tr>
+<tr><td>composite</td><td>float</td><td>National FFAI score (0-100). Higher = lower delinquency risk.</td></tr>
+<tr><td>regime</td><td>string</td><td>STRONG (70+), FAVORABLE (55-70), GUARDED (40-55), STRESSED (0-40)</td></tr>
+<tr><td>grain</td><td>float</td><td>Row crop margin sub-index. Corn/soy/wheat revenue vs input costs.</td></tr>
+<tr><td>dairy</td><td>float</td><td>Dairy margin sub-index. Milk/cheese/butter revenue vs feed costs.</td></tr>
+<tr><td>livestock</td><td>float</td><td>Livestock margin sub-index. Cattle/hog revenue vs feed costs.</td></tr>
+<tr><td>outlook</td><td>float</td><td>12-15 month forward outlook based on Fed Funds rate trajectory.</td></tr>
+<tr><td>quarter</td><td>string</td><td>Quarter label, e.g. "Q4'25"</td></tr>
+<tr><td>date</td><td>string</td><td>ISO date of quarter start (YYYY-MM-DD)</td></tr>
+</table>
+
+<h2>Code Examples</h2>
+
+<h3>JavaScript (fetch)</h3>
+<pre><span class="k">fetch</span>(<span class="s">'https://farmers1st.com/api/v3/current.json'</span>)
+  .<span class="k">then</span>(r => r.json())
+  .<span class="k">then</span>(d => {
+    console.log(<span class="s">`FFAI: ${d.composite} ${d.regime}`</span>);
+    console.log(<span class="s">`Grain: ${d.sub_indexes.grain}`</span>);
+    console.log(<span class="s">`Dairy: ${d.sub_indexes.dairy}`</span>);
+    console.log(<span class="s">`Livestock: ${d.sub_indexes.livestock}`</span>);
+  });</pre>
+
+<h3>Python</h3>
+<pre><span class="k">import</span> requests
+
+<span class="c"># Current reading</span>
+r = requests.get(<span class="s">'https://farmers1st.com/api/v3/current.json'</span>)
+d = r.json()
+print(f<span class="s">"FFAI {d['composite']} {d['regime']}"</span>)
+
+<span class="c"># Full history for analysis</span>
+h = requests.get(<span class="s">'https://farmers1st.com/api/v3/history.json'</span>).json()
+<span class="k">import</span> pandas <span class="k">as</span> pd
+df = pd.DataFrame(h[<span class="s">'quarters'</span>])
+df.set_index(<span class="s">'date'</span>, inplace=<span class="k">True</span>)
+print(df.describe())</pre>
+
+<h3>curl</h3>
+<pre>curl -s https://farmers1st.com/api/v3/current.json | python3 -m json.tool</pre>
+
+<h3>R</h3>
+<pre>library(jsonlite)
+ffai <- fromJSON(<span class="s">"https://farmers1st.com/api/v3/history.json"</span>)
+df   <- ffai$quarters
+plot(df$composite, type=<span class="s">"l"</span>, main=<span class="s">"FFAI Composite"</span>)</pre>
+
+<h2 id="badge">Embeddable Badge</h2>
+<p>Add the FFAI score to any website with two lines of HTML. The badge fetches current data from the API and renders automatically.</p>
+
+<h3>Standard</h3>
+<pre>&lt;div id="ffai-badge"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge"></div></div>
+
+<h3>Full (with sub-indexes)</h3>
+<pre>&lt;div id="ffai-badge" data-size="full"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-full"></div></div>
+
+<h3>Compact</h3>
+<pre>&lt;div id="ffai-badge" data-size="compact"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-compact"></div></div>
+
+<h3>Sector-Specific (Dairy)</h3>
+<pre>&lt;div id="ffai-badge" data-sector="dairy"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-dairy"></div></div>
+
+<h3>Dark Theme</h3>
+<pre>&lt;div id="ffai-badge" data-size="full" data-theme="dark"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo" style="background:#1a1a1a"><h4 style="color:#555">Live Preview</h4><div id="ffai-badge-dark"></div></div>
+
+<h2>Notes</h2>
+<p><strong>CORS:</strong> GitHub Pages serves all files with permissive CORS headers. Fetch from any origin.</p>
+<p><strong>Rate limits:</strong> None. It's static JSON on a CDN. Hammer away.</p>
+<p><strong>Versioning:</strong> The <code>/v3/</code> path will remain stable. If the model changes substantially, we'll ship <code>/v4/</code> and keep <code>/v3/</code> frozen.</p>
+<p><strong>Update cadence:</strong> Quarterly, typically within 2 weeks of FRED publishing the complete quarter's data. The <code>generated</code> field in each response tells you when.</p>
+<p><strong>Validation:</strong> Cross-validated r = 0.49 against USDA ag loan delinquency (91 quarters). Full methodology: <a href="/ffai_v3_methodology.pdf">PDF</a> or <a href="/api/v3/meta.json">meta.json</a>.</p>
+<p><strong>The model explains 28% of delinquency variance.</strong> The other 72% is weather, trade, management, and policy. Use accordingly.</p>
+
+<h2>Contact</h2>
+<p>Questions, integrations, or just want to say hi:<br>
+<strong>Sig Lindquist</strong> — <a href="mailto:sig@farmers1st.com">sig@farmers1st.com</a> — <a href="tel:715-797-2428">715-797-2428</a><br>
+Farmers First Agri Service, Chetek, WI</p>
+</main>
+
+<footer>&copy; 2017-2026 Farmers First Agri Service &middot; <a href="/">FFAI Home</a> &middot; <a href="/privacy/">Privacy</a> &middot; CC BY 4.0</footer>
+
+<!-- Badge demos (inline renders since we can't self-fetch on static) -->
+<script>
+// Simulate badge rendering for demo since we're on the same domain
+// In production, badge.js fetches from /api/v3/current.json
+(function(){
+  var d = {composite:68.0,quarter:"Q4'25",regime:"FAVORABLE",sub_indexes:{grain:9.8,dairy:53.3,livestock:94.6},outlook:61.4};
+  var mono = "'Courier New',monospace";
+  var sans = "system-ui,sans-serif";
+
+  function rc(v){return v>=70?'#2d6a2e':v>=55?'#b8860b':v>=40?'#b8860b':'#a63030'}
+  function rg(v){return v>=70?'STRONG':v>=55?'FAVORABLE':v>=40?'GUARDED':'STRESSED'}
+
+  // Standard
+  document.getElementById('ffai-badge').innerHTML =
+    '<div style="display:inline-flex;align-items:center;gap:12px;padding:10px 16px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'">'
+    +'<div><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1.5px;color:#777">FFAI</div>'
+    +'<div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'+mono+';font-size:1.6rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span>'
+    +'<span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(d.composite)+';padding:2px 6px;border:1px solid '+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div></div>'
+    +'<a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+';border-left:1px solid #d4d4cc;padding-left:10px">farmers1st<br>.com</a></div>';
+
+  // Full
+  var subs=[['GRAIN',d.sub_indexes.grain],['DAIRY',d.sub_indexes.dairy],['LIVESTOCK',d.sub_indexes.livestock],['OUTLOOK',d.outlook]];
+  var sh=subs.map(function(s){var v=s[1],c=rc(v);return '<div style="flex:1;min-width:70px;text-align:center"><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1px;color:#777">'+s[0]+'</div><div style="font-family:'+mono+';font-size:1rem;font-weight:800;color:'+c+'">'+v+'</div><div style="height:3px;background:#d4d4cc;margin-top:3px"><div style="height:100%;width:'+v+'%;background:'+c+'"></div></div></div>'}).join('');
+  document.getElementById('ffai-badge-full').innerHTML =
+    '<div style="max-width:380px;background:#f5f5f0;border:1px solid #d4d4cc;padding:16px;font-family:'+sans+';display:inline-block;text-align:left">'
+    +'<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font-family:'+mono+';font-size:.52rem;letter-spacing:2px;color:#777">FFAI v3.0 // '+d.quarter+'</span><a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div>'
+    +'<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px"><span style="font-family:'+mono+';font-size:2.4rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.7rem;letter-spacing:2px;color:'+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div>'
+    +'<div style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #d4d4cc">'+sh+'</div>'
+    +'<div style="font-family:'+mono+';font-size:.45rem;color:#777;margin-top:8px;text-align:center">VALIDATED r=0.51 // 16 FRED SERIES // CC BY 4.0</div></div>';
+
+  // Compact
+  document.getElementById('ffai-badge-compact').innerHTML =
+    '<div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'">'
+    +'<span style="font-family:'+mono+';font-size:.6rem;letter-spacing:1px;color:#777">FFAI</span>'
+    +'<span style="font-family:'+mono+';font-size:1.1rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span>'
+    +'<span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(d.composite)+';padding:2px 6px;border:1px solid '+rc(d.composite)+'">'+rg(d.composite)+'</span>'
+    +'<a href="/" style="font-size:.55rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div>';
+
+  // Dairy sector
+  var dv=d.sub_indexes.dairy;
+  document.getElementById('ffai-badge-dairy').innerHTML =
+    '<div style="display:inline-flex;align-items:center;gap:12px;padding:10px 16px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'">'
+    +'<div><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1.5px;color:#777">FFAI // DAIRY</div>'
+    +'<div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'+mono+';font-size:1.6rem;font-weight:800;color:'+rc(dv)+'">'+dv+'</span>'
+    +'<span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(dv)+';padding:2px 6px;border:1px solid '+rc(dv)+';font-weight:700">'+rg(dv)+'</span></div></div>'
+    +'<div style="border-left:1px solid #d4d4cc;padding-left:10px"><div style="font-family:'+mono+';font-size:.42rem;letter-spacing:1px;color:#777">COMPOSITE</div><div style="font-family:'+mono+';font-size:1rem;font-weight:700;color:'+rc(d.composite)+'">'+d.composite+'</div></div>'
+    +'<a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+';border-left:1px solid #d4d4cc;padding-left:10px">farmers1st<br>.com</a></div>';
+
+  // Dark full
+  var shd=subs.map(function(s){var v=s[1],c=rc(v);return '<div style="flex:1;min-width:70px;text-align:center"><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1px;color:#999">'+s[0]+'</div><div style="font-family:'+mono+';font-size:1rem;font-weight:800;color:'+c+'">'+v+'</div><div style="height:3px;background:#333;margin-top:3px"><div style="height:100%;width:'+v+'%;background:'+c+'"></div></div></div>'}).join('');
+  document.getElementById('ffai-badge-dark').innerHTML =
+    '<div style="max-width:380px;background:#1a1a1a;border:1px solid #333;padding:16px;font-family:'+sans+';display:inline-block;text-align:left">'
+    +'<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font-family:'+mono+';font-size:.52rem;letter-spacing:2px;color:#999">FFAI v3.0 // '+d.quarter+'</span><a href="/" style="font-size:.52rem;color:#5cb85c;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div>'
+    +'<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px"><span style="font-family:'+mono+';font-size:2.4rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.7rem;letter-spacing:2px;color:'+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div>'
+    +'<div style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #333">'+shd+'</div>'
+    +'<div style="font-family:'+mono+';font-size:.45rem;color:#999;margin-top:8px;text-align:center">VALIDATED r=0.51 // 16 FRED SERIES // CC BY 4.0</div></div>';
+})();
+</script>
+</body>
+</html>
