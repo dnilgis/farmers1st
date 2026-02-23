@@ -16,7 +16,7 @@ var FFAI = {
   // ── Current Quarter (paste from engine output) ──────────────
   quarter:  "Q4'25",
   date:     "Q4 2025",
-  updated:  "February 22, 2026",
+  updated:  "February 23, 2026",
   nextUpdate: "APR '26",
 
   composite:  68.0,
@@ -111,34 +111,34 @@ var FFAI = {
   ],
 
   // ── USDA Outlook Flash Bar ──────────────────────────────────
-  outlookFlash: 'USDA AG OUTLOOK FORUM \u00B7 FEB 19 \u2014 Corn: 94M ac, 183 bpa, 15.76B bu, $4.20 avg \u00B7 Beans: 85M ac, 53 bpa, 4.45B bu, $10.30 avg \u00B7 Cattle: $240/cwt (+7%) \u00B7 All-milk: $18.95/cwt',
+  outlookFlash: 'SCOTUS TARIFF RULING FEB 20 \u2014 IEEPA TARIFFS STRUCK DOWN \u00B7 China soybean commitments in doubt \u00B7 10% Section 122 replacement \u00B7 FBA signup open \u00B7 USDA AOF 2/19: Corn 94M ac / $4.20 \u00B7 Beans 85M ac / $10.30 \u00B7 Cattle $240 \u00B7 Milk $18.95',
 
   // ── Editorial: Report ───────────────────────────────────────
-  headline: "The Wind Changed Direction. The Tide Hasn\u2019t Turned Yet.",
+  headline: "SCOTUS Changed the Game. The Farm Economy Didn\u2019t Blink.",
   intro: [
-    "FFAI composite at <strong>68.0 FAVORABLE</strong> \u2014 national ag conditions decent but slipping from the 2023 peak. Sub-indexes tell the real story: grain farmers in single-digit stress territory while cattle ranchers ride record prices.",
-    "The validated model says conditions are above average nationally, but <strong>which farm you run matters more than the national number.</strong> Grain at 9.8 means row crop margins are at historic lows. Livestock at 94.6 means cattle producers haven\u2019t had it this good in decades."
+    "FFAI composite at <strong>68.0 FAVORABLE</strong> \u2014 national ag conditions decent but slipping from the 2023 peak. The Supreme Court struck down IEEPA tariffs Feb 20. China\u2019s 25M-ton soybean pledge is now leverage without a lever. Markets shrugged. The real story is still sector divergence.",
+    "<strong>Grain at 9.8 STRESSED.</strong> Cost of production $917/ac. Most WI/MN corn at or below breakeven. <strong>Dairy in recession</strong> \u2014 Jan Class III actual $14.59, well below USDA\u2019s $16.65 forecast. <strong>Livestock at 94.6 STRONG</strong> \u2014 COF placements -5%, herd lowest since 1951, cash cattle $242-245. FBA signup open today."
   ],
 
   signals: [
-    ["Dollar / Export Demand",    "BULLISH",       "g", "DXY down 13% to 98.7. Corn exports raised to record 3.3B bu. India-US deal opens new demand. 10% dollar drop historically precedes 15-20% grain price improvement."],
-    ["Gold / Ag Commodities",     "BULLISH 12-24MO","g", "Gold $4,945, silver $85.65. Gap to grain prices widest on record. Gold ATH historically precedes ag commodity rallies 12-24 months out."],
-    ["Baltic Dry / Trade Flow",   "CONSTRUCTIVE",  "a", "BDI 2,019, up 135% YoY. Panamax at 1,792. Sustained above 1,800 confirms grain trade acceleration."],
-    ["Brazil-China / Export Share","WATCH",         "a", "Real 5.33/USD, record 180 MMT Brazil soy. Weakening USD narrows their advantage."],
-    ["WASDE / Price Direction",   "TURNING",       "a", "Feb WASDE cut corn stocks 100M bu \u2014 bullish surprise. 39.2% US in drought. If persists into planting, supply picture changes fast."],
-    ["Equipment / Profitability", "BOTTOMING",     "g", "Deere ATH $593, called 2026 cycle bottom. Titan Machinery $14.30 still distressed. When TITN turns, sector confirmed."]
+    ["SCOTUS / Trade Policy",     "BEARISH BEANS",  "a", "IEEPA tariffs struck down Feb 20. China\u2019s 25M-ton purchase pledge loses enforcement. 10% Section 122 replacement. If China walks back 8M-ton additional buy (~294M bu), ending stocks exceed 400M bu. Biofuel policy (45Z, E15, RFS) now primary upside driver, not China."],
+    ["Dollar / Export Demand",    "BULLISH CORN",   "g", "DXY down 13% to 98.7. Corn exports raised to record 3.3B bu. India-US deal opens new demand. Dollar weakness historically precedes 15-20% grain price improvement."],
+    ["Dairy Recession",           "BEARISH",        "a", "Jan Class III actual $14.59/cwt. All-milk $18.95 vs COP $19.14. Most WI herds need $18-19 to break even. Culling up 3.2% YoY. Herd 9.540M. Recovery path H2 via supply correction."],
+    ["Cattle Supply Crunch",      "BULLISH",        "g", "COF report 2/21: on-feed 11.5M (-2% YoY), placements -5% below trade estimates. Cash $242-245. Feeders $377. Herd 86.2M, lowest since 1951. MX border closed (screwworm). Demand strongest since 1983."],
+    ["WASDE / Drought",           "TURNING",        "a", "Feb WASDE cut corn stocks 100M bu. 62% Midwest drought expanding. SWE lowest since 1986. If persists into planting, supply picture changes fast."],
+    ["Equipment / Profitability", "BOTTOMING",      "g", "Deere ATH $593, called 2026 cycle bottom. Titan Machinery $14.30 still distressed. When TITN turns, sector confirmed."]
   ],
 
   actions: [
-    ["Hold patience on last 20-30% of 2025 crop",  "USDA cut stocks, record exports. Dollar weakening. Basis tightening. If no margin calls, data supports holding."],
-    ["Lock input costs now",                         "Crude under $60. Nutrien and Mosaic near 52-week lows. Lock what you can while input prices are favorable."],
-    ["Forward contract above $4.70 Dec corn",        "Layer 20-30% new crop at $4.70+ corn, $12+ Nov beans. Lock margins at today\u2019s reduced inputs."],
-    ["Maximize crop insurance \u2014 March 15",      "ECO/SCO underutilized in Upper Midwest. Call us to verify numbers under new OBBBA provisions."],
-    ["Watch the drought",                            "39% of US in drought. Nebraska D3 Extreme. SWE lowest since 1986. If extends to corn belt, grain sub-index moves."],
-    ["Don\u2019t sell land",                         "Cropland $5,830/ac. Iowa appreciation slowed to 0.7%. Better entries in 18 months."],
-    ["Government payments are temporary",            "$44.3B is ad hoc. Debt-to-asset 13.8% historically low. Use that runway."]
+    ["Protect grain downside",                       "RP at higher coverage. OBBBA raised subsidies 65% to 80%. SCO/ECO more attractive. COP $917/ac corn. Most WI/MN at or below breakeven."],
+    ["Beans: upside now = biofuel, not China",        "SCOTUS clouds trade leverage. 45Z, E15, RFS are the catalysts. Don\u2019t cap upside, but expect headline volatility."],
+    ["Dairy DRP: non-negotiable",                     "85-90% on 60-70% quarterly milk. Match Class III/IV. DMC by Feb 26. Jan III was $14.59 \u2014 plan accordingly."],
+    ["Cattle: manage the volatility",                 "LRP sets floor, keeps upside. COF confirms tight supply. Lock some Q3-Q4 revenue on strength. Watch consumer pushback above $9.50/lb retail."],
+    ["FBA signup open today",                         "fsa.usda.gov/fba. Corn $44.36/ac, beans $30.88/ac, wheat $39.35/ac. Online payments by Feb 28. Deadline Apr 17."],
+    ["Gov\u2019t payments = ~25% net income",         "Higher ref prices + ARC + better crop insurance subsidies. Factor FBA into spring cash flow now."],
+    ["March 15 sales closing",                        "Maximize ECO/SCO under new OBBBA provisions. Call us to verify numbers before deadline."]
   ],
 
-  closingLine: "The wind changed. The tide hasn\u2019t.",
-  closingSub: "Position for the turn. Don\u2019t bet the farm on the timing."
+  closingLine: "SCOTUS changed the game. The farm economy didn\u2019t blink.",
+  closingSub: "Protect downside. Price into rallies. Don\u2019t bet the farm on the timing."
 };
