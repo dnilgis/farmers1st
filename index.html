@@ -444,9 +444,11 @@ Corn (PMAIZMTUSDM) &middot; Soybeans (PSOYBUSDM) &middot; Wheat (PWHEAMTUSDM) &m
 </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="ffai-data.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="ffai-data.js"></script>
 <script>
 (function(){
+if(typeof FFAI==='undefined'){console.error('FFAI: ffai-data.js did not load before render script. Check Cloudflare Rocket Loader.');return;}
+try{
 var D=FFAI,sc=D.composite,ps=D.prevComp,chg=sc-ps,pct=((chg/Math.abs(ps))*100).toFixed(1);
 function regime(v){return v>70?'STRONG':v>55?'FAVORABLE':v>40?'GUARDED':'STRESSED'}
 function col(v){return v>=60?'var(--grn)':v>=45?'var(--amb)':'var(--red)'}
@@ -510,4 +512,8 @@ function band(hi,lo,base,c){var a=c.replace(')',',0.12)').replace('rgb','rgba'),
 new Chart(document.getElementById('cC'),{type:'line',data:{labels:mos,datasets:band([4.37,4.40,4.50,4.55,4.60,4.70,4.85,4.40,4.30,4.25,4.30,4.40,4.50],[4.20,4.15,4.15,4.15,4.10,4.05,4.00,4.00,4.00,4.00,4.00,4.00,4.00],[4.27,4.28,4.30,4.35,4.30,4.25,4.20,4.15,4.10,4.10,4.12,4.15,4.20],'rgb(184,134,11)')},options:opts(3.85,5.00,false)});
 new Chart(document.getElementById('bC'),{type:'line',data:{labels:mos,datasets:band([11.40,11.30,11.35,11.40,11.40,11.50,11.50,11.20,10.80,10.60,10.80,11.00,11.00],[10.77,10.50,10.50,10.50,10.20,10.00,10.00,9.80,9.80,9.80,10.00,10.00,10.00],[11.37,11.10,11.00,10.90,10.80,10.60,10.40,10.30,10.20,10.10,10.30,10.40,10.50],'rgb(45,106,46)')},options:opts(9.50,12.00,false)});
 new Chart(document.getElementById('mC'),{type:'line',data:{labels:mos,datasets:[...band([16.50,16.20,16.00,15.80,15.50,17.00,18.00,18.50,19.00,19.50,19.50,20.00,20.50],[14.50,14.30,14.20,14.50,14.50,16.50,16.50,17.50,17.50,17.50,18.50,18.50,18.50],[15.32,15.10,14.80,14.59,14.80,16.80,17.50,18.00,18.50,18.60,19.00,19.50,19.80],'rgb(45,95,138)'),{label:'III',data:[15.32,14.90,14.59,14.50,14.60,15.50,16.00,16.50,16.80,17.00,17.50,17.80,18.00],borderColor:'rgba(45,95,138,0.4)',tension:.3,borderWidth:1.5,borderDash:[5,3],pointRadius:0}]},options:opts(13.5,21.5,false)});
-new Chart(document.getElementById('ctC'),{type:'line',data:{labels:mos,datasets:band([2
+new Chart(document.getElementById('ctC'),{type:'line',data:{labels:mos,datasets:band([252,253,255,260,265,267,265,262,260,258,255,255,255],[238,236,238,240,245,248,244,240,240,238,235,235,235],[245,244,247,250,255,258,254,250,248,246,244,242,242],'rgb(139,58,42)')},options:opts(225,275,true)});
+})();
+</script>
+</body>
+</html>
