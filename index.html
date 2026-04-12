@@ -204,7 +204,7 @@ nav a:hover{color:var(--grn)}
 .net h3{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--t400);margin-bottom:8px;font-weight:700;text-transform:uppercase}
 .net-note{font-size:.76rem;color:var(--t500);margin-bottom:12px}
 .nl{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.nl a{font-size:.82rem;font-weight:600;color:var(--t700);text-decoration:none;padding:10px 18px;border:2px solid var(--b100);background:var(--bg);transition:all .12s}
+.nl a{font-size:.82rem;font-weight:600;color:var(--t700);text-decoration:none;padding:10px 18px;border:2px solid var(--b100);background:var(--bg);transition:all .12s}.nl img{max-width:80px;height:auto}
 .nl a:hover{border-color:var(--grn);color:var(--grn)}
 footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 .fg{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -225,7 +225,7 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <header><div class="hbar">
 <a href="/" class="logo-link"><img src="/logo.png" alt="Farmers First Agri Service" class="logo-img"></a>
 <button class="mob-btn" onclick="document.querySelector('nav').classList.toggle('on')" aria-label="Menu">MENU</button>
-<nav><a href="#index">Index</a><a href="#outlook">Outlook</a><a href="#report">Report</a><a href="#methodology">Methodology</a><a href="#services">Insurance</a><a href="#areas">Territory</a><a href="#faq">FAQ</a><a href="#team">Contact</a></nav>
+<nav><a href="#index">Index</a><a href="#outlook">Outlook</a><a href="#report">Report</a><a href="#methodology">Methodology</a><a href="#services">Insurance</a><a href="#areas">Territory</a><a href="#faq">FAQ</a><a href="#contact-form">Contact</a></nav>
 </div></header>
 
 <section class="hero" id="index"><div class="hero-in"><div>
@@ -292,7 +292,7 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <p><span class="inum">05</span> &ensp;<strong>July 15: acreage reporting deadline.</strong> Report all planted acres by July 15 to maintain crop insurance coverage. Late or inaccurate reporting can void your policy. Call us with questions.</p>
 <p><span class="inum">06</span> &ensp;<strong>Gov't programs = significant income share.</strong> Higher reference prices + ARC + ECO/SCO subsidies. Government support is a substantial factor in 2026 cash flow. Ask us about your program eligibility.</p>
 </div>
-<div class="otlk-src">USDA AG OUTLOOK FORUM 2/19 &middot; WASDE 2/10 &middot; CATTLE ON FEED 2/21 &middot; CBOT/CME 2/23 &middot; ERS LIVESTOCK DAIRY POULTRY OUTLOOK 2/26<br>Ranges represent ~60% probability band. Tail risk extends beyond. Market year noted per section.<br><a href="/outlook/2026-Commodity-Livestock-Outlook-FFAS.pdf" style="color:var(--grn);font-weight:700;text-decoration:none">&#8681; Download Full Outlook PDF</a></div>
+<div class="otlk-src">USDA AG OUTLOOK FORUM 2/19 &middot; WASDE 2/10 &middot; CATTLE ON FEED 2/21 &middot; CBOT/CME 2/23 &middot; ERS LIVESTOCK DAIRY POULTRY OUTLOOK 2/26<br>Ranges represent ~60% probability band. Tail risk extends beyond. Market year noted per section.<br><a href="/outlook/2026-Commodity-Livestock-Outlook-FFAS.pdf" onclick="trackPDF('outlook-2026')" style="color:var(--grn);font-weight:700;text-decoration:none">&#8681; Download Full Outlook PDF</a></div>
 </div></div>
 
 <div style="padding:24px 24px 0"><div class="agsist"><div class="agsist-in"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -320,7 +320,7 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <div class="cbox" id="rptClose"></div>
 
 <div class="mbox" id="methodology"><h4>FFAI v3.0 METHODOLOGY <span style="font-size:.5rem;color:var(--amb);font-weight:400;letter-spacing:0;text-transform:none">&mdash; dashed terms have plain-English tooltips, hover or tap</span></h4>
-<p style="margin-bottom:16px"><a href="/ffai_v3_methodology.pdf" target="_blank" style="display:inline-block;padding:10px 22px;background:var(--grn);color:var(--white);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .12s;max-width:100%;box-sizing:border-box;text-align:center" onmouseover="this.style.background='#1b4d1c'" onmouseout="this.style.background='#2d6a2e'">&#8681; Download Full Methodology PDF</a></p>
+<p style="margin-bottom:16px"><a href="/ffai_v3_methodology.pdf" target="_blank" onclick="trackPDF('methodology')" style="display:inline-block;padding:10px 22px;background:var(--grn);color:var(--white);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .12s;max-width:100%;box-sizing:border-box;text-align:center" onmouseover="this.style.background='#1b4d1c'" onmouseout="this.style.background='#2d6a2e'">&#8681; Download Full Methodology PDF</a></p>
 
 <h4 style="margin-top:20px">WHAT IT IS</h4>
 <p>The Farmers First Ag Index measures U.S. agricultural financial conditions using 16 publicly available <span class="eli5" onclick="tTip5(this)" tabindex="0">Federal Reserve economic data series<span class="eli5-icon">?</span><span class="eli5-tip">Free government data published by the St. Louis Fed. Same numbers the banks and USDA use. Anyone can look them up at fred.stlouisfed.org.</span></span>. It predicts the direction and magnitude of <span class="eli5" onclick="tTip5(this)" tabindex="0">agricultural loan delinquency<span class="eli5-icon">?</span><span class="eli5-tip">The percentage of farm loans that are 30+ days late on payments across all U.S. banks. When this goes up, farmers are struggling to pay their bills. When it goes down, things are good.</span></span> &mdash; the percentage of farm loans 30+ days past due across all U.S. commercial banks. When this number rises, farmers are under financial stress. The FFAI gives you that signal in real time, decomposed by sector.</p>
@@ -399,6 +399,30 @@ Corn (PMAIZMTUSDM) &middot; Soybeans (PSOYBUSDM) &middot; Wheat (PWHEAMTUSDM) &m
 <div class="fi"><h3 class="fq" onclick="tF(this)">What is PRF pasture insurance?</h3><p class="fa">Rainfall index for hay and grazing. Auto payouts below your grid threshold. No adjuster. Heavily subsidized.</p></div>
 <div class="fi"><h3 class="fq" onclick="tF(this)">What territory do you cover?</h3><p class="fa">Bemidji south through Brainerd, St. Cloud, Twin Cities metro, east into western Wisconsin &mdash; Barron, Chippewa, Dunn, Eau Claire, St. Croix &mdash; south to La Crosse.</p></div>
 <div class="fi"><h3 class="fq" onclick="tF(this)">What is AgSist?</h3><p class="fa">A free ag dashboard at <a href="https://agsist.com" target="_blank">agsist.com</a> &mdash; live grain bids and cash prices from WI &amp; MN elevators. Publicly available to all farmers, not contingent on purchasing insurance.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">What is APH and how is it calculated?</h3><p class="fa">Actual Production History (APH) is the average of your crop yields over the past 4-10 years. It's the basis for your insured yield. Low-yield or zero years are included in the average &mdash; which is why T-yields matter for gap years. Call us to review your APH history before the March 15 deadline.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">What is a T-yield and when does it apply?</h3><p class="fa">A T-yield (transitional yield) is assigned by USDA for years with no production history &mdash; for example, new fields or years you didn't farm a particular crop. T-yields are typically 65-75% of the county average. Preventing T-years from dragging down your APH is one of the most valuable things we do for clients.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">What is the difference between Basic and Optional units?</h3><p class="fa">Basic units (BU) separate coverage by FSA farm number and landlord. Optional units (OU) separate coverage by field, offering more granular protection but at higher cost. Enterprise units (EU) combine all acres of a crop across the county into one unit &mdash; lowest premium but least granular. Unit structure dramatically affects both premium and claim potential. We model all three before recommending.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">What is ECO and how does it work with RP?</h3><p class="fa">Enhanced Coverage Option (ECO) is a county-level add-on that covers the gap between your MPCI policy (typically 70-85%) and 90% or 95% of county expected revenue. It pays when county-wide losses exceed the threshold &mdash; not individual farm losses. ECO is area-based, federally subsidized, and pairs well with Revenue Protection. Call us for current subsidy rates and whether it makes sense for your operation.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">Can I change my coverage after March 15?</h3><p class="fa">Generally no &mdash; March 15 is the hard sales closing deadline for corn, soybeans, and spring grains in WI and MN. After that date, coverage levels, unit structures, and optional endorsements are locked for the crop year. Acreage reporting (what you actually planted) is due July 15. Contact us well before March 15 to make any changes.</p></div>
+<div class="fi"><h3 class="fq" onclick="tF(this)">Is PRF right for my hay or grazing operation?</h3><p class="fa">PRF (Pasture, Rangeland, Forage) uses a rainfall index to trigger automatic payments when precipitation falls below your grid's threshold &mdash; no adjuster visit required. It's heavily subsidized and covers hay, alfalfa, and grazing acres that traditional crop insurance doesn't. December 1 is the annual signup deadline. Best for operations that can tolerate basis risk between the rainfall index and on-farm results.</p></div>
+</div></section><hr class="dv">
+
+<section class="sec" id="contact-form"><div class="wrap" style="max-width:640px">
+<div class="stag">Get In Touch</div><h2 class="sh">Send Us a Message</h2>
+<p class="ssub">Prefer not to call? Send us your question and we'll get back to you within one business day.</p>
+<form action="https://formspree.io/f/mwvnnvdl" method="POST" style="display:flex;flex-direction:column;gap:14px">
+<input type="hidden" name="_subject" value="Farmers First Contact Form">
+<input type="hidden" name="_next" value="https://farmers1st.com/#contact-form">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-name">Name</label><input type="text" id="cf-name" name="name" placeholder="Your name" required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;color:var(--t800)"></div>
+<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-email">Email</label><input type="email" id="cf-email" name="email" placeholder="you@email.com" required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;color:var(--t800)"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-msg">Message</label><textarea id="cf-msg" name="message" rows="5" placeholder="Your question or request..." required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;resize:vertical;color:var(--t800)"></textarea></div>
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<button type="submit" style="padding:14px 32px;background:var(--grn);color:var(--white);border:none;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:background .12s" onmouseover="this.style.background='#1b4d1c'" onmouseout="this.style.background='#2d6a2e'">Send Message</button>
+<span style="font-size:.72rem;color:var(--t500)">Handled by Formspree &middot; <a href="/privacy/" style="color:var(--t500)">Privacy policy</a></span>
+</div>
+</form>
 </div></section><hr class="dv">
 
 <section class="sec" id="team"><div class="wrap">
@@ -413,8 +437,8 @@ Corn (PMAIZMTUSDM) &middot; Soybeans (PSOYBUSDM) &middot; Wheat (PWHEAMTUSDM) &m
   <h2>July 15 Acreage Reporting Is Next</h2>
   <p>Report all planted acres on time to protect your coverage.</p>
   <div style="display:inline-flex;flex-direction:column;gap:8px;align-items:center">
-    <a href="tel:715-553-0392" class="big">715-553-0392 // Nate</a>
-    <a href="tel:715-797-2428" class="big">715-797-2428 // Sig</a>
+    <a href="tel:715-553-0392" class="big" onclick="trackPhone('nate-cta')">715-553-0392 // Nate</a>
+    <a href="tel:715-797-2428" class="big" onclick="trackPhone('sig-cta')">715-797-2428 // Sig</a>
   </div>
 </div>
 
@@ -447,8 +471,7 @@ Corn (PMAIZMTUSDM) &middot; Soybeans (PSOYBUSDM) &middot; Wheat (PWHEAMTUSDM) &m
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="ffai-data.js"></script>
 <script>
 (function(){
-if(typeof FFAI==='undefined'){console.error('FFAI: ffai-data.js did not load before render script. Check Cloudflare Rocket Loader.');return;}
-try{
+if(typeof FFAI==='undefined'){console.error('FFAI data not loaded — check Cloudflare Rocket Loader.');return;}
 var D=FFAI,sc=D.composite,ps=D.prevComp,chg=sc-ps,pct=((chg/Math.abs(ps))*100).toFixed(1);
 function regime(v){return v>70?'STRONG':v>55?'FAVORABLE':v>40?'GUARDED':'STRESSED'}
 function col(v){return v>=60?'var(--grn)':v>=45?'var(--amb)':'var(--red)'}
@@ -497,6 +520,8 @@ document.getElementById('tBtn').textContent='SHOW ALL '+D.actions.length+' ACTIO
 document.getElementById('rptClose').innerHTML='<p>'+D.closingLine+'</p><p class="s">'+D.closingSub+'</p>';
 })();
 
+function trackPhone(n){if(typeof gtag!=="undefined")gtag("event","phone_click",{event_category:"contact",event_label:n});}
+function trackPDF(n){if(typeof gtag!=="undefined")gtag("event","pdf_download",{event_category:"content",event_label:n});}
 function tTip5(el){document.querySelectorAll('.eli5.active').forEach(function(e){if(e!==el)e.classList.remove('active')});el.classList.toggle('active')}
 document.addEventListener('click',function(e){if(!e.target.closest('.eli5'))document.querySelectorAll('.eli5.active').forEach(function(e){e.classList.remove('active')})});
 document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.eli5').forEach(function(el){el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tTip5(el)}if(e.key==='Escape')el.classList.remove('active')})})});
