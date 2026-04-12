@@ -1,19 +1,24 @@
-// ═══════════════════════════════════════════════════════════════
-// FFAI v3.0 DATA — QUARTERLY INDEX + EDITORIAL CONTENT
-// ═══════════════════════════════════════════════════════════════
+// ===============================================================
+// FFAI v3.0 DATA -- QUARTERLY INDEX + EDITORIAL CONTENT
+// ===============================================================
 //
 // HOW TO UPDATE:
 //   1. Run: python ffai_v3_engine.py   (generates CSV + JSON)
 //   2. Copy latest scores into "current" section below
 //   3. Append new quarter to "history" array
 //   4. Update editorial sections (headline, signals, actions)
-//   5. Commit → push → site updates
+//   5. Commit -> push -> site updates
 //
-// ═══════════════════════════════════════════════════════════════
+// COMPLIANCE NOTE (Apr 2026):
+//   - All deadlines must be current at time of publish
+//   - Do not attribute subsidy changes to unverified legislation
+//   - Advisory language must not be absolute ("non-negotiable" etc.)
+//   - See CHANGES.md for full audit trail
+// ===============================================================
 
 var FFAI = {
 
-  // ── Current Quarter (paste from engine output) ──────────────
+  // -- Current Quarter (paste from engine output) ---------------
   quarter:  "Q4'25",
   date:     "Q4 2025",
   updated:  "February 23, 2026",
@@ -33,7 +38,7 @@ var FFAI = {
   prevLivestock: 100.0,
   prevOutlook:   64.0,
 
-  // ── Quarterly History (from ffai_v3_engine.py CSV) ───────────
+  // -- Quarterly History (from ffai_v3_engine.py CSV) -----------
   // Format: [label, composite, grain, dairy, livestock]
   history: [
     ["Q1'08",55.2,100.0,4.8,4.8],
@@ -110,14 +115,15 @@ var FFAI = {
     ["Q4'25",68.0,9.8,53.3,94.6]
   ],
 
-  // ── USDA Outlook Flash Bar ──────────────────────────────────
-  outlookFlash: 'SCOTUS TARIFF RULING FEB 20 \u2014 IEEPA TARIFFS STRUCK DOWN \u00B7 China soybean commitments in doubt \u00B7 10% Section 122 replacement \u00B7 FBA signup open \u00B7 USDA AOF 2/19: Corn 94M ac / $4.20 \u00B7 Beans 85M ac / $10.30 \u00B7 Cattle $240 \u00B7 Milk $18.95',
+  // -- USDA Outlook Flash Bar -----------------------------------
+  // COMPLIANCE: Keep current. Remove dated FBA/deadline references each update cycle.
+  outlookFlash: 'SCOTUS TARIFF RULING FEB 20 \u2014 IEEPA TARIFFS STRUCK DOWN \u00B7 China soybean commitments uncertain \u00B7 10% Section 122 tariff in effect \u00B7 USDA AOF: Corn 94M ac / $4.20 \u00B7 Beans 85M ac / $10.30 \u00B7 Cattle $240+ \u00B7 Milk recovery H2 expected \u00B7 Next major deadline: July 15 acreage reporting',
 
-  // ── Editorial: Report ───────────────────────────────────────
+  // -- Editorial: Report ----------------------------------------
   headline: "SCOTUS Changed the Game. The Farm Economy Didn\u2019t Blink.",
   intro: [
     "FFAI composite at <strong>68.0 FAVORABLE</strong> \u2014 national ag conditions decent but slipping from the 2023 peak. The Supreme Court struck down IEEPA tariffs Feb 20. China\u2019s 25M-ton soybean pledge is now leverage without a lever. Markets shrugged. The real story is still sector divergence.",
-    "<strong>Grain at 9.8 STRESSED.</strong> Cost of production $917/ac. Most WI/MN corn at or below breakeven. <strong>Dairy in recession</strong> \u2014 Jan Class III actual $14.59, well below USDA\u2019s $16.65 forecast. <strong>Livestock at 94.6 STRONG</strong> \u2014 COF placements -5%, herd lowest since 1951, cash cattle $242-245. FBA signup open today."
+    "<strong>Grain at 9.8 STRESSED.</strong> Cost of production $917/ac. Most WI/MN corn at or below breakeven. <strong>Dairy in recession</strong> \u2014 Jan Class III actual $14.59, well below USDA\u2019s $16.65 forecast. <strong>Livestock at 94.6 STRONG</strong> \u2014 COF placements -5%, herd lowest since 1951, cash cattle $242-245."
   ],
 
   signals: [
@@ -129,16 +135,34 @@ var FFAI = {
     ["Equipment / Profitability", "BOTTOMING",      "g", "Deere ATH $593, called 2026 cycle bottom. Titan Machinery $14.30 still distressed. When TITN turns, sector confirmed."]
   ],
 
+  // COMPLIANCE NOTE on actions:
+  // - Do not use absolute advisory language ("non-negotiable", "must", etc.)
+  // - Do not reference deadlines that have passed
+  // - Subsidy changes: cite RMA bulletin numbers, not bill names, unless bill is fully enacted and verifiable
+  // - General market info is not advice specific to any producer's situation
   actions: [
-    ["Protect grain downside",                       "RP at higher coverage. OBBBA raised subsidies 65% to 80%. SCO/ECO more attractive. COP $917/ac corn. Most WI/MN at or below breakeven."],
-    ["Beans: upside now = biofuel, not China",        "SCOTUS clouds trade leverage. 45Z, E15, RFS are the catalysts. Don\u2019t cap upside, but expect headline volatility."],
-    ["Dairy DRP: non-negotiable",                     "85-90% on 60-70% quarterly milk. Match Class III/IV. DMC by Feb 26. Jan III was $14.59 \u2014 plan accordingly."],
-    ["Cattle: manage the volatility",                 "LRP sets floor, keeps upside. COF confirms tight supply. Lock some Q3-Q4 revenue on strength. Watch consumer pushback above $9.50/lb retail."],
-    ["FBA signup open today",                         "fsa.usda.gov/fba. Corn $44.36/ac, beans $30.88/ac, wheat $39.35/ac. Online payments by Feb 28. Deadline Apr 17."],
-    ["Gov\u2019t payments = ~25% net income",         "Higher ref prices + ARC + better crop insurance subsidies. Factor FBA into spring cash flow now."],
-    ["March 15 sales closing",                        "Maximize ECO/SCO under new OBBBA provisions. Call us to verify numbers before deadline."]
+    ["Protect grain downside",
+     "RP at higher coverage levels. 2026 RMA subsidy schedule increased ECO/SCO subsidies \u2014 call us for current rates on your operation. COP $917/ac corn. Most WI/MN at or below breakeven. Contact us to run your numbers."],
+
+    ["Beans: upside now = biofuel, not China",
+     "SCOTUS clouds trade leverage. 45Z, E15, RFS are the catalysts. Don\u2019t cap upside, but expect headline volatility."],
+
+    ["Dairy DRP: strongly recommended",
+     "85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Jan III actual was $14.59 \u2014 well below forecast. Call us to evaluate your specific DRP structure for Q2-Q3."],
+
+    ["Cattle: manage the volatility",
+     "LRP sets floor, keeps upside. COF confirms tight supply. Lock some Q3-Q4 revenue on strength. Watch consumer pushback above $9.50/lb retail."],
+
+    ["July 15: acreage reporting deadline",
+     "Report all planted acres by July 15 to maintain crop insurance coverage. Late or inaccurate reporting can void your policy. Call us if you have questions about reporting requirements."],
+
+    ["Gov\u2019t programs: factor into cash flow",
+     "Higher reference prices + ARC + ECO/SCO subsidies. Government support represents a significant share of net income for many operations. Ask us about your eligibility."],
+
+    ["Dec 1: PRF pasture signup",
+     "Planning ahead? PRF December 1 deadline is the next major crop insurance signup. Call to discuss grid selection, coverage periods, and whether PRF fits your hay and grazing operation."]
   ],
 
   closingLine: "SCOTUS changed the game. The farm economy didn\u2019t blink.",
-  closingSub: "Protect downside. Price into rallies. Don\u2019t bet the farm on the timing."
+  closingSub: "Protect downside. Price into rallies. Don\u2019t bet the farm on the timing. Market information above is general in nature \u2014 contact us for guidance specific to your operation."
 };
