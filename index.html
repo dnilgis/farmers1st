@@ -2,542 +2,201 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Farmers First Ag Index (FFAI) — Validated Agricultural Financial Conditions Index | Crop Insurance WI &amp; MN</title>
-<meta name="description" content="FFAI v3.0: 68.0 FAVORABLE. Internally cross-validated against USDA loan delinquency (r=0.51). Grain 9.8, Dairy 53.3, Livestock 94.6. Free quarterly ag intelligence. Crop insurance WI &amp; MN. 715-797-2428.">
-<meta name="keywords" content="Farmers First Ag Index, FFAI, agricultural financial conditions, farm economy, crop insurance Wisconsin, crop insurance Minnesota, MPCI, PRF pasture, ag loan delinquency">
-<meta property="og:title" content="FFAI 68.0 FAVORABLE — Farmers First Ag Index | Q4 2025">
-<meta property="og:description" content="Internally cross-validated against USDA loan data. 16 FRED series. 5 components. Grain stressed. Livestock strong.">
-<meta property="og:type" content="website"><meta property="og:url" content="https://farmers1st.com">
-<meta property="og:site_name" content="Farmers First Agri Service"><meta property="og:image" content="https://farmers1st.com/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="FFAI 68.0 FAVORABLE">
-<meta name="twitter:description" content="Internally cross-validated. 16 FRED series. 5 components. One number.">
-<meta name="twitter:image" content="https://farmers1st.com/og-share.png">
-<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32"><link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<link rel="canonical" href="https://farmers1st.com/"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FFAI API — Farmers First Ag Index Developer Docs</title>
+<meta name="description" content="Free JSON API for the Farmers First Ag Index. 73 quarters of agricultural financial conditions data. CC BY 4.0.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://farmers1st.com/api/">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C30NX8Y6CF"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C30NX8Y6CF');</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"InsuranceAgency","@id":"https://farmers1st.com/#org","name":"Farmers First Agri Service","url":"https://farmers1st.com","telephone":"+1-715-797-2428","email":"sig@farmers1st.com","address":{"@type":"PostalAddress","addressLocality":"Chetek","addressRegion":"WI","postalCode":"54728","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":45.3166,"longitude":-91.6519},"areaServed":[{"@type":"State","name":"Wisconsin"},{"@type":"State","name":"Minnesota"}],"foundingDate":"2017","sameAs":["https://agsist.com","https://lokedrone.com","https://usdronemap.com"]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Farmers First Ag Index (FFAI)","description":"Agricultural financial conditions index internally cross-validated against USDA loan delinquency. 16 FRED series, 5 components, 0-100.","url":"https://farmers1st.com/#index","creator":{"@type":"Organization","name":"Farmers First Agri Service"},"temporalCoverage":"2003/.."}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the FFAI?","acceptedAnswer":{"@type":"Answer","text":"Internally cross-validated index of U.S. agricultural financial conditions. 16 Federal Reserve series. 5 components. Quarterly at farmers1st.com."}},{"@type":"Question","name":"Crop insurance deadline?","acceptedAnswer":{"@type":"Answer","text":"March 15 corn/beans. July 15 acreage. Dec 1 PRF."}},{"@type":"Question","name":"Service area?","acceptedAnswer":{"@type":"Answer","text":"Bemidji MN to La Crosse WI."}},{"@type":"Question","name":"What is PRF?","acceptedAnswer":{"@type":"Answer","text":"Rainfall index for hay/grazing. Auto payouts. Subsidized."}}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://farmers1st.com","name":"Farmers First Agri Service"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","@id":"https://farmers1st.com/#report","headline":"FFAI v3.0: 68.0 FAVORABLE — Q4 2025","author":{"@type":"Organization","name":"Farmers First Agri Service"},"publisher":{"@type":"Organization","name":"Farmers First Agri Service","logo":{"@type":"ImageObject","url":"https://farmers1st.com/logo.png"}},"datePublished":"2026-02-22"}</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-.skip{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--grn);color:var(--white);padding:12px 24px;font-weight:700;font-size:.85rem;z-index:200;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
-.skip:focus{top:0}
-*:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
-input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-@media print{header,.mob-btn,.sub,.hlinks,.otlk-chart,.cmd-chart,.ctab,.net,.ph-btn,nav,form,.sf,button,.tbtn,.agsist a,.btn-a,.btn-b{display:none!important}body{background:#fff;color:#000;font-size:11pt}a{color:#000;text-decoration:underline}.hero,.otlk,.rpt,.sec{padding:16px 0;border:none}.sp{border:1px solid #ccc;background:#fff}.mbox{border:1px solid #ccc;background:#fff;page-break-inside:avoid}h1,h2,h3,.h2,.h3,.sh{color:#000}footer{background:#fff;color:#666;border-top:1px solid #ccc}.si-bar{display:none}.hero-in{display:block}.sp-n{font-size:3rem}.otlk-prices{border:1px solid #ccc}.cmd{border:1px solid #ccc;page-break-inside:avoid}@page{margin:1.5cm}}
-:root{--white:#fff;--bg:#f5f5f0;--b100:#e8e8e2;--b200:#d4d4cc;--b300:#b0b0a6;--t900:#1a1a1a;--t800:#2a2a2a;--t700:#3a3a3a;--t600:#555;--t500:#767676;--t400:#999;--grn:#2d6a2e;--grn2:#3a8b3c;--grn3:#1b4d1c;--grnL:#e8f5e9;--amb:#b8860b;--ambD:#8b6508;--ambL:#fdf6e3;--red:#a63030;--redL:#fce8e8}
+:root{--bg:#f5f5f0;--white:#fff;--b100:#e8e8e2;--b200:#d4d4cc;--t900:#1a1a1a;--t700:#3a3a3a;--t500:#777;--t400:#999;--grn:#2d6a2e;--grn3:#1b4d1c;--grnL:#e8f5e9;--amb:#b8860b;--red:#a63030}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t800);line-height:1.65;-webkit-font-smoothing:antialiased;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t700);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
 .mono{font-family:'JetBrains Mono',monospace}
-header{background:var(--white);border-bottom:4px solid var(--grn);position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.06)}
-.hbar{max-width:1200px;margin:0 auto;padding:0 24px;height:80px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo-link{display:block;height:72px}.logo-img{height:72px;width:auto;display:block}
-nav{display:flex;gap:2px;align-items:center}
-nav a{font-size:.82rem;font-weight:600;color:var(--t600);text-decoration:none;padding:10px 14px;text-transform:uppercase;letter-spacing:.5px;transition:color .12s}
-nav a:hover{color:var(--grn)}
-.ph-btn{background:var(--grn);color:var(--white);text-decoration:none;font-weight:700;font-size:.75rem;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;transition:background .12s;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;line-height:1.3}
-.ph-btn:hover{background:var(--grn3)}
-.mob-btn{display:none;background:var(--white);border:2px solid var(--b200);color:var(--t700);padding:10px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent}
-.hero{background:var(--white);border-bottom:2px solid var(--b100);padding:40px 24px 48px}
-.hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 450px;gap:40px;align-items:start}
-.hero-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2.5px;color:var(--grn);text-transform:uppercase;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.hero-label i{width:8px;height:8px;background:var(--grn2);display:inline-block;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-size:2.4rem;font-weight:900;line-height:1.1;margin-bottom:14px;letter-spacing:-.5px;text-transform:uppercase;color:var(--t900)}
-.hero h1 em{font-style:normal;color:var(--amb)}
-.hdesc{font-size:1rem;color:var(--t600);line-height:1.7;margin-bottom:10px;max-width:540px}
-.hdesc strong{color:var(--t900)}
-.hlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-.hlinks a{padding:14px 28px;font-weight:700;font-size:.85rem;text-decoration:none;text-transform:uppercase;letter-spacing:.5px;transition:all .12s}
-.btn-a{background:var(--grn);color:var(--white)}.btn-a:hover{background:var(--grn3)}
-.btn-b{border:2px solid var(--b200);color:var(--t700);background:var(--white)}.btn-b:hover{border-color:var(--grn);color:var(--grn)}
-.sp{background:var(--bg);border:2px solid var(--b100);padding:24px}
-.sp-h{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2.5px;color:var(--t500);text-align:center;margin-bottom:2px;text-transform:uppercase}
-.sp-top{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:4px}
-.sp-n{font-family:'JetBrains Mono',monospace;font-size:4.5rem;font-weight:800;line-height:1}
-.sp-prev{text-align:center;padding-bottom:6px}
-.sp-prev .old{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--t400);font-weight:600;text-decoration:line-through}
-.sp-prev .delta{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;padding:3px 8px;margin-left:6px;display:inline-block}
-.delta-up{background:var(--grnL);color:var(--grn3)}.delta-dn{background:var(--redL);color:var(--red)}
-.sp-w{font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:3px;text-align:center;margin-bottom:16px;font-weight:700}
-.si-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
-.si{padding:10px 12px;background:var(--white);border:1px solid var(--b100)}
-.si-label{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:1.5px;color:var(--t400);text-transform:uppercase;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center}
-.si-label .si-chg{font-size:.5rem;font-weight:700}
-.si-val{display:flex;align-items:baseline;gap:6px}
-.si-num{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:800;line-height:1}
-.si-regime{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.8px;font-weight:700;text-transform:uppercase;padding:2px 6px}
-.si-bar{height:5px;background:var(--b100);margin-top:6px}.si-bar .si-fill{height:100%}
-.cht{margin-top:12px;padding-top:12px;border-top:2px solid var(--b100)}
-.cht-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.cht-hd span{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;color:var(--t500);font-weight:700;text-transform:uppercase}
-.cht-hd small{font-size:.55rem;color:var(--t400)}
-#chart{width:100%;display:block;touch-action:none;background:var(--white);border:1px solid var(--b100)}
-.sp-ft{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--t400);text-align:center;margin-top:8px;line-height:1.7;letter-spacing:.5px}
-.validated-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:1px;padding:2px 8px;border:1px solid var(--grn);color:var(--grn);font-weight:700;text-transform:uppercase;margin-bottom:10px}
-.eli5{position:relative;border-bottom:1px dashed var(--amb);cursor:help}
-.eli5 .eli5-tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--t900);color:var(--white);padding:12px 16px;font-size:.82rem;font-weight:400;font-family:'Inter',sans-serif;line-height:1.55;width:280px;max-width:90vw;z-index:60;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:normal;letter-spacing:0;text-transform:none}
-.eli5 .eli5-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--t900)}
-.eli5:hover .eli5-tip,.eli5.active .eli5-tip{display:block}
-.eli5-icon{font-size:.6rem;color:var(--amb);vertical-align:super;margin-left:2px;font-family:'JetBrains Mono',monospace;font-weight:700}
-@media(max-width:680px){.eli5 .eli5-tip{left:0;transform:none;width:250px}.eli5 .eli5-tip::after{left:20px}}
-.otlk{background:var(--white);border-bottom:2px solid var(--b100)}
-.otlk-flash{background:var(--t900);color:#ccc;padding:10px 24px;font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:1.6;text-align:center}
-.otlk-flash strong{color:#daa520}.otlk-flash em{color:#999;font-style:normal}
-.otlk-in{max-width:1200px;margin:0 auto;padding:28px 24px 36px}
-.otlk-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:8px}
-.otlk-hd h2{font-size:1.4rem;font-weight:900;text-transform:uppercase;letter-spacing:-.2px;color:var(--t900)}
-.otlk-hd span{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--t400);letter-spacing:1.5px}
-.otlk-prices{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border:2px solid var(--t900);margin-bottom:20px;font-family:'JetBrains Mono',monospace}
-.otlk-p{padding:12px 14px;background:var(--bg)}
-.otlk-p .lb{font-size:.52rem;text-transform:uppercase;letter-spacing:1px;color:var(--t400);margin-bottom:2px}
-.otlk-p .pr{font-size:1.15rem;font-weight:700;line-height:1.2}
-.otlk-p .ch{font-size:.58rem;margin-top:2px}.otlk-p .nt{font-size:.52rem;color:var(--t400);margin-top:2px}
-.ch-up{color:#3a7d44}.ch-dn{color:#b84c2a}
-.otlk-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.cmd{border:2px solid var(--b100);background:var(--white)}
-.cmd-hd{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:2px solid var(--t900)}
-.cmd-hd h3{font-size:.95rem;font-weight:900;text-transform:uppercase;letter-spacing:.3px}
-.cmd-tag{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.5px;padding:2px 8px;border:1px solid;text-transform:uppercase;font-weight:700;white-space:nowrap}
-.cmd-tag.bear{color:#b84c2a;border-color:#b84c2a}.cmd-tag.flat{color:var(--t500);border-color:var(--b200)}.cmd-tag.bull{color:#3a7d44;border-color:#3a7d44}
-.cmd-chart{height:180px;padding:10px 12px 4px;border-bottom:1px solid var(--b100)}
-.cmd-periods{display:grid;grid-template-columns:1fr 1fr}
-.cmd-per{padding:10px 14px;border-right:1px solid var(--b100);border-bottom:1px solid var(--b100)}
-.cmd-per:nth-child(2n){border-right:none}.cmd-per:nth-child(n+3){border-bottom:none}
-.cmd-per .wh{font-family:'JetBrains Mono',monospace;font-size:.48rem;text-transform:uppercase;letter-spacing:.8px;color:var(--t400)}
-.cmd-per .rng{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:700}
-.cmd-per .wh2{font-size:.6rem;color:var(--t400);line-height:1.35;margin-top:2px}
-.cmd-blurb{padding:12px 16px;font-size:.78rem;color:var(--t500);line-height:1.55;border-top:1px dashed var(--b100)}
-.cmd-blurb strong{color:var(--t900)}
-.otlk-disclaimer{font-size:.78rem;color:var(--t500);font-style:italic;line-height:1.6;margin-bottom:16px;padding:10px 14px;background:var(--bg);border-left:3px solid var(--b200)}
-.otlk-acts{border:2px solid var(--t900);padding:20px 24px;margin-top:20px;background:var(--white);position:relative}
-.otlk-acts::before{content:'ACTION ITEMS';position:absolute;top:-.5rem;left:12px;background:var(--white);padding:0 8px;font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:1.5px;color:var(--grn)}
-.otlk-acts p{font-size:.8rem;line-height:1.55;margin-bottom:6px;color:var(--t700)}.otlk-acts p:last-child{margin:0}
-.otlk-acts .inum{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--grn)}
-.otlk-src{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--t400);text-align:center;margin-top:14px;letter-spacing:.5px}
-.agsist{background:var(--white);border:2px solid var(--b100);border-left:4px solid var(--grn);padding:20px 24px;max-width:1200px;margin:0 auto}
-.agsist-in{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.agsist h3{font-size:.95rem;font-weight:800;color:var(--t900);text-transform:uppercase;letter-spacing:.3px}
-.agsist p{font-size:.84rem;color:var(--t500);margin-top:2px}
-.agsist a{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;color:var(--grn);text-decoration:none;padding:10px 22px;border:2px solid var(--grn);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;transition:all .12s}
-.agsist a:hover{background:var(--grn);color:var(--white)}
-.sub{background:var(--grn);padding:18px 24px}
-.sub-in{max-width:860px;margin:0 auto;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.sub-in h3{color:var(--white);font-size:.92rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.sub-in p{color:rgba(255,255,255,.6);font-size:.78rem;margin-top:1px}
-.sf{display:flex;flex:1;max-width:360px;min-width:240px}
-.sf input{flex:1;padding:12px 14px;border:none;font-family:inherit;font-size:.9rem;outline:none;min-width:0;background:var(--white)}
-.sf input:focus{box-shadow:inset 0 0 0 2px var(--amb)}
-.sf button{padding:12px 22px;background:var(--amb);color:var(--white);border:none;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;text-transform:uppercase;letter-spacing:.5px;transition:background .12s}
-.sf button:hover{background:var(--ambD)}
-.sub-note{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:6px}
-.sub-note a{color:rgba(255,255,255,.55)}
-.rpt{background:var(--white);padding:52px 24px;border-bottom:2px solid var(--b100)}.rpt-in{max-width:740px;margin:0 auto}
-.tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
-.h2{font-size:1.6rem;font-weight:900;color:var(--t900);line-height:1.15;margin-bottom:8px;text-transform:uppercase;letter-spacing:-.3px}
-.h3{font-size:1.1rem;font-weight:800;color:var(--t900);margin-bottom:10px;text-transform:uppercase;letter-spacing:.3px}
-.rp{font-size:.95rem;line-height:1.8;color:var(--t600);margin-bottom:14px}.rp strong{color:var(--t900)}
-.sig{padding:16px 20px;margin-bottom:10px;border-left:4px solid var(--grn);background:var(--bg)}.sig.c{border-left-color:var(--amb)}
-.sig h4{font-size:.9rem;font-weight:700;color:var(--t900);display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;text-transform:uppercase;letter-spacing:.3px}
-.pill{font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;letter-spacing:.5px;padding:3px 10px;white-space:nowrap}
-.pill-g{background:var(--grnL);color:var(--grn3)}.pill-a{background:var(--ambL);color:var(--ambD)}
-.sig p{font-size:.86rem;color:var(--t600);line-height:1.65}
-.act{padding:14px 0;border-bottom:1px solid var(--b100)}.act:last-child{border:none}
-.act h4{font-size:.9rem;font-weight:700;color:var(--t900);margin-bottom:3px}
-.act p{font-size:.86rem;color:var(--t600);line-height:1.65}.act a{color:var(--grn);font-weight:700}
-.cbox{border:3px solid var(--t900);padding:24px;text-align:center;margin:28px 0}
-.cbox p{font-size:1.1rem;font-weight:800;color:var(--t900);text-transform:uppercase}
-.cbox .s{font-size:.88rem;font-weight:500;color:var(--t500);text-transform:none;margin-top:4px}
-.tbtn{display:inline-block;margin-top:10px;padding:12px 28px;border:2px solid var(--b200);background:var(--white);font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:var(--t600);cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .12s;-webkit-tap-highlight-color:transparent}
-.tbtn:hover{border-color:var(--grn);color:var(--grn)}
-.mbox{background:var(--bg);border:2px solid var(--b100);padding:24px;margin-top:28px}
-.mbox h4{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn3);margin-bottom:10px;font-weight:700;text-transform:uppercase}
-.mbox p{font-size:.84rem;color:var(--t600);line-height:1.65;margin-bottom:8px}.mbox p:last-child{margin:0}
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}.sec{padding:56px 0}
-.stag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:3px;color:var(--grn);text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.sh{font-size:1.6rem;font-weight:900;color:var(--t900);margin-bottom:8px;line-height:1.15;text-transform:uppercase;letter-spacing:-.2px}
-.ssub{font-size:.9rem;color:var(--t500);max-width:540px;margin-bottom:28px}
-.dv{border:none;border-top:2px solid var(--b100);margin:0}
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-.sc{background:var(--white);border:2px solid var(--b100);padding:24px;transition:border-color .12s}.sc:hover{border-color:var(--grn)}
-.sc-ico{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;color:var(--grn);letter-spacing:1px;padding:6px 12px;background:var(--grnL);display:inline-block;margin-bottom:12px;text-transform:uppercase}
-.sc h3{font-size:1rem;font-weight:800;color:var(--t900);margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px}
-.sc p{font-size:.84rem;color:var(--t500);margin-bottom:12px;line-height:1.55}
-.sc ul{list-style:none;font-size:.82rem}.sc li{padding:5px 0;border-top:1px solid var(--b100);color:var(--t700);font-weight:500}
-.sc li::before{content:'// ';color:var(--grn);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.72rem}
-.dg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
-.dc{text-align:center;background:var(--white);border:2px solid var(--b100);padding:18px 10px}
-.dc .d{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:800;color:var(--grn)}
-.dc .dd{font-size:.76rem;color:var(--t500);margin-top:3px}
-.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.ac{background:var(--white);border:2px solid var(--b100);padding:22px}
-.ac h3{font-size:.9rem;font-weight:800;color:var(--t900);margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid var(--grn);text-transform:uppercase;letter-spacing:.3px}
-.ac ul{list-style:none;font-size:.84rem}.ac li{padding:4px 0;color:var(--t700)}
-.fi{border-bottom:1px solid var(--b100);padding:18px 0}
-.fq{font-size:.95rem;font-weight:700;color:var(--t900);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;-webkit-tap-highlight-color:transparent}
-.fq::after{content:'+';font-family:'JetBrains Mono',monospace;color:var(--white);font-size:.75rem;font-weight:700;width:28px;height:28px;display:grid;place-items:center;background:var(--grn);flex-shrink:0}
-.fq.open::after{content:'-';background:var(--t900)}
-.fa{font-size:.86rem;color:var(--t500);margin-top:10px;line-height:1.7;display:none}.fa.open{display:block}.fa a{color:var(--grn);font-weight:700}
-.tg{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:520px}
-.tc{background:var(--white);border:2px solid var(--b100);padding:28px;text-align:center;transition:border-color .12s}.tc:hover{border-color:var(--grn)}
-.tc-a{width:56px;height:56px;background:var(--grn);color:var(--white);display:grid;place-items:center;margin:0 auto 12px;font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:800}
-.tc h3{font-size:1rem;font-weight:800;color:var(--t900);margin-bottom:2px}
-.tc .rl{font-size:.62rem;color:var(--grn);font-family:'JetBrains Mono',monospace;letter-spacing:1px;font-weight:700;margin-bottom:10px;text-transform:uppercase}
-.tc .ph a{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--t900);text-decoration:none;font-weight:700}.tc .ph a:hover{color:var(--grn)}
-.ctab{background:var(--white);border-top:4px solid var(--grn);padding:44px 24px;text-align:center}
-.ctab h2{font-size:1.5rem;font-weight:900;color:var(--t900);margin-bottom:6px;text-transform:uppercase}
-.ctab p{color:var(--t500);margin-bottom:16px;font-size:.88rem}
-.ctab .big{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--grn);text-decoration:none;font-weight:800;display:inline-block;border:3px solid var(--grn);padding:12px 30px;transition:all .12s;margin:4px}
-.ctab .big:hover{background:var(--grn);color:var(--white)}
-.net{background:var(--white);border-top:2px solid var(--b100);padding:28px 24px;text-align:center}
-.net h3{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--t400);margin-bottom:8px;font-weight:700;text-transform:uppercase}
-.net-note{font-size:.76rem;color:var(--t500);margin-bottom:12px}
-.nl{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.nl a{font-size:.82rem;font-weight:600;color:var(--t700);text-decoration:none;padding:10px 18px;border:2px solid var(--b100);background:var(--bg);transition:all .12s}.nl img{max-width:80px;height:auto}
-.nl a:hover{border-color:var(--grn);color:var(--grn)}
-footer{background:var(--t900);color:#888;padding:32px 24px 16px}
-.fg{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.fg h4{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--grn2);margin-bottom:10px;font-weight:700;text-transform:uppercase}
-.fg a{display:block;color:#888;text-decoration:none;font-size:.78rem;padding:2px 0;transition:color .12s}.fg a:hover{color:var(--white)}
-.fb{max-width:1200px;margin:20px auto 0;padding-top:12px;border-top:1px solid #222;font-size:.62rem;color:#888;text-align:center;line-height:1.8}
-.fb a{color:#bbb}
-.fb-eo{max-width:1200px;margin:8px auto 0;padding-top:10px;border-top:1px solid #2a2a2a;font-size:.56rem;color:#888;text-align:center;line-height:1.9}
-.fb-eo a{color:#bbb}.fb-eo a:hover{color:#fff}
-@media(max-width:960px){.hero-in{grid-template-columns:1fr;gap:28px}.sg,.ag{grid-template-columns:1fr}.dg{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr 1fr}.agsist-in{flex-direction:column;text-align:center}.otlk-grid{grid-template-columns:1fr}}
-@media(max-width:680px){html,body{overflow-x:hidden}nav{display:none}.mob-btn{display:block}nav.on{display:flex;flex-direction:column;position:absolute;top:76px;left:0;right:0;background:var(--white);border-bottom:4px solid var(--grn);padding:12px 20px;z-index:99}.logo-link{height:56px}.logo-img{height:56px}.hbar{height:68px;padding:0 16px}.hero{padding:24px 16px 32px}.hero h1{font-size:1.6rem}.hdesc{font-size:.9rem}.sp-n{font-size:3.2rem}.sp{padding:18px 14px}.si-grid{grid-template-columns:1fr 1fr;gap:4px}.si{padding:8px 10px}.si-num{font-size:1.2rem}.hlinks{flex-direction:column}.hlinks a{text-align:center}.sub-in{flex-direction:column;text-align:center;gap:8px}.sf{max-width:100%;min-width:0;width:100%}.rpt{padding:32px 16px}.sec{padding:40px 0}.sh,.h2{font-size:1.3rem}.ag{grid-template-columns:1fr}.tg{grid-template-columns:1fr;max-width:280px}.ctab .big{font-size:1.1rem;padding:10px 20px;display:block;margin:4px auto;max-width:260px}.fg{grid-template-columns:1fr;gap:16px;text-align:center}.wrap{padding:0 16px}.otlk-prices{grid-template-columns:1fr 1fr}.otlk-grid{grid-template-columns:1fr}.otlk-flash{font-size:.6rem;padding:8px 16px}.otlk-in{padding:20px 16px 28px}.otlk-acts{padding:16px}.mbox{padding:16px}.mbox h4{font-size:.56rem}.mbox p{font-size:.8rem;word-wrap:break-word;overflow-wrap:break-word}.cmd-blurb{font-size:.74rem}.cmd-per .rng{font-size:.75rem}.cmd-per .wh2{font-size:.55rem}.dg{grid-template-columns:1fr 1fr}.dc{padding:14px 8px}.dc .d{font-size:1rem}.ctab{padding:32px 16px}.ctab h2{font-size:1.2rem}.net{padding:20px 16px}.nl{flex-direction:column;align-items:center}.nl a{width:100%;text-align:center;box-sizing:border-box}.agsist{margin:0 16px;padding:16px}.agsist h3{font-size:.85rem}.agsist a{padding:8px 16px;font-size:.7rem}}
-@media(max-width:380px){.hero h1{font-size:1.4rem}.sp-n{font-size:2.8rem}.si-grid{grid-template-columns:1fr}.si-num{font-size:1.1rem}.otlk-prices{grid-template-columns:1fr}.dg{grid-template-columns:1fr}.cmd-periods{grid-template-columns:1fr}.cmd-per{border-right:none}.tg{max-width:100%}}
+header{background:var(--white);border-bottom:4px solid var(--grn);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header a{color:var(--grn);text-decoration:none;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+header h1{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--t900)}
+main{max-width:800px;margin:0 auto;padding:40px 24px 60px}
+h2{font-size:1.3rem;font-weight:900;color:var(--t900);margin:40px 0 12px;text-transform:uppercase;letter-spacing:.3px;border-bottom:3px solid var(--grn);padding-bottom:6px;display:inline-block}
+h3{font-size:1rem;font-weight:800;color:var(--t900);margin:24px 0 8px}
+p{margin-bottom:12px;color:var(--t700);font-size:.92rem}
+a{color:var(--grn)}
+code{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--white);padding:2px 6px;border:1px solid var(--b100)}
+pre{background:var(--t900);color:#ccc;padding:20px;overflow-x:auto;margin:12px 0 20px;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;border-left:4px solid var(--grn)}
+pre .k{color:#5cb85c}pre .s{color:#daa520}pre .c{color:#666}pre .n{color:#6ca6cd}
+.ep{background:var(--white);border:2px solid var(--b100);padding:16px 20px;margin:12px 0 20px}
+.ep-url{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--grn);word-break:break-all}
+.ep-desc{font-size:.85rem;color:var(--t500);margin-top:4px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.5px;padding:3px 8px;font-weight:700;text-transform:uppercase;margin-right:6px}
+.tag-get{background:var(--grnL);color:var(--grn3)}.tag-json{background:#e8f0fe;color:#1a5276}
+table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:.85rem}
+th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.5px;text-transform:uppercase;color:var(--t500);padding:8px 12px;border-bottom:2px solid var(--t900)}
+td{padding:8px 12px;border-bottom:1px solid var(--b100);vertical-align:top}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;color:var(--t900);white-space:nowrap}
+.badge-demo{background:var(--white);border:2px solid var(--b100);padding:24px;margin:12px 0 20px;text-align:center}
+.badge-demo h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;color:var(--t400);margin-bottom:12px;text-transform:uppercase}
+.note{background:#fdf6e3;border-left:4px solid var(--amb);padding:12px 16px;margin:12px 0 20px;font-size:.85rem;color:var(--t700)}
+.note strong{color:var(--t900)}
+footer{max-width:800px;margin:0 auto;padding:24px;border-top:1px solid var(--b200);font-size:.72rem;color:var(--t400);text-align:center;line-height:1.9}
+footer a{color:var(--t400)}
+@media(max-width:680px){main{padding:24px 16px 40px}pre{padding:14px;font-size:.7rem}table{font-size:.78rem}td,th{padding:6px 8px}.ep{padding:12px 14px}}
 </style>
 </head>
 <body>
-<a href="#index" class="skip">Skip to Content</a>
-<noscript><div style="background:#a63030;color:#fff;padding:16px 24px;text-align:center;font-size:.9rem"><strong>JavaScript is required</strong> to display the FFAI scorecard and charts. Please enable JavaScript in your browser, or call us at <a href="tel:715-797-2428" style="color:#fff;font-weight:700">715-797-2428</a> for the latest readings.</div></noscript>
-<header><div class="hbar">
-<a href="/" class="logo-link"><img src="/logo.png" alt="Farmers First Agri Service" class="logo-img"></a>
-<button class="mob-btn" onclick="document.querySelector('nav').classList.toggle('on')" aria-label="Menu">MENU</button>
-<nav><a href="#index">Index</a><a href="#outlook">Outlook</a><a href="#report">Report</a><a href="#methodology">Methodology</a><a href="#services">Insurance</a><a href="#areas">Territory</a><a href="#faq">FAQ</a><a href="#contact-form">Contact</a></nav>
-</div></header>
-
-<section class="hero" id="index"><div class="hero-in"><div>
-<div class="hero-label"><i></i> FFAI v3.0 // VALIDATED QUARTERLY // FARMERS1ST.COM</div>
-<h1>THE FARMERS FIRST <em>AG INDEX</em></h1>
-<p class="hdesc"><strong>16 Federal Reserve series. 5 components. Internally cross-validated.</strong> The FFAI measures U.S. agricultural financial conditions and predicts farm loan stress &mdash; then decomposes the signal by sector so you know what it means for <em>your</em> operation.</p>
-<p class="hdesc" style="font-size:.92rem">Internally cross-validated against USDA national ag loan delinquency at r&nbsp;=&nbsp;0.49 (p&nbsp;&lt;&nbsp;0.000001). Not reviewed or endorsed by USDA, RMA, or FCIC. Tested against every quarter since 2003.</p>
-<div class="hlinks"><a href="#report" class="btn-a">This Quarter's Analysis</a><a href="#signup" class="btn-b">Get Updates</a></div>
-</div>
-<div class="sp">
-<div class="sp-h" id="spDate"></div>
-<div class="sp-top"><div class="sp-n" id="spScore"></div></div>
-<div class="sp-prev" id="spPrev"></div>
-<div class="sp-w" id="spLabel"></div>
-<div class="si-grid" id="siGrid"></div>
-<div class="cht"><div class="cht-hd"><span id="chtLabel">FFAI COMPOSITE</span><small>HOVER OR TAP</small></div>
-<svg id="chart" role="img" viewBox="0 0 400 170" aria-label="FFAI composite history chart: quarterly index from 2008 to present, scored 0 to 100"></svg></div>
-<div class="sp-ft" id="spFoot"></div>
-</div>
-</div></section>
-
-<div class="otlk" id="outlook">
-<div class="otlk-flash" id="otlkFlash"></div>
-<div class="otlk-in">
-<div class="otlk-hd"><h2>2026 Commodity &amp; Livestock Outlook</h2><span><a href="/outlook/2026-Commodity-Livestock-Outlook-FFAS.pdf" target="_blank" style="color:var(--grn);text-decoration:none;font-weight:700">&#8681; PDF</a> &middot; UPDATED 23 FEB 2026</span></div>
-<div class="otlk-prices">
-<div class="otlk-p"><div class="lb">Corn Mar '26</div><div class="pr" style="color:#b8860b">4.27</div><div class="ch ch-dn">&darr; 1.5&cent; &middot; Cash $3.94</div><div class="nt">Dec '26: ~$4.60</div></div>
-<div class="otlk-p"><div class="lb">Beans Mar '26</div><div class="pr" style="color:#2d6a2e">11.37</div><div class="ch ch-dn">&darr; 5&cent; &middot; Cash $10.77</div><div class="nt">Nov '26: $10.81</div></div>
-<div class="otlk-p"><div class="lb">Class III Spot</div><div class="pr" style="color:#2d5f8a">15.32</div><div class="ch ch-dn">&darr; $3.62 YoY</div><div class="nt">USDA avg fcst: $16.65</div></div>
-<div class="otlk-p"><div class="lb">Cattle Apr</div><div class="pr" style="color:#8b3a2a">245+</div><div class="ch ch-up">&uarr; COF rally</div><div class="nt">Cash $242-245 &middot; Fdr $377</div></div>
-</div>
-<div class="otlk-grid">
-<div class="cmd"><div class="cmd-hd"><h3>Corn</h3><span class="cmd-tag bear">Bearish bias</span></div><div class="cmd-chart"><canvas id="cC"></canvas></div><div class="cmd-periods">
-<div class="cmd-per"><div class="wh">3mo &middot; Planting</div><div class="rng" style="color:#b8860b">$4.15 &ndash; 4.60</div><div class="wh2">94M ac (down 4.8M). COP: $917/ac. Acreage rpt Mar 31.</div></div>
-<div class="cmd-per"><div class="wh">6mo &middot; Pollination</div><div class="rng" style="color:#b8860b">$4.00 &ndash; 4.85</div><div class="wh2">Weather mkt. 62% Midwest drought. USDA: 183 bpa.</div></div>
-<div class="cmd-per"><div class="wh">9mo &middot; Harvest</div><div class="rng" style="color:#b8860b">$4.00 &ndash; 4.30</div><div class="wh2">15.76B bu, 2nd largest. Stocks: 1.84B (2026/27).</div></div>
-<div class="cmd-per"><div class="wh">12mo &middot; Spring '27</div><div class="rng" style="color:#b8860b">$4.00 &ndash; 4.50</div><div class="wh2">Need global cut or E15/biofuel policy for rally.</div></div>
-</div><div class="cmd-blurb">USDA AOF (2/19): 94M ac, 183 bpa, 15.76B bu for 2026/27 &mdash; down 7% from record but 2nd-largest. <strong>Season avg $4.20 (2026/27).</strong> Current-year stocks at 2.1B bu, exports raised to record 3.3B bu. Cost of production $917/ac &mdash; most WI/MN corn at or below breakeven. Dec '26 crop insurance price discovery averaging $4.60.</div></div>
-<div class="cmd"><div class="cmd-hd"><h3>Soybeans</h3><span class="cmd-tag flat">Neutral-bearish &mdash; trade risk</span></div><div class="cmd-chart"><canvas id="bC"></canvas></div><div class="cmd-periods">
-<div class="cmd-per"><div class="wh">3mo &middot; Planting</div><div class="rng" style="color:#2d6a2e">$10.50 &ndash; 11.40</div><div class="wh2">85M ac (+3.8M). SCOTUS clouds China. EPA RVOs pending.</div></div>
-<div class="cmd-per"><div class="wh">6mo &middot; Fill</div><div class="rng" style="color:#2d6a2e">$10.00 &ndash; 11.50</div><div class="wh2">Global deficit ~12M t. Crush record 2.655B bu.</div></div>
-<div class="cmd-per"><div class="wh">9mo &middot; Harvest</div><div class="rng" style="color:#2d6a2e">$9.80 &ndash; 10.80</div><div class="wh2">4.45B bu. Stocks 355M+ bu if exports miss.</div></div>
-<div class="cmd-per"><div class="wh">12mo &middot; Spring '27</div><div class="rng" style="color:#2d6a2e">$10.00 &ndash; 11.00</div><div class="wh2">S/U tightening globally. 45Z + RFS = demand.</div></div>
-</div><div class="cmd-blurb"><strong>SCOTUS ruling removes tariff leverage behind China's 25M-ton purchase pledge.</strong> USTR says deals hold; market skeptical. Soy oil at contract highs on biofuel &mdash; crush record 2.655B bu (2026/27). <strong>Biofuel policy (45Z, E15, RFS) now the primary upside driver.</strong> Price into rallies but expect headline volatility.</div></div>
-<div class="cmd"><div class="cmd-hd"><h3>Milk</h3><span class="cmd-tag bear">In recession &mdash; recovery H2</span></div><div class="cmd-chart"><canvas id="mC"></canvas></div><div class="cmd-periods">
-<div class="cmd-per"><div class="wh">3mo &middot; Spring flush</div><div class="rng" style="color:#2d5f8a">$14.50 &ndash; 16.50</div><div class="wh2">Actual Jan III: $14.59. Spot: $15.32. Seasonal pressure.</div></div>
-<div class="cmd-per"><div class="wh">6mo &middot; Summer</div><div class="rng" style="color:#2d5f8a">$16.50 &ndash; 18.50</div><div class="wh2">Culling accelerating. Feed cheap. Margins tight.</div></div>
-<div class="cmd-per"><div class="wh">9mo &middot; Fall</div><div class="rng" style="color:#2d5f8a">$17.50 &ndash; 19.50</div><div class="wh2">Supply correction supports. Cheese stabilizes.</div></div>
-<div class="cmd-per"><div class="wh">12mo &middot; Spring '27</div><div class="rng" style="color:#2d5f8a">$18.50 &ndash; 20.50</div><div class="wh2">Herd contraction + exports = recovery path.</div></div>
-</div><div class="cmd-blurb"><strong>Dairy in recession.</strong> Jan Class III actual: $14.59/cwt &mdash; well below USDA's $16.65 annual avg forecast. All-milk $18.95 vs cost of production $19.14. Most WI herds need $18-19/cwt to break even. <strong>Class III/IV spread swings 500-cow herd $10-15K/month.</strong> Herd: 9.540M cows, culling up 3.2% YoY. DRP at 85-90% matched to Class III/IV is strongly recommended &mdash; call us to evaluate your specific structure.</div></div>
-<div class="cmd"><div class="cmd-hd"><h3>Fed Cattle</h3><span class="cmd-tag bull">Bullish &mdash; supply crunch</span></div><div class="cmd-chart"><canvas id="ctC"></canvas></div><div class="cmd-periods">
-<div class="cmd-per"><div class="wh">3mo &middot; Spring</div><div class="rng" style="color:#8b3a2a">$238 &ndash; 252</div><div class="wh2">COF placements -5%. Cash $242-245. Capacity down 6.6%.</div></div>
-<div class="cmd-per"><div class="wh">6mo &middot; Summer</div><div class="rng" style="color:#8b3a2a">$245 &ndash; 265</div><div class="wh2">Grilling peak. Demand highest since 1983. MX closed.</div></div>
-<div class="cmd-per"><div class="wh">9mo &middot; Fall</div><div class="rng" style="color:#8b3a2a">$240 &ndash; 260</div><div class="wh2">Tightest in 10-yr cycle. Heifer retention.</div></div>
-<div class="cmd-per"><div class="wh">12mo &middot; Spring '27</div><div class="rng" style="color:#8b3a2a">$235 &ndash; 255</div><div class="wh2">Cycle peak '26-'27. Watch demand wall at $9.50/lb retail.</div></div>
-</div><div class="cmd-blurb"><strong>COF report (2/21): on-feed 11.5M head (-2% YoY), placements -5%.</strong> Cash $242-245 south. Feeder index $377. Herd 86.2M, lowest since 1951. MX border closed (screwworm). Demand strongest since 1983 but watch consumer pushback above $9.50/lb retail. LRP critical for managing 15-20% policy swings.</div></div>
-</div>
-<p class="otlk-disclaimer">Market information and coverage suggestions below are general observations based on publicly available data as of February 23, 2026. They are not advice specific to your operation. Ranges represent approximately 60% probability bands &mdash; tail risk extends beyond. Contact us for guidance specific to your situation.</p>
-<div class="otlk-acts">
-<p><span class="inum">01</span> &ensp;<strong>Protect grain downside.</strong> RP at higher coverage levels. 2026 RMA subsidy schedule increased ECO/SCO subsidies &mdash; call us for current rates. COP: $917/ac corn. Contact us to run your numbers.</p>
-<p><span class="inum">02</span> &ensp;<strong>Beans: upside now = biofuel,</strong> not China. SCOTUS clouds trade leverage. 45Z, E15, RFS are the catalysts. Don't cap upside, but expect volatility.</p>
-<p><span class="inum">03</span> &ensp;<strong>Dairy DRP: strongly recommended.</strong> 85-90% coverage on 60-70% of quarterly milk. Match Class III/IV. Jan III actual was $14.59 &mdash; well below USDA forecast. Call us to evaluate your specific DRP structure for Q2-Q3.</p>
-<p><span class="inum">04</span> &ensp;<strong>Cattle: manage volatility.</strong> LRP sets floor, keeps upside. COF confirms tight supply. Lock some Q3-Q4 revenue on strength.</p>
-<p><span class="inum">05</span> &ensp;<strong>July 15: acreage reporting deadline.</strong> Report all planted acres by July 15 to maintain crop insurance coverage. Late or inaccurate reporting can void your policy. Call us with questions.</p>
-<p><span class="inum">06</span> &ensp;<strong>Gov't programs = significant income share.</strong> Higher reference prices + ARC + ECO/SCO subsidies. Government support is a substantial factor in 2026 cash flow. Ask us about your program eligibility.</p>
-</div>
-<div class="otlk-src">USDA AG OUTLOOK FORUM 2/19 &middot; WASDE 2/10 &middot; CATTLE ON FEED 2/21 &middot; CBOT/CME 2/23 &middot; ERS LIVESTOCK DAIRY POULTRY OUTLOOK 2/26<br>Ranges represent ~60% probability band. Tail risk extends beyond. Market year noted per section.<br><a href="/outlook/2026-Commodity-Livestock-Outlook-FFAS.pdf" onclick="trackPDF('outlook-2026')" style="color:var(--grn);font-weight:700;text-decoration:none">&#8681; Download Full Outlook PDF</a></div>
-</div></div>
-
-<div style="padding:24px 24px 0"><div class="agsist"><div class="agsist-in"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-<img src="/agsist-logo.png" alt="AgSist" style="height:48px;width:auto;flex-shrink:0" loading="lazy">
-<div><h3>AgSist &mdash; Free Ag Dashboard</h3><p>Live grain bids, cash prices, and market data from WI &amp; MN elevators. Built for farmers, not traders.</p></div>
-</div><a href="https://agsist.com" target="_blank" rel="noopener">Open AgSist &rarr;</a></div></div></div>
-
-<div class="sub" id="signup"><div class="sub-in"><div><h3>FFAI QUARTERLY + INSURANCE DEADLINES</h3><p>When the index moves or a deadline approaches. That's it.</p></div>
-<div>
-<form class="sf" action="https://formspree.io/f/mwvnnvdl" method="POST"><input type="email" name="email" placeholder="you@email.com" required aria-label="Email"><input type="hidden" name="_subject" value="FFAI Subscriber"><input type="hidden" name="_next" value="https://farmers1st.com/#signup"><button type="submit">Subscribe</button></form>
-<p class="sub-note">Email handled by Formspree. See our <a href="/privacy/">privacy policy</a>.</p>
-</div>
-</div></div>
-
-<div class="rpt" id="report"><div class="rpt-in">
-<div class="tag" style="color:var(--amb)" id="rptTag"></div>
-<h2 class="h2" id="rptHead"></h2>
-<div style="height:14px"></div>
-<div id="rptIntro"></div>
-<h3 class="h3" style="margin-top:16px">Six Cycle Forces</h3>
-<div id="rptSignals"></div>
-<h3 class="h3" style="margin-top:16px">Action Items</h3>
-<div id="rptActs" style="display:none"></div>
-<button class="tbtn" id="tBtn" onclick="tActs()">SHOW ALL ACTION ITEMS</button>
-<div class="cbox" id="rptClose"></div>
-
-<div class="mbox" id="methodology"><h4>FFAI v3.0 METHODOLOGY <span style="font-size:.5rem;color:var(--amb);font-weight:400;letter-spacing:0;text-transform:none">&mdash; dashed terms have plain-English tooltips, hover or tap</span></h4>
-<p style="margin-bottom:16px"><a href="/ffai_v3_methodology.pdf" target="_blank" onclick="trackPDF('methodology')" style="display:inline-block;padding:10px 22px;background:var(--grn);color:var(--white);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .12s;max-width:100%;box-sizing:border-box;text-align:center" onmouseover="this.style.background='#1b4d1c'" onmouseout="this.style.background='#2d6a2e'">&#8681; Download Full Methodology PDF</a></p>
-
-<h4 style="margin-top:20px">WHAT IT IS</h4>
-<p>The Farmers First Ag Index measures U.S. agricultural financial conditions using 16 publicly available <span class="eli5" onclick="tTip5(this)" tabindex="0">Federal Reserve economic data series<span class="eli5-icon">?</span><span class="eli5-tip">Free government data published by the St. Louis Fed. Same numbers the banks and USDA use. Anyone can look them up at fred.stlouisfed.org.</span></span>. It predicts the direction and magnitude of <span class="eli5" onclick="tTip5(this)" tabindex="0">agricultural loan delinquency<span class="eli5-icon">?</span><span class="eli5-tip">The percentage of farm loans that are 30+ days late on payments across all U.S. banks. When this goes up, farmers are struggling to pay their bills. When it goes down, things are good.</span></span> &mdash; the percentage of farm loans 30+ days past due across all U.S. commercial banks. When this number rises, farmers are under financial stress. The FFAI gives you that signal in real time, decomposed by sector.</p>
-
-<h4 style="margin-top:16px">THE COMPOSITE (Soy + Fed Funds)</h4>
-<p>Two inputs drive the validated core: soybean futures prices and the <span class="eli5" onclick="tTip5(this)" tabindex="0">Federal Funds interest rate<span class="eli5-icon">?</span><span class="eli5-tip">The rate banks charge each other overnight. When the Fed raises this, your operating loan rate goes up too. It's the master dial for borrowing costs across the whole economy.</span></span>. Soybeans proxy overall crop revenue conditions. The Fed Funds rate captures <span class="eli5" onclick="tTip5(this)" tabindex="0">debt service costs<span class="eli5-icon">?</span><span class="eli5-tip">What it costs you to carry your loans &mdash; operating lines, equipment notes, land payments. When rates go up, every dollar you owe costs more to service.</span></span> &mdash; agriculture is among the most debt-intensive industries in the U.S. economy, with production loans typically on variable rates.</p>
-<p>The model uses <span class="eli5" onclick="tTip5(this)" tabindex="0">expanding-window regression<span class="eli5-icon">?</span><span class="eli5-tip">Imagine you're standing in 2015 making a prediction. You can only use data from 2003-2014. Then in 2016, you add one more year and predict again. This proves the model works in real time, not just in hindsight.</span></span>: at each quarter, it trains only on data available up to that point, preventing <span class="eli5" onclick="tTip5(this)" tabindex="0">look-ahead bias<span class="eli5-icon">?</span><span class="eli5-tip">Cheating by using future information to make a "prediction." Like saying you predicted the 2012 drought after it already happened. Our model can't do this because it only sees past data at each step.</span></span>.</p>
-
-<h4 style="margin-top:16px">VALIDATION</h4>
-<p>Tested against every quarter since 2003 (91 observations). <span class="eli5" onclick="tTip5(this)" tabindex="0">Leave-one-out cross-validation<span class="eli5-icon">?</span><span class="eli5-tip">Take out one quarter, build the model with the other 90, then predict the one you removed. Do that 91 times. If the model still works after 91 tests, it's not a fluke.</span></span>: <strong>r&nbsp;=&nbsp;0.49</strong> <span class="eli5" onclick="tTip5(this)" tabindex="0">(p&nbsp;&lt;&nbsp;0.000001)<span class="eli5-icon">?</span><span class="eli5-tip">The "p-value" is the chance this result is just random luck. p &lt; 0.000001 means less than 1 in a million odds this is a coincidence.</span></span>. Expanding-window out-of-sample: <strong>r&nbsp;=&nbsp;0.51</strong> (p&nbsp;&lt;&nbsp;0.00001). Survives <span class="eli5" onclick="tTip5(this)" tabindex="0">Bonferroni correction<span class="eli5-icon">?</span><span class="eli5-tip">When you test a lot of models, some will look good by pure chance. Bonferroni makes the test harder to pass. We tested ~50 models. Our result still passes after this penalty.</span></span> for 50 multiple comparisons. <strong>73% regime accuracy.</strong> Validation is internal &mdash; this index has not been reviewed or endorsed by USDA, RMA, or FCIC.</p>
-<p>The model explains 28% of delinquency variance <span class="eli5" onclick="tTip5(this)" tabindex="0">(R&sup2;&nbsp;=&nbsp;0.28)<span class="eli5-icon">?</span><span class="eli5-tip">About 28 cents of every dollar of farm loan trouble can be explained by crop prices and interest rates. The other 72 cents is weather, trade deals, your neighbor's management decisions, and everything else. 28% from just two numbers is actually strong.</span></span>. The other 72% is weather, trade policy, individual farm management, regional conditions, and crop insurance decisions. The FFAI is a conditions indicator, not a crystal ball. We state this because intellectual honesty matters more than marketing.</p>
-
-<h4 style="margin-top:16px">THE CORN PIVOT (Sub-Indexes)</h4>
-<p>The composite tells you the national picture. Sub-indexes tell you which sectors. The key structural insight: <strong>corn is revenue for grain farmers but feed cost for dairy and livestock.</strong> This creates a validated <span class="eli5" onclick="tTip5(this)" tabindex="0">inverse correlation (r&nbsp;=&nbsp;-0.45)<span class="eli5-icon">?</span><span class="eli5-tip">When one goes up, the other goes down. An r of -0.45 means they move opposite about half the time. Expensive corn is great if you're selling it, terrible if you're feeding it.</span></span> between the grain and dairy sub-indexes.</p>
-
-<h4 style="margin-top:16px">FORWARD OUTLOOK</h4>
-<p>The <span class="eli5" onclick="tTip5(this)" tabindex="0">4-quarter change in the Federal Funds rate<span class="eli5-icon">?</span><span class="eli5-tip">How much rates moved over the last year. Falling = good for farmers. Rising = trouble coming in 12-15 months.</span></span> is the single strongest <span class="eli5" onclick="tTip5(this)" tabindex="0">leading indicator<span class="eli5-icon">?</span><span class="eli5-tip">A signal that shows up BEFORE the problem does. Like seeing dark clouds before it rains. Rate hikes today show up as missed loan payments 4-5 quarters from now.</span></span> of farm financial stress in our dataset. Rising rates predict higher delinquency 4-5 quarters later (r&nbsp;=&nbsp;-0.52). The current reading of 61.4 reflects easing from the 2023 rate peak &mdash; positive for farmers carrying debt over the next 12-15 months.</p>
-
-<h4 style="margin-top:16px">DATA SOURCES (16 FRED Series)</h4>
-<p style="font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:2;color:var(--t600);word-wrap:break-word;overflow-wrap:break-word">
-Corn (PMAIZMTUSDM) &middot; Soybeans (PSOYBUSDM) &middot; Wheat (PWHEAMTUSDM) &middot; Crude Oil (POILWTIUSDM) &middot; Diesel PPI (WPU057303) &middot; Fertilizer PPI (WPU0652) &middot; Farm Machinery PPI (WPU111) &middot; Raw Milk PPI (WPU01610102) &middot; Cheese PPI (PCU311513311513) &middot; Butter PPI (WPU023201) &middot; Cattle PPI (WPU0131) &middot; Hog PPI (WPU013201) &middot; Fed Funds (FEDFUNDS) &middot; CPI (CPIAUCSL) &middot; 10Y Treasury (GS10) &middot; Ag Loan Delinquency (DRFAPGACBS)
-</p>
-<p style="font-size:.76rem;color:var(--t400)">All data from the Federal Reserve Bank of St. Louis (FRED). No proprietary data. No estimated inputs. History: Q1 2003 &ndash; present. Updated quarterly after FRED publishes complete quarter data.</p>
-<p style="font-size:.76rem;color:var(--t400);margin-top:8px"><a href="/ffai_v3_methodology.pdf" target="_blank" style="color:var(--grn);font-weight:700;text-decoration:none">Full methodology PDF</a> includes complete sub-index formulas, weight tables, validation statistics, and limitations disclosure. <a href="/api/" style="color:var(--grn);font-weight:700;text-decoration:none">Free API</a> available for developers and media.</p>
-</div>
-<div style="text-align:center;margin-top:20px"><a href="#signup" class="mono" style="font-size:.76rem;color:var(--grn);text-decoration:none;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Subscribe for Quarterly FFAI Updates</a></div>
-</div></div><hr class="dv">
-
-<section class="sec" id="services"><div class="wrap">
-<div class="stag">Services</div><h2 class="sh">Crop Insurance &amp; Agronomy</h2>
-<p class="ssub">Independent crop insurance agents licensed across Minnesota and Wisconsin. Serving the Bemidji-to-La Crosse corridor since 2017.</p>
-<div class="sg">
-<article class="sc"><div class="sc-ico">MPCI</div><h3>Multi-Peril Crop Insurance</h3><p>Federal crop insurance protecting against yield loss.</p><ul><li>Revenue Protection (RP)</li><li>Enhanced Coverage (ECO)</li><li>Supplemental (SCO)</li><li>Area Risk Protection</li><li>Whole Farm Revenue</li></ul></article>
-<article class="sc"><div class="sc-ico">PRF</div><h3>Pasture &amp; Forage Insurance</h3><p>Rainfall index for hay and grazing acres.</p><ul><li>Choose coverage periods</li><li>Grid-based payouts</li><li>Subsidized premiums</li><li>No adjuster needed</li></ul></article>
-
-</div></div></section><hr class="dv">
-
-<section class="sec" id="deadlines"><div class="wrap">
-<div class="stag">Deadlines</div><h2 class="sh">Crop Insurance Calendar</h2>
-<div class="dg">
-<div class="dc"><div class="d">MAR 15</div><div class="dd">Sales closing &mdash; corn, beans, spring grains</div></div>
-<div class="dc"><div class="d">JUL 15</div><div class="dd">Acreage reporting</div></div>
-<div class="dc"><div class="d">SEP 30</div><div class="dd">Winter wheat closing</div></div>
-<div class="dc"><div class="d">DEC 1</div><div class="dd">PRF pasture signup</div></div>
-</div></div></section><hr class="dv">
-
-<section class="sec" id="areas"><div class="wrap">
-<div class="stag">Territory</div><h2 class="sh">Bemidji to La Crosse</h2>
-<p class="ssub">Central Minnesota through the Twin Cities metro and into western Wisconsin. Licensed in both states.</p>
-<div class="ag">
-<article class="ac"><h3>Minnesota &mdash; North</h3><ul>
-<li>Beltrami County &mdash; Bemidji</li><li>Cass County &mdash; Walker</li>
-<li>Hubbard County &mdash; Park Rapids</li><li>Crow Wing County &mdash; Brainerd</li>
-<li>Morrison County &mdash; Little Falls</li><li>Mille Lacs County &mdash; Milaca</li>
-</ul></article>
-<article class="ac"><h3>Minnesota &mdash; Central / Metro</h3><ul>
-<li>Stearns County &mdash; St. Cloud</li><li>Benton County &mdash; Foley</li>
-<li>Sherburne County &mdash; Elk River</li><li>Wright County &mdash; Buffalo</li>
-<li>Anoka County &mdash; Blaine</li><li>Isanti County &mdash; Cambridge</li>
-<li>Chisago County &mdash; Lindstrom</li><li>Washington County &mdash; Stillwater</li>
-</ul></article>
-<article class="ac"><h3>Wisconsin &mdash; West</h3><ul>
-<li>Polk County &mdash; Amery</li><li>Barron County &mdash; Rice Lake, Chetek</li>
-<li>St. Croix County &mdash; Hudson</li><li>Dunn County &mdash; Menomonie</li>
-<li>Chippewa County &mdash; Chippewa Falls</li><li>Eau Claire County &mdash; Eau Claire</li>
-<li>Pepin County &mdash; Durand</li><li>Buffalo County &mdash; Alma</li>
-<li>Trempealeau County &mdash; Whitehall</li><li>Jackson County &mdash; Black River Falls</li>
-<li>La Crosse County &mdash; La Crosse</li><li>Clark County &mdash; Neillsville</li>
-</ul></article></div></div></section><hr class="dv">
-
-<section class="sec" id="faq"><div class="wrap" style="max-width:740px">
-<div class="stag">FAQ</div><h2 class="sh">Common Questions</h2>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is the Farmers First Ag Index?</h3><p class="fa">Internally cross-validated index of U.S. agricultural financial conditions. 16 Federal Reserve series, 5 components (composite, grain, dairy, livestock, outlook), scored 0-100. Cross-validated against USDA ag loan delinquency at r&nbsp;=&nbsp;0.49. Not reviewed or endorsed by USDA, RMA, or FCIC. Updated quarterly at farmers1st.com.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">How do I use the FFAI?</h3><p class="fa">The composite tells you the national picture. The sub-indexes tell you which sectors. Above 70 = STRONG. 55-70 = FAVORABLE. 40-55 = GUARDED. Below 40 = STRESSED. Right now: grain stressed, livestock strong &mdash; same national number, very different realities depending on what you raise.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">Crop insurance deadline in Wisconsin?</h3><p class="fa"><strong>March 15</strong> for corn, soybeans, spring grains. July 15 acreage reporting. December 1 PRF pasture. <a href="#team">Call early</a>.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is PRF pasture insurance?</h3><p class="fa">Rainfall index for hay and grazing. Auto payouts below your grid threshold. No adjuster. Heavily subsidized.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What territory do you cover?</h3><p class="fa">Bemidji south through Brainerd, St. Cloud, Twin Cities metro, east into western Wisconsin &mdash; Barron, Chippewa, Dunn, Eau Claire, St. Croix &mdash; south to La Crosse.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is AgSist?</h3><p class="fa">A free ag dashboard at <a href="https://agsist.com" target="_blank">agsist.com</a> &mdash; live grain bids and cash prices from WI &amp; MN elevators. Publicly available to all farmers, not contingent on purchasing insurance.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is APH and how is it calculated?</h3><p class="fa">Actual Production History (APH) is the average of your crop yields over the past 4-10 years. It's the basis for your insured yield. Low-yield or zero years are included in the average &mdash; which is why T-yields matter for gap years. Call us to review your APH history before the March 15 deadline.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is a T-yield and when does it apply?</h3><p class="fa">A T-yield (transitional yield) is assigned by USDA for years with no production history &mdash; for example, new fields or years you didn't farm a particular crop. T-yields are typically 65-75% of the county average. Preventing T-years from dragging down your APH is one of the most valuable things we do for clients.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is the difference between Basic and Optional units?</h3><p class="fa">Basic units (BU) separate coverage by FSA farm number and landlord. Optional units (OU) separate coverage by field, offering more granular protection but at higher cost. Enterprise units (EU) combine all acres of a crop across the county into one unit &mdash; lowest premium but least granular. Unit structure dramatically affects both premium and claim potential. We model all three before recommending.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">What is ECO and how does it work with RP?</h3><p class="fa">Enhanced Coverage Option (ECO) is a county-level add-on that covers the gap between your MPCI policy (typically 70-85%) and 90% or 95% of county expected revenue. It pays when county-wide losses exceed the threshold &mdash; not individual farm losses. ECO is area-based, federally subsidized, and pairs well with Revenue Protection. Call us for current subsidy rates and whether it makes sense for your operation.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">Can I change my coverage after March 15?</h3><p class="fa">Generally no &mdash; March 15 is the hard sales closing deadline for corn, soybeans, and spring grains in WI and MN. After that date, coverage levels, unit structures, and optional endorsements are locked for the crop year. Acreage reporting (what you actually planted) is due July 15. Contact us well before March 15 to make any changes.</p></div>
-<div class="fi"><h3 class="fq" onclick="tF(this)">Is PRF right for my hay or grazing operation?</h3><p class="fa">PRF (Pasture, Rangeland, Forage) uses a rainfall index to trigger automatic payments when precipitation falls below your grid's threshold &mdash; no adjuster visit required. It's heavily subsidized and covers hay, alfalfa, and grazing acres that traditional crop insurance doesn't. December 1 is the annual signup deadline. Best for operations that can tolerate basis risk between the rainfall index and on-farm results.</p></div>
-</div></section><hr class="dv">
-
-<section class="sec" id="contact-form"><div class="wrap" style="max-width:640px">
-<div class="stag">Get In Touch</div><h2 class="sh">Send Us a Message</h2>
-<p class="ssub">Prefer not to call? Send us your question and we'll get back to you within one business day.</p>
-<form action="https://formspree.io/f/mwvnnvdl" method="POST" style="display:flex;flex-direction:column;gap:14px">
-<input type="hidden" name="_subject" value="Farmers First Contact Form">
-<input type="hidden" name="_next" value="https://farmers1st.com/#contact-form">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-name">Name</label><input type="text" id="cf-name" name="name" placeholder="Your name" required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;color:var(--t800)"></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-email">Email</label><input type="email" id="cf-email" name="email" placeholder="you@email.com" required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;color:var(--t800)"></div>
-</div>
-<div style="display:flex;flex-direction:column;gap:6px"><label style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--grn);text-transform:uppercase;font-weight:700" for="cf-msg">Message</label><textarea id="cf-msg" name="message" rows="5" placeholder="Your question or request..." required style="padding:12px 14px;border:2px solid var(--b200);background:var(--white);font-family:inherit;font-size:.9rem;outline:none;resize:vertical;color:var(--t800)"></textarea></div>
-<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-<button type="submit" style="padding:14px 32px;background:var(--grn);color:var(--white);border:none;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.82rem;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:background .12s" onmouseover="this.style.background='#1b4d1c'" onmouseout="this.style.background='#2d6a2e'">Send Message</button>
-<span style="font-size:.72rem;color:var(--t500)">Handled by Formspree &middot; <a href="/privacy/" style="color:var(--t500)">Privacy policy</a></span>
-</div>
-</form>
-</div></section><hr class="dv">
-
-<section class="sec" id="team"><div class="wrap">
-<div class="stag">Contact</div><h2 class="sh">Your Local Agents</h2>
-<p class="ssub">Chetek, Wisconsin. Serving the MN-WI corridor since 2017.</p>
-<div class="tg">
-<article class="tc"><div class="tc-a">NW</div><h3>Nate Weness</h3><div class="rl">CROP INSURANCE</div><div class="ph"><a href="tel:715-553-0392">715-553-0392</a></div></article>
-<article class="tc"><div class="tc-a">SL</div><h3>Sig Lindquist, CCA</h3><div class="rl">CERTIFIED CROP ADVISOR</div><div class="ph"><a href="tel:715-797-2428">715-797-2428</a></div></article>
-</div></div></section>
-
-<div class="ctab">
-  <h2>July 15 Acreage Reporting Is Next</h2>
-  <p>Report all planted acres on time to protect your coverage.</p>
-  <div style="display:inline-flex;flex-direction:column;gap:8px;align-items:center">
-    <a href="tel:715-553-0392" class="big" onclick="trackPhone('nate-cta')">715-553-0392 // Nate</a>
-    <a href="tel:715-797-2428" class="big" onclick="trackPhone('sig-cta')">715-797-2428 // Sig</a>
-  </div>
-</div>
-
-<div class="net">
-  <h3>FARMERS FIRST NETWORK</h3>
-  <p class="net-note">The following resources are publicly available to all farmers and are not contingent on purchasing crop insurance from Farmers First Agri Service.</p>
-  <div class="nl">
-    <a href="https://agsist.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px"><img src="/agsist-logo.png" alt="AgSist" style="height:24px;width:auto" loading="lazy">Grain Bids &amp; Cash Prices</a>
-    <a href="https://lokedrone.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px"><img src="/loke-logo.png" alt="Loke Drone" style="height:22px;width:auto" loading="lazy">Ag Spraying</a>
-    <a href="https://usdronemap.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px"><img src="/usdronemap-logo.png" alt="US Drone Map" style="height:22px;width:auto" loading="lazy">Find Pilots</a>
-  </div>
-</div>
-
+<header>
+<h1>FFAI API <span style="font-weight:400;color:var(--t500);font-size:.75rem">v3.0</span></h1>
+<a href="/">&larr; Back to FFAI</a>
+</header>
+<main>
+<p style="font-size:1rem;color:var(--t900);font-weight:600;margin-bottom:20px">Free, open access to 73 quarters of validated U.S. agricultural financial conditions data. No API key. No rate limits. No auth. Just JSON.</p>
+<div class="note"><strong>License:</strong> CC BY 4.0 &mdash; use freely with attribution to Farmers First Agri Service (<a href="https://farmers1st.com">farmers1st.com</a>). Updated quarterly after FRED publishes complete quarter data. FFAI is internally cross-validated &mdash; not reviewed or endorsed by USDA, RMA, or FCIC.</div>
+<h2>Endpoints</h2>
+<h3>Current Quarter</h3>
+<div class="ep"><span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span><div class="ep-url">https://farmers1st.com/api/v3/current.json</div><div class="ep-desc">Latest FFAI composite, sub-indexes, regime, and outlook. ~1 KB.</div></div>
+<h3>Historical Time Series</h3>
+<div class="ep"><span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span><div class="ep-url">https://farmers1st.com/api/v3/history.json</div><div class="ep-desc">All 73 quarters (Q1 2008 &ndash; Q1 2026). Composite + grain/dairy/livestock sub-indexes. ~13 KB.</div></div>
+<h3>Model Metadata &amp; Data Dictionary</h3>
+<div class="ep"><span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span><div class="ep-url">https://farmers1st.com/api/v3/meta.json</div><div class="ep-desc">Complete model specification: validation stats, component weights, regime thresholds, all 16 FRED series IDs, structural validation. ~5 KB.</div></div>
+<h3>Embeddable Badge</h3>
+<div class="ep"><span class="tag tag-get">GET</span><span class="tag" style="background:#fce8e8;color:var(--red)">JS</span><div class="ep-url">https://farmers1st.com/api/v3/badge.js</div><div class="ep-desc">Self-rendering widget. Drop two lines of HTML onto any page.</div></div>
+<h2>Response Format</h2>
+<h3>current.json</h3>
+<pre>{
+  <span class="s">"quarter"</span>:   <span class="s">"Q1'26"</span>,
+  <span class="s">"composite"</span>: <span class="n">67.3</span>,
+  <span class="s">"regime"</span>:    <span class="s">"FAVORABLE"</span>,
+  <span class="s">"sub_indexes"</span>: {
+    <span class="s">"grain"</span>:     <span class="n">9.7</span>,
+    <span class="s">"dairy"</span>:     <span class="n">10.8</span>,
+    <span class="s">"livestock"</span>: <span class="n">92.5</span>
+  },
+  <span class="s">"outlook"</span>:   <span class="n">60.6</span>,
+  <span class="s">"regimes"</span>: {
+    <span class="s">"grain"</span>: <span class="s">"STRESSED"</span>,
+    <span class="s">"dairy"</span>: <span class="s">"STRESSED"</span>,
+    <span class="s">"livestock"</span>: <span class="s">"STRONG"</span>,
+    <span class="s">"outlook"</span>: <span class="s">"FAVORABLE"</span>
+  },
+  <span class="s">"previous"</span>: { <span class="c">... previous quarter ...</span> }
+}</pre>
+<h3>history.json</h3>
+<pre>{
+  <span class="s">"count"</span>: <span class="n">73</span>,
+  <span class="s">"quarters"</span>: [
+    {
+      <span class="s">"quarter"</span>: <span class="s">"Q1'08"</span>,
+      <span class="s">"date"</span>:    <span class="s">"2008-01-01"</span>,
+      <span class="s">"composite"</span>: <span class="n">55.1</span>,
+      <span class="s">"grain"</span>:     <span class="n">100.0</span>,
+      <span class="s">"dairy"</span>:     <span class="n">4.8</span>,
+      <span class="s">"livestock"</span>: <span class="n">4.8</span>
+    },
+    <span class="c">... 72 more quarters ...</span>
+  ]
+}</pre>
+<h2>Fields</h2>
+<table>
+<tr><th>Field</th><th>Type</th><th>Description</th></tr>
+<tr><td>composite</td><td>float</td><td>National FFAI score (0-100). Higher = lower delinquency risk.</td></tr>
+<tr><td>regime</td><td>string</td><td>STRONG (70+), FAVORABLE (55-70), GUARDED (40-55), STRESSED (0-40)</td></tr>
+<tr><td>grain</td><td>float</td><td>Row crop margin sub-index. Corn/soy/wheat revenue vs input costs.</td></tr>
+<tr><td>dairy</td><td>float</td><td>Dairy margin sub-index. Milk/cheese/butter revenue vs feed costs.</td></tr>
+<tr><td>livestock</td><td>float</td><td>Livestock margin sub-index. Cattle/hog revenue vs feed costs.</td></tr>
+<tr><td>outlook</td><td>float</td><td>12-15 month forward outlook based on Fed Funds rate trajectory.</td></tr>
+<tr><td>quarter</td><td>string</td><td>Quarter label, e.g. "Q1'26"</td></tr>
+<tr><td>date</td><td>string</td><td>ISO date of quarter start (YYYY-MM-DD)</td></tr>
+</table>
+<h2>Code Examples</h2>
+<h3>JavaScript (fetch)</h3>
+<pre><span class="k">fetch</span>(<span class="s">'https://farmers1st.com/api/v3/current.json'</span>)
+  .<span class="k">then</span>(r => r.json())
+  .<span class="k">then</span>(d => {
+    console.log(<span class="s">`FFAI: ${d.composite} ${d.regime}`</span>);
+    console.log(<span class="s">`Grain: ${d.sub_indexes.grain}`</span>);
+    console.log(<span class="s">`Dairy: ${d.sub_indexes.dairy}`</span>);
+    console.log(<span class="s">`Livestock: ${d.sub_indexes.livestock}`</span>);
+  });</pre>
+<h3>Python</h3>
+<pre><span class="k">import</span> requests
+<span class="c"># Current reading</span>
+r = requests.get(<span class="s">'https://farmers1st.com/api/v3/current.json'</span>)
+d = r.json()
+print(f<span class="s">"FFAI {d['composite']} {d['regime']}"</span>)
+<span class="c"># Full history for analysis</span>
+h = requests.get(<span class="s">'https://farmers1st.com/api/v3/history.json'</span>).json()
+<span class="k">import</span> pandas <span class="k">as</span> pd
+df = pd.DataFrame(h[<span class="s">'quarters'</span>])
+df.set_index(<span class="s">'date'</span>, inplace=<span class="k">True</span>)
+print(df.describe())</pre>
+<h3>curl</h3>
+<pre>curl -s https://farmers1st.com/api/v3/current.json | python3 -m json.tool</pre>
+<h3>R</h3>
+<pre>library(jsonlite)
+ffai <- fromJSON(<span class="s">"https://farmers1st.com/api/v3/history.json"</span>)
+df   <- ffai$quarters
+plot(df$composite, type=<span class="s">"l"</span>, main=<span class="s">"FFAI Composite"</span>)</pre>
+<h2 id="badge">Embeddable Badge</h2>
+<p>Add the FFAI score to any website with two lines of HTML. The badge fetches current data from the API and renders automatically.</p>
+<h3>Standard</h3>
+<pre>&lt;div id="ffai-badge"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge"></div></div>
+<h3>Full (with sub-indexes)</h3>
+<pre>&lt;div id="ffai-badge" data-size="full"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-full"></div></div>
+<h3>Compact</h3>
+<pre>&lt;div id="ffai-badge" data-size="compact"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-compact"></div></div>
+<h3>Sector-Specific (Dairy)</h3>
+<pre>&lt;div id="ffai-badge" data-sector="dairy"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo"><h4>Live Preview</h4><div id="ffai-badge-dairy"></div></div>
+<h3>Dark Theme</h3>
+<pre>&lt;div id="ffai-badge" data-size="full" data-theme="dark"&gt;&lt;/div&gt;
+&lt;script src="https://farmers1st.com/api/v3/badge.js"&gt;&lt;/script&gt;</pre>
+<div class="badge-demo" style="background:#1a1a1a"><h4 style="color:#555">Live Preview</h4><div id="ffai-badge-dark"></div></div>
+<h2>Notes</h2>
+<p><strong>CORS:</strong> GitHub Pages serves all files with permissive CORS headers. Fetch from any origin.</p>
+<p><strong>Rate limits:</strong> None. It&rsquo;s static JSON on a CDN. Hammer away.</p>
+<p><strong>Versioning:</strong> The <code>/v3/</code> path will remain stable. If the model changes substantially, we&rsquo;ll ship <code>/v4/</code> and keep <code>/v3/</code> frozen.</p>
+<p><strong>Update cadence:</strong> Quarterly, typically within 2 weeks of FRED publishing the complete quarter&rsquo;s data. The <code>generated</code> field in each response tells you when.</p>
+<p><strong>Validation:</strong> Internally cross-validated at r = 0.49 against USDA ag loan delinquency (91 quarters). Not reviewed or endorsed by USDA, RMA, or FCIC. Full methodology: <a href="/ffai_v3_methodology.pdf">PDF</a> or <a href="/api/v3/meta.json">meta.json</a>.</p>
+<p><strong>The model explains 28% of delinquency variance.</strong> The other 72% is weather, trade, management, and policy. Use accordingly.</p>
+<h2>Contact</h2>
+<p>Questions, integrations, or just want to say hi:<br>
+<strong>Sig Lindquist</strong> &mdash; <a href="mailto:sig@farmers1st.com">sig@farmers1st.com</a> &mdash; <a href="tel:715-797-2428">715-797-2428</a><br>
+Farmers First Agri Service, Chetek, WI</p>
+</main>
 <footer>
-<div class="fg">
-<div><h4>FFAI</h4><a href="#index">Current Score</a><a href="#outlook">Commodity Outlook</a><a href="#report">Quarterly Report</a><a href="#methodology">Methodology</a><a href="/api/">API &amp; Developers</a><a href="#signup">Subscribe</a><a href="https://agsist.com" target="_blank">AgSist Dashboard</a><a href="/equal-opportunity/">Equal Opportunity</a><a href="/disclaimer/">Disclaimers</a></div>
-<div><h4>INSURANCE</h4><a href="#services">MPCI / Revenue Protection</a><a href="#services">PRF Pasture &amp; Forage</a><a href="#deadlines">Deadlines</a><a href="#areas">Service Territory</a></div>
-<div><h4>CONTACT</h4><a href="tel:715-553-0392">715-553-0392 // Nate</a><a href="tel:715-797-2428">715-797-2428 // Sig</a><a href="/cdn-cgi/l/email-protection#ea99838daa8c8b98878f9899db999ec4898587"><span class="__cf_email__" data-cfemail="0e7d67694e686f7c636b7c7d3f7d7a206d6163">[email&#160;protected]</span></a><a>Chetek, WI 54728</a></div>
-</div>
-<div class="fb">
-  &copy; 2017-2026 Farmers First Agri Service // Chetek, WI &middot; <a href="/privacy/">Privacy Policy</a> &middot; <a href="/equal-opportunity/">Equal Opportunity</a> &middot; <a href="/disclaimer/">Disclaimers</a><br>
-  Crop insurance underwritten by approved USDA reinsurance companies. FFAI v3.0 internally cross-validated against USDA DRFAPGACBS. Not financial advice. Not advice specific to your operation.<br>
-  Sig Lindquist: WI Lic. 16850318 / MN Lic. 40552508 &mdash; Nate Weness: WI Lic. 10148406 / MN Lic. 40368224
-</div>
-<div class="fb-eo">
-  In accordance with federal civil rights law and USDA civil rights regulations and policies, the USDA and institutions participating in or administering USDA programs are prohibited from discriminating based on race, color, national origin, religion, sex, gender identity, sexual orientation, disability, age, marital status, family/parental status, income derived from a public assistance program, political beliefs, or reprisal for prior civil rights activity, in any program or activity conducted or funded by USDA (not all bases apply to all programs). To file a discrimination complaint: <a href="https://www.usda.gov/oascr/how-to-file-a-program-discrimination-complaint">usda.gov/oascr</a> or call 866-632-9992. <a href="/equal-opportunity/" style="font-weight:700;color:#666">USDA is an equal opportunity provider, employer, and lender.</a>
-</div>
+  &copy; 2017-2026 Farmers First Agri Service &middot;
+  <a href="/">FFAI Home</a> &middot;
+  <a href="/privacy/">Privacy</a> &middot;
+  <a href="/equal-opportunity/">Equal Opportunity</a> &middot;
+  CC BY 4.0<br>
+  FFAI is internally cross-validated and is not reviewed or endorsed by USDA, RMA, or FCIC.<br>
+  USDA is an equal opportunity provider, employer, and lender.
 </footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="ffai-data.js"></script>
 <script>
 (function(){
-if(typeof FFAI==='undefined'){console.error('FFAI data not loaded — check Cloudflare Rocket Loader.');return;}
-var D=FFAI,sc=D.composite,ps=D.prevComp,chg=sc-ps,pct=((chg/Math.abs(ps))*100).toFixed(1);
-function regime(v){return v>70?'STRONG':v>55?'FAVORABLE':v>40?'GUARDED':'STRESSED'}
-function col(v){return v>=60?'var(--grn)':v>=45?'var(--amb)':'var(--red)'}
-function colHex(v){return v>=60?'#2d6a2e':v>=45?'#b8860b':'#a63030'}
-document.getElementById('spDate').textContent='FFAI v3.0 COMPOSITE // '+D.date;
-var sn=document.getElementById('spScore');sn.textContent=sc;sn.style.color=col(sc);
-document.getElementById('spPrev').innerHTML='<span class="old">'+ps.toFixed(1)+'</span><span class="delta '+(chg>=0?'delta-up':'delta-dn')+'">'+(chg>=0?'+':'')+chg.toFixed(1)+' from Q3</span>';
-var sw=document.getElementById('spLabel');sw.textContent=D.regime;sw.style.color=col(sc);
-var subs=[['GRAIN',D.grain,D.prevGrain,'Row crop margins vs input costs'],['DAIRY',D.dairy,D.prevDairy,'Milk/cheese revenue vs feed costs'],['LIVESTOCK',D.livestock,D.prevLivestock,'Cattle/hog revenue vs feed costs'],['OUTLOOK',D.outlook,D.prevOutlook,'Fed rate trajectory \u2192 12-15mo lead']];
-var sg=document.getElementById('siGrid');
-subs.forEach(function(s){var nm=s[0],v=s[1],pv=s[2],ch=v-pv,r=regime(v),c=colHex(v);var d=document.createElement('div');d.className='si';d.innerHTML='<div class="si-label"><span>'+nm+'</span><span class="si-chg" style="color:'+(ch>=0?'#3a7d44':'#b84c2a')+'">'+(ch>=0?'\u25B2':'\u25BC')+(ch>=0?'+':'')+ch.toFixed(1)+'</span></div><div class="si-val"><span class="si-num" style="color:'+c+'">'+v.toFixed(1)+'</span><span class="si-regime" style="background:'+c+'15;color:'+c+'">'+r+'</span></div><div class="si-bar"><div class="si-fill" style="width:'+v+'%;background:'+c+'"></div></div>';sg.appendChild(d);});
-document.getElementById('spFoot').innerHTML='NEXT UPDATE: '+D.nextUpdate+' // 16 FRED SERIES // INTERNALLY CROSS-VALIDATED r=0.51<br>UPDATED: '+D.updated;
-var Q=D.history,svg=document.getElementById('chart'),ns="http://www.w3.org/2000/svg";
-document.getElementById('chtLabel').textContent='FFAI COMPOSITE // '+Q[0][0]+' \u2013 '+Q[Q.length-1][0];
-var W=400,H=170,pL=30,pR=10,pT=12,pB=26,cW=W-pL-pR,cH=H-pT-pB,mn=0,mx=100;
-function xp(i){return pL+(i/(Q.length-1))*cW}
-function yp(v){return pT+cH-((v-mn)/(mx-mn))*cH}
-[[0,40,'rgba(166,48,48,.06)','STRESSED'],[40,55,'rgba(184,134,11,.06)','GUARDED'],[55,70,'rgba(45,106,46,.04)','FAVORABLE'],[70,100,'rgba(45,106,46,.07)','STRONG']].forEach(function(z){var r=document.createElementNS(ns,"rect");r.setAttribute("x",pL);r.setAttribute("y",yp(z[1]));r.setAttribute("width",cW);r.setAttribute("height",yp(z[0])-yp(z[1]));r.setAttribute("fill",z[2]);svg.appendChild(r);var t=document.createElementNS(ns,"text");t.setAttribute("x",pL+cW-3);t.setAttribute("y",yp(z[1])+10);t.setAttribute("text-anchor","end");t.setAttribute("font-size","6");t.setAttribute("font-family","'JetBrains Mono',monospace");t.setAttribute("font-weight","700");t.setAttribute("letter-spacing","1");t.setAttribute("fill",z[0]>=55?"rgba(45,106,46,.25)":z[0]>=40?"rgba(184,134,11,.25)":"rgba(166,48,48,.2)");t.textContent=z[3];svg.appendChild(t);});
-[20,40,60,80].forEach(function(v){var l=document.createElementNS(ns,"line");l.setAttribute("x1",pL);l.setAttribute("x2",pL+cW);l.setAttribute("y1",yp(v));l.setAttribute("y2",yp(v));l.setAttribute("stroke","#d4d4cc");l.setAttribute("stroke-dasharray","3,4");svg.appendChild(l);var t=document.createElementNS(ns,"text");t.setAttribute("x",pL-4);t.setAttribute("y",yp(v)+3);t.setAttribute("text-anchor","end");t.setAttribute("fill","#999");t.setAttribute("font-size","7");t.setAttribute("font-family","'JetBrains Mono',monospace");t.setAttribute("font-weight","600");t.textContent=v;svg.appendChild(t);});
-var defs=document.createElementNS(ns,"defs"),gr=document.createElementNS(ns,"linearGradient");gr.id="ag";gr.setAttribute("x1","0");gr.setAttribute("y1","0");gr.setAttribute("x2","0");gr.setAttribute("y2","1");var s1=document.createElementNS(ns,"stop");s1.setAttribute("offset","0%");s1.setAttribute("stop-color","#b8860b");s1.setAttribute("stop-opacity",".18");var s2=document.createElementNS(ns,"stop");s2.setAttribute("offset","100%");s2.setAttribute("stop-color","#b8860b");s2.setAttribute("stop-opacity",".02");gr.appendChild(s1);gr.appendChild(s2);defs.appendChild(gr);svg.appendChild(defs);
-var aD="M "+xp(0)+" "+yp(Q[0][1]);for(var i=1;i<Q.length;i++)aD+=" L "+xp(i)+" "+yp(Q[i][1]);aD+=" L "+xp(Q.length-1)+" "+yp(mn)+" L "+xp(0)+" "+yp(mn)+" Z";var area=document.createElementNS(ns,"path");area.setAttribute("d",aD);area.setAttribute("fill","url(#ag)");svg.appendChild(area);
-var lD="M "+xp(0)+" "+yp(Q[0][1]);for(var i=1;i<Q.length;i++)lD+=" L "+xp(i)+" "+yp(Q[i][1]);var line=document.createElementNS(ns,"path");line.setAttribute("d",lD);line.setAttribute("fill","none");line.setAttribute("stroke","#b8860b");line.setAttribute("stroke-width","2.5");line.setAttribute("stroke-linejoin","bevel");svg.appendChild(line);
-Q.forEach(function(d,i){var lbl=d[0];if(lbl.indexOf("Q1")===0||i===Q.length-1){var t=document.createElementNS(ns,"text");t.setAttribute("x",xp(i));t.setAttribute("y",H-6);t.setAttribute("text-anchor","middle");t.setAttribute("fill","#999");t.setAttribute("font-size","7");t.setAttribute("font-family","'JetBrains Mono',monospace");t.setAttribute("font-weight","600");t.textContent=lbl.replace("Q1'","'");svg.appendChild(t);}});
-var maxV=0,minV=999,maxI=0,minI=0;Q.forEach(function(d,i){if(d[1]>maxV){maxV=d[1];maxI=i}if(d[1]<minV){minV=d[1];minI=i}});
-function dot(i,v,c,big){var ci=document.createElementNS(ns,"circle");ci.setAttribute("cx",xp(i));ci.setAttribute("cy",yp(v));ci.setAttribute("r",big?6:3);ci.setAttribute("fill",c);if(big){ci.setAttribute("stroke","#daa520");ci.setAttribute("stroke-width","2")}svg.appendChild(ci);var t=document.createElementNS(ns,"text");t.setAttribute("x",xp(i));t.setAttribute("y",yp(v)+(c==='#a63030'?14:-10));t.setAttribute("text-anchor","middle");t.setAttribute("fill",c);t.setAttribute("font-size","8.5");t.setAttribute("font-weight","800");t.setAttribute("font-family","'JetBrains Mono',monospace");t.textContent=v;svg.appendChild(t);}
-if(maxI!==Q.length-1)dot(maxI,maxV,'#2d6a2e',false);if(minI!==Q.length-1)dot(minI,minV,'#a63030',false);dot(Q.length-1,Q[Q.length-1][1],'#b8860b',true);
-var hl=document.createElementNS(ns,"line");hl.setAttribute("y1",pT);hl.setAttribute("y2",pT+cH);hl.setAttribute("stroke","rgba(218,165,32,.4)");hl.setAttribute("stroke-width","1");hl.style.display="none";svg.appendChild(hl);
-var hd=document.createElementNS(ns,"circle");hd.setAttribute("r","5");hd.style.display="none";svg.appendChild(hd);
-var hbg=document.createElementNS(ns,"rect");hbg.setAttribute("fill","rgba(26,26,26,.9)");hbg.style.display="none";svg.appendChild(hbg);
-var ht=document.createElementNS(ns,"text");ht.setAttribute("fill","#daa520");ht.setAttribute("font-size","9");ht.setAttribute("font-family","'JetBrains Mono',monospace");ht.setAttribute("font-weight","700");ht.style.display="none";svg.appendChild(ht);
-function showPt(cx){var r2=svg.getBoundingClientRect(),mx2=(cx-r2.left)/r2.width*W,ci=0,md=999;for(var i=0;i<Q.length;i++){var dist=Math.abs(xp(i)-mx2);if(dist<md){md=dist;ci=i}}var d=Q[ci],c2=colHex(d[1]);hl.setAttribute("x1",xp(ci));hl.setAttribute("x2",xp(ci));hl.style.display="block";hd.setAttribute("cx",xp(ci));hd.setAttribute("cy",yp(d[1]));hd.setAttribute("fill",c2);hd.style.display="block";var txt=d[0]+" // "+d[1];if(d[2]!=null)txt+="  G:"+d[2]+" D:"+d[3]+" L:"+d[4];ht.textContent=txt;ht.setAttribute("x",xp(ci));ht.setAttribute("y",yp(d[1])-14);ht.setAttribute("text-anchor",xp(ci)>W*0.55?"end":"start");ht.style.display="block";var bb=ht.getBBox();hbg.setAttribute("x",bb.x-4);hbg.setAttribute("y",bb.y-2);hbg.setAttribute("width",bb.width+8);hbg.setAttribute("height",bb.height+4);hbg.style.display="block";}
-function hidePt(){hl.style.display=hd.style.display=ht.style.display=hbg.style.display="none"}
-svg.addEventListener('mousemove',function(e){showPt(e.clientX)});svg.addEventListener('mouseleave',hidePt);
-svg.addEventListener('touchstart',function(e){e.preventDefault();showPt(e.touches[0].clientX)},{passive:false});
-svg.addEventListener('touchmove',function(e){e.preventDefault();showPt(e.touches[0].clientX)},{passive:false});
-svg.addEventListener('touchend',function(){setTimeout(hidePt,1500)});
-document.getElementById('otlkFlash').innerHTML='<strong>'+D.outlookFlash+'</strong>';
-document.getElementById('rptTag').textContent='FFAI v3.0 // '+D.date;
-document.getElementById('rptHead').textContent=D.headline;
-var ri=document.getElementById('rptIntro');D.intro.forEach(function(p){ri.innerHTML+='<p class="rp">'+p+'</p>'});
-var rs=document.getElementById('rptSignals');
-D.signals.forEach(function(s){var cls=s[2]==='g'?'sig':'sig c',pill=s[2]==='g'?'pill pill-g':'pill pill-a';rs.innerHTML+='<div class="'+cls+'"><h4>'+s[0]+' <span class="'+pill+'">'+s[1]+'</span></h4><p>'+s[3]+'</p></div>';});
-var ra=document.getElementById('rptActs');
-D.actions.forEach(function(a,i){ra.innerHTML+='<div class="act"><h4>'+(i+1)+'. '+a[0]+'</h4><p>'+a[1]+'</p></div>';});
-document.getElementById('tBtn').textContent='SHOW ALL '+D.actions.length+' ACTION ITEMS';
-document.getElementById('rptClose').innerHTML='<p>'+D.closingLine+'</p><p class="s">'+D.closingSub+'</p>';
-})();
-
-function trackPhone(n){if(typeof gtag!=="undefined")gtag("event","phone_click",{event_category:"contact",event_label:n});}
-function trackPDF(n){if(typeof gtag!=="undefined")gtag("event","pdf_download",{event_category:"content",event_label:n});}
-function tTip5(el){document.querySelectorAll('.eli5.active').forEach(function(e){if(e!==el)e.classList.remove('active')});el.classList.toggle('active')}
-document.addEventListener('click',function(e){if(!e.target.closest('.eli5'))document.querySelectorAll('.eli5.active').forEach(function(e){e.classList.remove('active')})});
-document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.eli5').forEach(function(el){el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tTip5(el)}if(e.key==='Escape')el.classList.remove('active')})})});
-function tF(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open')}
-function tActs(){var a=document.getElementById('rptActs'),b=document.getElementById('tBtn');if(a.style.display==='none'){a.style.display='block';b.textContent='HIDE ACTION ITEMS'}else{a.style.display='none';b.textContent='SHOW ALL '+FFAI.actions.length+' ACTION ITEMS'}}
-document.querySelectorAll('nav a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('nav').classList.remove('on')})});
-
-(function(){
-var mono="'JetBrains Mono',monospace",gc='#d4d4cc',tc='#999';
-var mos=['Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'];
-function opts(mn,mx,fmt){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{titleFont:{family:mono,size:10},bodyFont:{family:mono,size:10},backgroundColor:'#1a1a1a',cornerRadius:2}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{family:mono,size:8},maxRotation:0},border:{color:'#1a1a1a'}},y:{min:mn,max:mx,grid:{color:gc,lineWidth:.5},ticks:{color:tc,font:{family:mono,size:8},callback:function(v){return fmt?'$'+v:'$'+v.toFixed(2)}},border:{display:false}}},elements:{point:{radius:0,hoverRadius:4}}}}
-function band(hi,lo,base,c){var a=c.replace(')',',0.12)').replace('rgb','rgba'),b=c.replace(')',',0.35)').replace('rgb','rgba');return[{label:'H',data:hi,borderColor:b,backgroundColor:a,fill:'+1',tension:.3,borderWidth:1,borderDash:[3,2],pointRadius:0},{label:'L',data:lo,borderColor:b,backgroundColor:'transparent',fill:false,tension:.3,borderWidth:1,borderDash:[3,2],pointRadius:0},{label:'Base',data:base,borderColor:c,tension:.3,borderWidth:2.5,pointRadius:2,pointBackgroundColor:c}]}
-new Chart(document.getElementById('cC'),{type:'line',data:{labels:mos,datasets:band([4.37,4.40,4.50,4.55,4.60,4.70,4.85,4.40,4.30,4.25,4.30,4.40,4.50],[4.20,4.15,4.15,4.15,4.10,4.05,4.00,4.00,4.00,4.00,4.00,4.00,4.00],[4.27,4.28,4.30,4.35,4.30,4.25,4.20,4.15,4.10,4.10,4.12,4.15,4.20],'rgb(184,134,11)')},options:opts(3.85,5.00,false)});
-new Chart(document.getElementById('bC'),{type:'line',data:{labels:mos,datasets:band([11.40,11.30,11.35,11.40,11.40,11.50,11.50,11.20,10.80,10.60,10.80,11.00,11.00],[10.77,10.50,10.50,10.50,10.20,10.00,10.00,9.80,9.80,9.80,10.00,10.00,10.00],[11.37,11.10,11.00,10.90,10.80,10.60,10.40,10.30,10.20,10.10,10.30,10.40,10.50],'rgb(45,106,46)')},options:opts(9.50,12.00,false)});
-new Chart(document.getElementById('mC'),{type:'line',data:{labels:mos,datasets:[...band([16.50,16.20,16.00,15.80,15.50,17.00,18.00,18.50,19.00,19.50,19.50,20.00,20.50],[14.50,14.30,14.20,14.50,14.50,16.50,16.50,17.50,17.50,17.50,18.50,18.50,18.50],[15.32,15.10,14.80,14.59,14.80,16.80,17.50,18.00,18.50,18.60,19.00,19.50,19.80],'rgb(45,95,138)'),{label:'III',data:[15.32,14.90,14.59,14.50,14.60,15.50,16.00,16.50,16.80,17.00,17.50,17.80,18.00],borderColor:'rgba(45,95,138,0.4)',tension:.3,borderWidth:1.5,borderDash:[5,3],pointRadius:0}]},options:opts(13.5,21.5,false)});
-new Chart(document.getElementById('ctC'),{type:'line',data:{labels:mos,datasets:band([252,253,255,260,265,267,265,262,260,258,255,255,255],[238,236,238,240,245,248,244,240,240,238,235,235,235],[245,244,247,250,255,258,254,250,248,246,244,242,242],'rgb(139,58,42)')},options:opts(225,275,true)});
+  var d={composite:67.3,quarter:"Q1'26",regime:"FAVORABLE",sub_indexes:{grain:9.7,dairy:10.8,livestock:92.5},outlook:60.6};
+  var mono="'Courier New',monospace";var sans="system-ui,sans-serif";
+  function rc(v){return v>=70?'#2d6a2e':v>=55?'#b8860b':v>=40?'#b8860b':'#a63030'}
+  function rg(v){return v>=70?'STRONG':v>=55?'FAVORABLE':v>=40?'GUARDED':'STRESSED'}
+  document.getElementById('ffai-badge').innerHTML='<div style="display:inline-flex;align-items:center;gap:12px;padding:10px 16px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'"><div><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1.5px;color:#777">FFAI</div><div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'+mono+';font-size:1.6rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(d.composite)+';padding:2px 6px;border:1px solid '+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div></div><a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+';border-left:1px solid #d4d4cc;padding-left:10px">farmers1st<br>.com</a></div>';
+  var subs=[['GRAIN',d.sub_indexes.grain],['DAIRY',d.sub_indexes.dairy],['LIVESTOCK',d.sub_indexes.livestock],['OUTLOOK',d.outlook]];
+  var sh=subs.map(function(s){var v=s[1],c=rc(v);return '<div style="flex:1;min-width:70px;text-align:center"><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1px;color:#777">'+s[0]+'</div><div style="font-family:'+mono+';font-size:1rem;font-weight:800;color:'+c+'">'+v+'</div><div style="height:3px;background:#d4d4cc;margin-top:3px"><div style="height:100%;width:'+v+'%;background:'+c+'"></div></div></div>'}).join('');
+  document.getElementById('ffai-badge-full').innerHTML='<div style="max-width:380px;background:#f5f5f0;border:1px solid #d4d4cc;padding:16px;font-family:'+sans+';display:inline-block;text-align:left"><div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font-family:'+mono+';font-size:.52rem;letter-spacing:2px;color:#777">FFAI v3.0 // '+d.quarter+'</span><a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px"><span style="font-family:'+mono+';font-size:2.4rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.7rem;letter-spacing:2px;color:'+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div><div style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #d4d4cc">'+sh+'</div><div style="font-family:'+mono+';font-size:.45rem;color:#777;margin-top:8px;text-align:center">INTERNALLY CROSS-VALIDATED r=0.51 // 16 FRED SERIES // CC BY 4.0</div></div>';
+  document.getElementById('ffai-badge-compact').innerHTML='<div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'"><span style="font-family:'+mono+';font-size:.6rem;letter-spacing:1px;color:#777">FFAI</span><span style="font-family:'+mono+';font-size:1.1rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(d.composite)+';padding:2px 6px;border:1px solid '+rc(d.composite)+'">'+rg(d.composite)+'</span><a href="/" style="font-size:.55rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div>';
+  var dv=d.sub_indexes.dairy;
+  document.getElementById('ffai-badge-dairy').innerHTML='<div style="display:inline-flex;align-items:center;gap:12px;padding:10px 16px;background:#f5f5f0;border:1px solid #d4d4cc;font-family:'+sans+'"><div><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1.5px;color:#777">FFAI // DAIRY</div><div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'+mono+';font-size:1.6rem;font-weight:800;color:'+rc(dv)+'">'+dv+'</span><span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc(dv)+';padding:2px 6px;border:1px solid '+rc(dv)+';font-weight:700">'+rg(dv)+'</span></div></div><div style="border-left:1px solid #d4d4cc;padding-left:10px"><div style="font-family:'+mono+';font-size:.42rem;letter-spacing:1px;color:#777">COMPOSITE</div><div style="font-family:'+mono+';font-size:1rem;font-weight:700;color:'+rc(d.composite)+'">'+d.composite+'</div></div><a href="/" style="font-size:.52rem;color:#2d6a2e;text-decoration:none;font-family:'+mono+';border-left:1px solid #d4d4cc;padding-left:10px">farmers1st<br>.com</a></div>';
+  var shd=subs.map(function(s){var v=s[1],c=rc(v);return '<div style="flex:1;min-width:70px;text-align:center"><div style="font-family:'+mono+';font-size:.48rem;letter-spacing:1px;color:#999">'+s[0]+'</div><div style="font-family:'+mono+';font-size:1rem;font-weight:800;color:'+c+'">'+v+'</div><div style="height:3px;background:#333;margin-top:3px"><div style="height:100%;width:'+v+'%;background:'+c+'"></div></div></div>'}).join('');
+  document.getElementById('ffai-badge-dark').innerHTML='<div style="max-width:380px;background:#1a1a1a;border:1px solid #333;padding:16px;font-family:'+sans+';display:inline-block;text-align:left"><div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font-family:'+mono+';font-size:.52rem;letter-spacing:2px;color:#999">FFAI v3.0 // '+d.quarter+'</span><a href="/" style="font-size:.52rem;color:#5cb85c;text-decoration:none;font-family:'+mono+'">farmers1st.com</a></div><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px"><span style="font-family:'+mono+';font-size:2.4rem;font-weight:800;color:'+rc(d.composite)+'">'+d.composite+'</span><span style="font-family:'+mono+';font-size:.7rem;letter-spacing:2px;color:'+rc(d.composite)+';font-weight:700">'+rg(d.composite)+'</span></div><div style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #333">'+shd+'</div><div style="font-family:'+mono+';font-size:.45rem;color:#999;margin-top:8px;text-align:center">INTERNALLY CROSS-VALIDATED r=0.51 // 16 FRED SERIES // CC BY 4.0</div></div>';
 })();
 </script>
 </body>
