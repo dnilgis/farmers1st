@@ -1,27 +1,27 @@
 {
   "ffai_version": "3.0",
-  "generated": "2026-02-22T00:00:00Z",
-  "quarter": "Q4'25",
-  "date": "2025-10-01",
-  "composite": 68.0,
+  "generated": "2026-04-24T21:46:24Z",
+  "quarter": "Q1'26",
+  "date": "2026-01-01",
+  "composite": 67.3,
   "regime": "FAVORABLE",
   "sub_indexes": {
-    "grain": 9.8,
-    "dairy": 53.3,
-    "livestock": 94.6
+    "grain": 9.7,
+    "dairy": 10.8,
+    "livestock": 92.5
   },
-  "outlook": 61.4,
+  "outlook": 60.6,
   "previous": {
-    "quarter": "Q3'25",
-    "composite": 69.3,
-    "grain": 2.2,
-    "dairy": 72.5,
-    "livestock": 100.0,
-    "outlook": 64.0
+    "quarter": "Q4'25",
+    "composite": 67.9,
+    "grain": 9.8,
+    "dairy": 51.1,
+    "livestock": 94.6,
+    "outlook": 61.4
   },
   "regimes": {
     "grain": "STRESSED",
-    "dairy": "GUARDED",
+    "dairy": "STRESSED",
     "livestock": "STRONG",
     "outlook": "FAVORABLE"
   },
@@ -31,7 +31,7 @@
     "GUARDED": "40-55",
     "STRESSED": "0-40"
   },
-  "next_update": "2026-04",
+  "next_update": "2026-07",
   "source": "https://farmers1st.com",
   "api_docs": "https://farmers1st.com/api/",
   "license": "CC BY 4.0"
