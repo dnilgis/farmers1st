@@ -19,34 +19,34 @@
 var FFAI = {
 
   // -- Current Quarter (paste from engine output) ---------------
-  quarter:  "Q4'25",
-  date:     "Q4 2025",
-  updated:  "February 23, 2026",
-  nextUpdate: "APR '26",
+  quarter:  "Q1'26",
+  date:     "Q1 2026",
+  updated:  "April 24, 2026",
+  nextUpdate: "JUL '26",
 
-  composite:  68.0,
-  prevComp:   69.3,
+  composite:  67.3,
+  prevComp:   67.9,
   regime:     "FAVORABLE",
 
-  grain:       9.8,
-  dairy:      53.3,
-  livestock:  94.6,
-  outlook:    61.4,
+  grain:       9.7,
+  dairy:      10.8,
+  livestock:  92.5,
+  outlook:    60.6,
 
-  prevGrain:      2.2,
-  prevDairy:     72.5,
-  prevLivestock: 100.0,
-  prevOutlook:   64.0,
+  prevGrain:      9.8,
+  prevDairy:     51.1,
+  prevLivestock: 94.6,
+  prevOutlook:   61.4,
 
   // -- Quarterly History (from ffai_v3_engine.py CSV) -----------
   // Format: [label, composite, grain, dairy, livestock]
   history: [
-    ["Q1'08",55.2,100.0,4.8,4.8],
+    ["Q1'08",55.1,100.0,4.8,4.8],
     ["Q2'08",49.5,95.5,4.5,9.1],
     ["Q3'08",54.0,91.3,13.0,100.0],
     ["Q4'08",19.1,87.5,100.0,12.5],
     ["Q1'09",21.8,96.0,12.0,12.0],
-    ["Q2'09",31.2,96.2,3.8,15.4],
+    ["Q2'09",31.1,96.2,3.8,15.4],
     ["Q3'09",24.8,85.2,18.5,11.1],
     ["Q4'09",18.3,82.1,25.0,10.7],
     ["Q1'10",9.9,75.9,27.6,100.0],
@@ -66,7 +66,7 @@ var FFAI = {
     ["Q3'13",25.4,55.8,88.4,93.0],
     ["Q4'13",22.4,52.3,100.0,97.7],
     ["Q1'14",27.5,53.3,100.0,100.0],
-    ["Q2'14",37.3,56.5,97.8,100.0],
+    ["Q2'14",37.2,56.5,97.8,100.0],
     ["Q3'14",18.7,2.1,100.0,100.0],
     ["Q4'14",12.3,4.2,97.9,97.9],
     ["Q1'15",14.8,53.1,87.8,91.8],
@@ -76,33 +76,33 @@ var FFAI = {
     ["Q1'16",24.1,52.8,84.9,69.8],
     ["Q2'16",33.4,61.1,70.4,63.0],
     ["Q3'16",32.9,43.6,89.1,61.8],
-    ["Q4'16",33.7,5.4,89.3,51.8],
+    ["Q4'16",33.6,5.4,89.3,51.8],
     ["Q1'17",37.6,43.9,89.5,59.6],
     ["Q2'17",37.3,3.4,82.8,65.5],
     ["Q3'17",40.6,3.4,89.8,62.7],
     ["Q4'17",41.6,1.7,85.0,53.3],
     ["Q1'18",45.4,3.3,62.3,55.7],
-    ["Q2'18",47.9,3.2,64.5,48.4],
-    ["Q3'18",44.0,1.6,66.7,47.6],
+    ["Q2'18",47.8,3.2,64.5,48.4],
+    ["Q3'18",43.9,1.6,66.7,47.6],
     ["Q4'18",48.0,3.1,70.3,45.3],
     ["Q1'19",50.7,4.6,67.7,52.3],
     ["Q2'19",48.8,4.5,77.3,57.6],
-    ["Q3'19",46.6,7.5,88.1,47.8],
-    ["Q4'19",42.3,11.8,94.1,47.1],
-    ["Q1'20",37.1,20.3,85.5,55.1],
+    ["Q3'19",46.5,7.5,88.1,47.8],
+    ["Q4'19",42.2,11.8,94.1,47.1],
+    ["Q1'20",37.0,20.3,85.5,55.1],
     ["Q2'20",23.0,70.0,67.1,58.6],
     ["Q3'20",26.1,64.8,93.0,46.5],
     ["Q4'20",34.2,81.9,84.7,52.8],
-    ["Q1'21",44.8,89.0,12.3,11.0],
+    ["Q1'21",44.7,89.0,12.3,11.0],
     ["Q2'21",49.0,91.9,12.2,58.1],
     ["Q3'21",43.4,76.0,16.0,64.0],
     ["Q4'21",39.4,63.2,65.8,52.6],
-    ["Q1'22",53.6,75.3,85.7,11.7],
-    ["Q2'22",67.1,71.8,84.6,11.5],
-    ["Q3'22",76.2,46.8,75.9,64.6],
-    ["Q4'22",87.9,16.2,73.8,11.2],
-    ["Q1'23",99.9,19.8,19.8,13.6],
-    ["Q2'23",99.8,14.6,11.0,69.5],
+    ["Q1'22",53.5,75.3,85.7,11.7],
+    ["Q2'22",67.0,71.8,84.6,11.5],
+    ["Q3'22",76.1,46.8,75.9,64.6],
+    ["Q4'22",87.8,16.2,73.8,11.2],
+    ["Q1'23",99.8,19.8,19.8,13.6],
+    ["Q2'23",99.9,14.6,11.0,69.5],
     ["Q3'23",100.0,1.2,19.3,85.5],
     ["Q4'23",95.4,1.2,59.5,65.5],
     ["Q1'24",89.6,1.2,57.6,72.9],
@@ -112,27 +112,28 @@ var FFAI = {
     ["Q1'25",70.3,6.7,83.1,94.4],
     ["Q2'25",70.9,7.8,70.0,97.8],
     ["Q3'25",69.3,2.2,72.5,100.0],
-    ["Q4'25",68.0,9.8,53.3,94.6]
+    ["Q4'25",67.9,9.8,51.1,94.6],
+    ["Q1'26",67.3,9.7,10.8,92.5]
   ],
 
   // -- USDA Outlook Flash Bar -----------------------------------
   // COMPLIANCE: Keep current. Remove dated FBA/deadline references each update cycle.
-  outlookFlash: 'SCOTUS TARIFF RULING FEB 20 \u2014 IEEPA TARIFFS STRUCK DOWN \u00B7 China soybean commitments uncertain \u00B7 10% Section 122 tariff in effect \u00B7 USDA AOF: Corn 94M ac / $4.20 \u00B7 Beans 85M ac / $10.30 \u00B7 Cattle $240+ \u00B7 Milk recovery H2 expected \u00B7 Next major deadline: July 15 acreage reporting',
+  outlookFlash: 'Q1\u002726 UPDATE \u2014 DAIRY COLLAPSES TO 10.8 STRESSED \u00B7 Composite 67.3 FAVORABLE \u00B7 Grain 9.7 flat \u00B7 Livestock 92.5 STRONG \u00B7 Fed Funds 3.64% \u00B7 Crude $91/bbl \u00B7 Raw milk PPI crashed to 127 \u00B7 July 15 acreage reporting next',
 
   // -- Editorial: Report ----------------------------------------
-  headline: "SCOTUS Changed the Game. The Farm Economy Didn\u2019t Blink.",
+  headline: "Dairy Hit the Wall. Everything Else Held.",
   intro: [
-    "FFAI composite at <strong>68.0 FAVORABLE</strong> \u2014 national ag conditions decent but slipping from the 2023 peak. The Supreme Court struck down IEEPA tariffs Feb 20. China\u2019s 25M-ton soybean pledge is now leverage without a lever. Markets shrugged. The real story is still sector divergence.",
-    "<strong>Grain at 9.8 STRESSED.</strong> Cost of production $917/ac. Most WI/MN corn at or below breakeven. <strong>Dairy in recession</strong> \u2014 Jan Class III actual $14.59, well below USDA\u2019s $16.65 forecast. <strong>Livestock at 94.6 STRONG</strong> \u2014 COF placements -5%, herd lowest since 1951, cash cattle $242-245."
+    "FFAI composite at <strong>67.3 FAVORABLE</strong> \u2014 down 0.6 from Q4. National ag conditions still decent but the dairy sub-index just collapsed. <strong>10.8 STRESSED</strong> \u2014 down 40 points in one quarter. The Jan Class III $14.59 we flagged in February is now fully visible in the data.",
+    "<strong>Grain at 9.7 STRESSED</strong> \u2014 flat, still stuck at breakeven. Soybeans jumped to $427/mt on the quarter but crude oil surged to $91/bbl, pushing diesel PPI to 439. Input costs ate the revenue gain. <strong>Livestock at 92.5 STRONG</strong> \u2014 cattle PPI at 370.7, near all-time highs. <strong>Outlook at 60.6 FAVORABLE</strong> \u2014 Fed holding at 3.64%, easing from 2023 peak."
   ],
 
   signals: [
-    ["SCOTUS / Trade Policy",     "BEARISH BEANS",  "a", "IEEPA tariffs struck down Feb 20. China\u2019s 25M-ton purchase pledge loses enforcement. 10% Section 122 replacement. If China walks back 8M-ton additional buy (~294M bu), ending stocks exceed 400M bu. Biofuel policy (45Z, E15, RFS) now primary upside driver, not China."],
-    ["Dollar / Export Demand",    "BULLISH CORN",   "g", "DXY down 13% to 98.7. Corn exports raised to record 3.3B bu. India-US deal opens new demand. Dollar weakness historically precedes 15-20% grain price improvement."],
-    ["Dairy Recession",           "BEARISH",        "a", "Jan Class III actual $14.59/cwt. All-milk $18.95 vs COP $19.14. Most WI herds need $18-19 to break even. Culling up 3.2% YoY. Herd 9.540M. Recovery path H2 via supply correction."],
-    ["Cattle Supply Crunch",      "BULLISH",        "g", "COF report 2/21: on-feed 11.5M (-2% YoY), placements -5% below trade estimates. Cash $242-245. Feeders $377. Herd 86.2M, lowest since 1951. MX border closed (screwworm). Demand strongest since 1983."],
-    ["WASDE / Drought",           "TURNING",        "a", "Feb WASDE cut corn stocks 100M bu. 62% Midwest drought expanding. SWE lowest since 1986. If persists into planting, supply picture changes fast."],
-    ["Equipment / Profitability", "BOTTOMING",      "g", "Deere ATH $593, called 2026 cycle bottom. Titan Machinery $14.30 still distressed. When TITN turns, sector confirmed."]
+    ["Dairy Collapse",              "BEARISH",        "a", "Sub-index crashed from 51.1 to 10.8 in one quarter \u2014 largest single-quarter drop in FFAI history. Raw milk PPI fell to 127 (was 150). Cheese PPI down to 205. Dairy margin went negative (-0.46 z-scores). Recovery depends on herd contraction accelerating."],
+    ["Crude Oil Spike",             "BEARISH GRAIN",  "a", "WTI crude surged to $91/bbl in Q1 (was $60 in Q4). Diesel PPI jumped to 439. This crushes grain margins through energy and transportation costs. If crude sustains above $80, grain sub-index stays pinned."],
+    ["Soybean Strength",            "BULLISH",        "g", "Soybeans at $427/mt ($11.60/bu equiv) \u2014 up from $380 range. Biofuel demand (45Z, RFS) driving crush. But SCOTUS tariff ruling clouds China trade. Domestic crush is the real story now."],
+    ["Cattle Supply Crunch",        "BULLISH",        "g", "Cattle PPI at 370.7, near all-time highs. Herd 86.2M, lowest since 1951. COF placements -5%. Livestock margin at 1.86 z-scores above mean. Watch consumer pushback above $9.50/lb retail."],
+    ["Rate Trajectory",             "FAVORABLE",      "g", "Fed Funds at 3.64%, down from 5.33 peak. 10Y Treasury at 4.25%. Each quarter of cuts helps farmer debt service 4-5 quarters out. Outlook sub-index at 60.6 reflects continued easing."],
+    ["Drought Watch",               "WATCH",          "a", "62% Midwest drought entering planting. SWE lowest since 1986. If persists into pollination, grain sub-index could move sharply higher on supply shock."]
   ],
 
   // COMPLIANCE NOTE on actions:
@@ -141,28 +142,28 @@ var FFAI = {
   // - Subsidy changes: cite RMA bulletin numbers, not bill names, unless bill is fully enacted and verifiable
   // - General market info is not advice specific to any producer's situation
   actions: [
+    ["Dairy DRP: highest priority right now",
+     "Sub-index at 10.8 \u2014 margins negative. 85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Call us to evaluate your specific DRP structure for Q2-Q3. This is the most important insurance decision for dairy operations right now."],
+
     ["Protect grain downside",
-     "RP at higher coverage levels. 2026 RMA subsidy schedule increased ECO/SCO subsidies \u2014 call us for current rates on your operation. COP $917/ac corn. Most WI/MN at or below breakeven. Contact us to run your numbers."],
+     "Grain at 9.7 STRESSED. Crude oil at $91 is compressing margins further. RP at higher coverage levels. 2026 RMA subsidy schedule increased ECO/SCO subsidies \u2014 call us for current rates. COP $917/ac corn."],
 
-    ["Beans: upside now = biofuel, not China",
-     "SCOTUS clouds trade leverage. 45Z, E15, RFS are the catalysts. Don\u2019t cap upside, but expect headline volatility."],
+    ["Don\u2019t cap bean upside",
+     "Soybeans strengthening on biofuel demand despite SCOTUS uncertainty. 45Z, E15, RFS are the catalysts. Domestic crush at record. Expect headline volatility but trend is up."],
 
-    ["Dairy DRP: strongly recommended",
-     "85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Jan III actual was $14.59 \u2014 well below forecast. Call us to evaluate your specific DRP structure for Q2-Q3."],
+    ["Cattle: lock some revenue on strength",
+     "Livestock at 92.5 but crude oil spike adds input cost pressure. LRP sets floor, keeps upside. COF confirms tight supply. Consider locking Q3-Q4 revenue."],
 
-    ["Cattle: manage the volatility",
-     "LRP sets floor, keeps upside. COF confirms tight supply. Lock some Q3-Q4 revenue on strength. Watch consumer pushback above $9.50/lb retail."],
+    ["Watch crude oil trajectory",
+     "WTI at $91 changes the math on everything \u2014 diesel, fertilizer, transportation. If sustains above $80, grain margins compress further. Factor energy costs into forward contracting decisions."],
 
     ["July 15: acreage reporting deadline",
      "Report all planted acres by July 15 to maintain crop insurance coverage. Late or inaccurate reporting can void your policy. Call us if you have questions about reporting requirements."],
 
-    ["Gov\u2019t programs: factor into cash flow",
-     "Higher reference prices + ARC + ECO/SCO subsidies. Government support represents a significant share of net income for many operations. Ask us about your eligibility."],
-
-    ["Dec 1: PRF pasture signup",
-     "Planning ahead? PRF December 1 deadline is the next major crop insurance signup. Call to discuss grid selection, coverage periods, and whether PRF fits your hay and grazing operation."]
+    ["Next FFAI update: July 2026",
+     "Q2\u201926 data. Will show whether dairy bottoms or deepens, and whether crude oil spike persists. Run ffai_data_check.py after July 20."]
   ],
 
-  closingLine: "SCOTUS changed the game. The farm economy didn\u2019t blink.",
-  closingSub: "Protect downside. Price into rallies. Don\u2019t bet the farm on the timing. Market information above is general in nature \u2014 contact us for guidance specific to your operation."
+  closingLine: "Dairy hit the wall. Everything else held.",
+  closingSub: "Protect the downside. The data is clear. Market information above is general in nature \u2014 contact us for guidance specific to your operation."
 };
