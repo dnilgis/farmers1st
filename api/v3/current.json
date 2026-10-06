@@ -10,20 +10,21 @@
     "dairy": 10.8,
     "livestock": 92.5
   },
-  "outlook": 60.6,
+  "outlook": null,
+  "outlook_note": "Withheld since Oct 2026: historically a high Outlook score came before higher, not lower, farm loan delinquency 4-5 quarters later.",
   "previous": {
     "quarter": "Q4'25",
     "composite": 67.9,
     "grain": 9.8,
     "dairy": 51.1,
     "livestock": 94.6,
-    "outlook": 61.4
+    "outlook": null
   },
   "regimes": {
     "grain": "STRESSED",
     "dairy": "STRESSED",
     "livestock": "STRONG",
-    "outlook": "FAVORABLE"
+    "outlook": null
   },
   "regime_thresholds": {
     "STRONG": "70-100",

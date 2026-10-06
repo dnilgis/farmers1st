@@ -1,0 +1,82 @@
+# FFAI quarterly update. Run from the Actions tab: "FFAI quarterly update" > Run workflow.
+#   preview  = run the engine and show the new scores in the run summary. Changes nothing.
+#   publish  = same, then write the scores into the site and commit to main.
+# Needs one repository secret: FRED_API_KEY (Settings > Secrets and variables > Actions).
+name: FFAI quarterly update
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "preview = show results only. publish = update the website."
+        type: choice
+        options: [preview, publish]
+        default: preview
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: ffai-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Versions pinned to the ones this was tested with (Oct 2026).
+      - name: Install libraries
+        run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0
+
+      - name: Run engine (pulls FRED)
+        working-directory: engine
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python -u ffai_v3_engine.py
+
+      - name: Write scores into the site files
+        run: python tools/ffai_publish.py engine/ffai_v3_historical.csv
+
+      - name: Keep engine output with the run
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffai-engine-output
+          path: |
+            engine/ffai_v3_historical.csv
+            engine/ffai_v3_validation.txt
+            engine/ffai_v3_chart.png
+            engine/ffai_v3_website.json
+            og-share.png
+
+      - name: Commit to main
+        if: inputs.mode == 'publish'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ffai-data.js api/v3/current.json api/v3/history.json index.html og-share.png \
+                  engine/ffai_v3_historical.csv engine/ffai_v3_validation.txt engine/ffai_v3_chart.png engine/ffai_v3_website.json
+          if git diff --cached --quiet; then
+            echo "No changes to publish." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          Q=$(python -c "import json;print(json.load(open('api/v3/current.json'))['quarter'])")
+          git commit -m "FFAI data update: $Q (run ${{ github.run_number }})"
+          git push
+          echo "Published $Q to main." >> "$GITHUB_STEP_SUMMARY"
+
+      # Pushes made with the workflow token normally start the Pages build on
+      # their own. This asks for one anyway; harmless if it is not needed.
+      - name: Ask GitHub Pages to rebuild
+        if: inputs.mode == 'publish'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

@@ -18,7 +18,7 @@
   },
   "validation": {
     "observations": 91,
-    "loo_cross_validation_r": 0.49,
+    "loo_cross_validation_r": 0.50,
     "loo_p_value": null,
     "expanding_window_r": 0.51,
     "expanding_window_p": null,
@@ -56,10 +56,12 @@
       "weights_cost": {"corn": 0.50, "soybeans": 0.15, "crude_oil": 0.15, "fed_funds": 0.20}
     },
     "outlook": {
-      "description": "Forward 12-15 month outlook based on Federal Funds rate trajectory. Rate cuts predict improving conditions 4-5 quarters ahead.",
+      "description": "WITHHELD since Oct 2026. Scores the 4-quarter change in the Fed Funds rate (falling = higher). Over 2003-2026 a high score came before HIGHER delinquency 4-5 quarters later, so it is not published.",
+      "published": false,
       "range": "0-100",
       "method": "4-quarter change in Federal Funds rate, scored against expanding window",
       "lead_lag_r": -0.52,
+      "lead_lag_note": "Correlation of the 4-quarter Fed Funds change with delinquency 4-5 quarters later: rising rates came before LOWER delinquency.",
       "lead_lag_quarters": "4-5"
     }
   },

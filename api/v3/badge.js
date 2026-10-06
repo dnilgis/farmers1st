@@ -64,8 +64,7 @@
       var subs = [
         ['GRAIN', d.sub_indexes.grain],
         ['DAIRY', d.sub_indexes.dairy],
-        ['LIVESTOCK', d.sub_indexes.livestock],
-        ['OUTLOOK', d.outlook]
+        ['LIVESTOCK', d.sub_indexes.livestock]
       ];
       var subHtml = subs.map(function(s) {
         var sv = s[1], sc = regimeColor(sv);
@@ -76,7 +75,7 @@
           + '</div>';
       }).join('');
 
-      html = '<div style="max-width:380px;background:'+c.bg+';border:1px solid '+c.border+';padding:16px;font-family:'+sans+'">'
+      html = '<div style="max-width:100%;width:380px;box-sizing:border-box;background:'+c.bg+';border:1px solid '+c.border+';padding:16px;font-family:'+sans+'">'
         + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">'
         + '<span style="font-family:'+mono+';font-size:.52rem;letter-spacing:2px;color:'+c.sub+'">FFAI v3.0 // '+d.quarter+'</span>'
         + '<a href="https://farmers1st.com/#index" target="_blank" rel="noopener" style="font-size:.52rem;color:'+c.link+';text-decoration:none;font-family:'+mono+'">farmers1st.com</a>'

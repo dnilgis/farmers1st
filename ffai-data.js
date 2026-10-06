@@ -2,12 +2,13 @@
 // FFAI v3.0 DATA -- QUARTERLY INDEX + EDITORIAL CONTENT
 // ===============================================================
 //
-// HOW TO UPDATE:
-//   1. Run: python ffai_v3_engine.py   (generates CSV + JSON)
-//   2. Copy latest scores into "current" section below
-//   3. Append new quarter to "history" array
-//   4. Update editorial sections (headline, signals, actions)
-//   5. Commit -> push -> site updates
+// HOW TO UPDATE (browser only, since Oct 2026):
+//   1. GitHub > Actions > "FFAI quarterly update" > Run workflow > preview
+//      (runs engine/ffai_v3_engine.py, shows the new scores, changes nothing)
+//   2. Same, with publish: writes the numbers below, api/v3, meta tags and
+//      og-share.png, and commits. Numbers come only from the engine.
+//   3. Commentary (headline, intro, signals, actions) is written by hand.
+//      When it is rewritten for the new quarter, set editorialQuarter to it.
 //
 // COMPLIANCE NOTE (Apr 2026):
 //   - All deadlines must be current at time of publish (checked Oct 6, 2026)
@@ -33,12 +34,18 @@ var FFAI = {
   grain:       9.7,
   dairy:      10.8,
   livestock:  92.5,
-  outlook:    60.6,
+  // Outlook withheld Oct 2026 (points the wrong way against its own test).
+  outlook:    null,
 
   prevGrain:      9.8,
   prevDairy:     51.1,
   prevLivestock: 94.6,
-  prevOutlook:   61.4,
+  prevOutlook:   null,
+
+  // Quarter the headline/intro/signals/actions below were written for.
+  // When the scores move to a newer quarter, the page labels this commentary
+  // as older and builds the flash bar from the numbers instead.
+  editorialQuarter: "Q1'26",
 
   // -- Quarterly History (from ffai_v3_engine.py CSV) -----------
   // Format: [label, composite, grain, dairy, livestock]
@@ -126,7 +133,7 @@ var FFAI = {
   headline: "Dairy Hit the Wall. Everything Else Held.",
   intro: [
     "FFAI composite at <strong>67.3 FAVORABLE</strong> \u2014 down 0.6 from Q4. National ag conditions still decent but the dairy sub-index just collapsed. <strong>10.8 STRESSED</strong> \u2014 down 40 points in one quarter. The Jan Class III $14.59 we flagged in February is now fully visible in the data.",
-    "<strong>Grain at 9.7 STRESSED</strong> \u2014 flat, still stuck at breakeven. Soybeans jumped to $427/mt on the quarter but crude oil surged to $91/bbl, pushing diesel PPI to 439. Input costs ate the revenue gain. <strong>Livestock at 92.5 STRONG</strong> \u2014 cattle PPI at 370.7, near all-time highs. <strong>Outlook at 60.6 FAVORABLE</strong> \u2014 Fed holding at 3.64%, easing from 2023 peak."
+    "<strong>Grain at 9.7 STRESSED</strong> \u2014 flat, still stuck at breakeven. Soybeans jumped to $427/mt on the quarter but crude oil surged to $91/bbl, pushing diesel PPI to 439. Input costs ate the revenue gain. <strong>Livestock at 92.5 STRONG</strong> \u2014 cattle PPI at 370.7, near all-time highs."
   ],
 
   signals: [
@@ -134,7 +141,7 @@ var FFAI = {
     ["Crude Oil Spike",             "BEARISH GRAIN",  "a", "WTI crude surged to $91/bbl in Q1 (was $60 in Q4). Diesel PPI jumped to 439. This crushes grain margins through energy and transportation costs. If crude sustains above $80, grain sub-index stays pinned."],
     ["Soybean Strength",            "BULLISH",        "g", "Soybeans at $427/mt ($11.60/bu equiv) \u2014 up from $380 range. Biofuel demand (45Z, RFS) driving crush. But SCOTUS tariff ruling clouds China trade. Domestic crush is the real story now."],
     ["Cattle Supply Crunch",        "BULLISH",        "g", "Cattle producer price index at 370.7, near all-time highs. Herd 86.2M, lowest since 1951. Cattle on Feed placements -5%. Livestock margin measure well above its long-run average. Watch consumer pushback above $9.50/lb retail."],
-    ["Rate Trajectory",             "FAVORABLE",      "g", "Fed Funds at 3.64%, down from 5.33 peak. 10Y Treasury at 4.25%. Each quarter of cuts helps farmer debt service 4-5 quarters out. Outlook sub-index at 60.6 reflects continued easing."],
+    ["Rate Trajectory",             "WATCH",          "a", "Fed Funds at 3.64%, down from the 5.33% peak. 10Y Treasury at 4.25%. Lower rates cut the cost of carrying debt. In our data, though, rate cuts have tended to come before higher farm loan delinquency, because the Fed cuts when the economy weakens."],
     ["Drought Watch",               "WATCH",          "a", "62% Midwest drought entering planting. SWE lowest since 1986. If it had persisted into pollination, a smaller crop would lift prices but cut yields. Coverage, not price, protects the bushels you lose."]
   ],
 
