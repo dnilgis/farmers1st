@@ -1,28 +1,28 @@
 {
   "ffai_version": "3.0",
-  "generated": "2026-04-24T21:46:24Z",
-  "quarter": "Q1'26",
-  "date": "2026-01-01",
-  "composite": 67.3,
+  "generated": "2026-10-06T23:34:54Z",
+  "quarter": "Q2'26",
+  "date": "2026-04-01",
+  "composite": 69.7,
   "regime": "FAVORABLE",
   "sub_indexes": {
-    "grain": 9.7,
-    "dairy": 10.8,
-    "livestock": 92.5
+    "grain": 1.1,
+    "dairy": 50.0,
+    "livestock": 94.7
   },
   "outlook": null,
   "outlook_note": "Withheld since Oct 2026: historically a high Outlook score came before higher, not lower, farm loan delinquency 4-5 quarters later.",
   "previous": {
-    "quarter": "Q4'25",
-    "composite": 67.9,
-    "grain": 9.8,
-    "dairy": 51.1,
-    "livestock": 94.6,
+    "quarter": "Q1'26",
+    "composite": 67.4,
+    "grain": 9.7,
+    "dairy": 19.4,
+    "livestock": 92.5,
     "outlook": null
   },
   "regimes": {
     "grain": "STRESSED",
-    "dairy": "STRESSED",
+    "dairy": "GUARDED",
     "livestock": "STRONG",
     "outlook": null
   },
@@ -32,7 +32,7 @@
     "GUARDED": "40-55",
     "STRESSED": "0-40"
   },
-  "next_update": "pending",
+  "next_update": "2026-10",
   "source": "https://farmers1st.com",
   "api_docs": "https://farmers1st.com/api/",
   "license": "CC BY 4.0"

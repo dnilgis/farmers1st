@@ -1,23 +1,14 @@
 {
-  "ffai_version": "3.0",
-  "generated": "2026-10-06T23:34:54Z",
-  "count": 74,
-  "frequency": "quarterly",
-  "start": "Q1'08",
-  "end": "Q2'26",
-  "fields": [
-    "quarter",
-    "date",
-    "composite",
-    "grain",
-    "dairy",
-    "livestock"
-  ],
+  "generated": "2026-10-06T23:34:52.772118",
+  "version": "3.0",
+  "model": "FFAI National (Soy+FF composite, 3 sector sub-indexes)",
   "quarters": [
     {
       "quarter": "Q1'08",
       "date": "2008-01-01",
       "composite": 55.2,
+      "composite_regime": "FAVORABLE",
+      "outlook": 77.2,
       "grain": 100.0,
       "dairy": 4.8,
       "livestock": 4.8
@@ -26,6 +17,8 @@
       "quarter": "Q2'08",
       "date": "2008-04-01",
       "composite": 49.6,
+      "composite_regime": "GUARDED",
+      "outlook": 90.1,
       "grain": 95.5,
       "dairy": 4.5,
       "livestock": 9.1
@@ -34,6 +27,8 @@
       "quarter": "Q3'08",
       "date": "2008-07-01",
       "composite": 54.1,
+      "composite_regime": "GUARDED",
+      "outlook": 89.8,
       "grain": 91.3,
       "dairy": 13.0,
       "livestock": 100.0
@@ -42,6 +37,8 @@
       "quarter": "Q4'08",
       "date": "2008-10-01",
       "composite": 19.1,
+      "composite_regime": "STRESSED",
+      "outlook": 100.0,
       "grain": 87.5,
       "dairy": 100.0,
       "livestock": 12.5
@@ -50,6 +47,8 @@
       "quarter": "Q1'09",
       "date": "2009-01-01",
       "composite": 21.8,
+      "composite_regime": "STRESSED",
+      "outlook": 88.1,
       "grain": 96.0,
       "dairy": 12.0,
       "livestock": 12.0
@@ -58,6 +57,8 @@
       "quarter": "Q2'09",
       "date": "2009-04-01",
       "composite": 31.2,
+      "composite_regime": "STRESSED",
+      "outlook": 75.2,
       "grain": 96.2,
       "dairy": 3.8,
       "livestock": 15.4
@@ -66,6 +67,8 @@
       "quarter": "Q3'09",
       "date": "2009-07-01",
       "composite": 24.8,
+      "composite_regime": "STRESSED",
+      "outlook": 73.7,
       "grain": 85.2,
       "dairy": 18.5,
       "livestock": 11.1
@@ -74,6 +77,8 @@
       "quarter": "Q4'09",
       "date": "2009-10-01",
       "composite": 18.3,
+      "composite_regime": "STRESSED",
+      "outlook": 57.0,
       "grain": 82.1,
       "dairy": 25.0,
       "livestock": 10.7
@@ -82,6 +87,8 @@
       "quarter": "Q1'10",
       "date": "2010-01-01",
       "composite": 9.9,
+      "composite_regime": "STRESSED",
+      "outlook": 53.0,
       "grain": 75.9,
       "dairy": 27.6,
       "livestock": 100.0
@@ -90,6 +97,8 @@
       "quarter": "Q2'10",
       "date": "2010-04-01",
       "composite": 6.6,
+      "composite_regime": "STRESSED",
+      "outlook": 52.3,
       "grain": 70.0,
       "dairy": 30.0,
       "livestock": 100.0
@@ -98,6 +107,8 @@
       "quarter": "Q3'10",
       "date": "2010-07-01",
       "composite": 4.0,
+      "composite_regime": "STRESSED",
+      "outlook": 52.1,
       "grain": 87.1,
       "dairy": 96.8,
       "livestock": 96.8
@@ -106,6 +117,8 @@
       "quarter": "Q4'10",
       "date": "2010-10-01",
       "composite": 5.8,
+      "composite_regime": "STRESSED",
+      "outlook": 51.6,
       "grain": 96.9,
       "dairy": 25.0,
       "livestock": 87.5
@@ -114,6 +127,8 @@
       "quarter": "Q1'11",
       "date": "2011-01-01",
       "composite": 5.7,
+      "composite_regime": "STRESSED",
+      "outlook": 52.1,
       "grain": 100.0,
       "dairy": 21.2,
       "livestock": 97.0
@@ -122,6 +137,8 @@
       "quarter": "Q2'11",
       "date": "2011-04-01",
       "composite": 2.7,
+      "composite_regime": "STRESSED",
+      "outlook": 53.6,
       "grain": 97.1,
       "dairy": 94.1,
       "livestock": 97.1
@@ -130,6 +147,8 @@
       "quarter": "Q3'11",
       "date": "2011-07-01",
       "composite": 3.1,
+      "composite_regime": "STRESSED",
+      "outlook": 53.7,
       "grain": 88.6,
       "dairy": 100.0,
       "livestock": 97.1
@@ -138,6 +157,8 @@
       "quarter": "Q4'11",
       "date": "2011-10-01",
       "composite": 0.1,
+      "composite_regime": "STRESSED",
+      "outlook": 53.8,
       "grain": 72.2,
       "dairy": 94.4,
       "livestock": 97.2
@@ -146,6 +167,8 @@
       "quarter": "Q1'12",
       "date": "2012-01-01",
       "composite": 5.2,
+      "composite_regime": "STRESSED",
+      "outlook": 53.1,
       "grain": 75.7,
       "dairy": 18.9,
       "livestock": 97.3
@@ -154,6 +177,8 @@
       "quarter": "Q2'12",
       "date": "2012-04-01",
       "composite": 13.9,
+      "composite_regime": "STRESSED",
+      "outlook": 51.7,
       "grain": 78.9,
       "dairy": 15.8,
       "livestock": 86.8
@@ -162,6 +187,8 @@
       "quarter": "Q3'12",
       "date": "2012-07-01",
       "composite": 26.5,
+      "composite_regime": "STRESSED",
+      "outlook": 51.7,
       "grain": 100.0,
       "dairy": 17.9,
       "livestock": 79.5
@@ -170,6 +197,8 @@
       "quarter": "Q4'12",
       "date": "2012-10-01",
       "composite": 20.9,
+      "composite_regime": "STRESSED",
+      "outlook": 51.4,
       "grain": 85.0,
       "dairy": 97.5,
       "livestock": 80.0
@@ -178,6 +207,8 @@
       "quarter": "Q1'13",
       "date": "2013-01-01",
       "composite": 22.3,
+      "composite_regime": "STRESSED",
+      "outlook": 51.9,
       "grain": 80.5,
       "dairy": 34.1,
       "livestock": 80.5
@@ -186,6 +217,8 @@
       "quarter": "Q2'13",
       "date": "2013-04-01",
       "composite": 26.1,
+      "composite_regime": "STRESSED",
+      "outlook": 52.9,
       "grain": 73.8,
       "dairy": 88.1,
       "livestock": 81.0
@@ -194,6 +227,8 @@
       "quarter": "Q3'13",
       "date": "2013-07-01",
       "composite": 25.4,
+      "composite_regime": "STRESSED",
+      "outlook": 53.1,
       "grain": 55.8,
       "dairy": 88.4,
       "livestock": 93.0
@@ -202,6 +237,8 @@
       "quarter": "Q4'13",
       "date": "2013-10-01",
       "composite": 22.5,
+      "composite_regime": "STRESSED",
+      "outlook": 53.3,
       "grain": 52.3,
       "dairy": 100.0,
       "livestock": 97.7
@@ -210,6 +247,8 @@
       "quarter": "Q1'14",
       "date": "2014-01-01",
       "composite": 27.5,
+      "composite_regime": "STRESSED",
+      "outlook": 53.3,
       "grain": 53.3,
       "dairy": 100.0,
       "livestock": 100.0
@@ -218,6 +257,8 @@
       "quarter": "Q2'14",
       "date": "2014-04-01",
       "composite": 37.3,
+      "composite_regime": "STRESSED",
+      "outlook": 52.7,
       "grain": 56.5,
       "dairy": 97.8,
       "livestock": 100.0
@@ -226,6 +267,8 @@
       "quarter": "Q3'14",
       "date": "2014-07-01",
       "composite": 18.7,
+      "composite_regime": "STRESSED",
+      "outlook": 52.3,
       "grain": 2.1,
       "dairy": 100.0,
       "livestock": 100.0
@@ -234,6 +277,8 @@
       "quarter": "Q4'14",
       "date": "2014-10-01",
       "composite": 12.3,
+      "composite_regime": "STRESSED",
+      "outlook": 52.3,
       "grain": 4.2,
       "dairy": 97.9,
       "livestock": 97.9
@@ -242,6 +287,8 @@
       "quarter": "Q1'15",
       "date": "2015-01-01",
       "composite": 14.8,
+      "composite_regime": "STRESSED",
+      "outlook": 52.0,
       "grain": 53.1,
       "dairy": 87.8,
       "livestock": 91.8
@@ -250,6 +297,8 @@
       "quarter": "Q2'15",
       "date": "2015-04-01",
       "composite": 16.5,
+      "composite_regime": "STRESSED",
+      "outlook": 52.1,
       "grain": 46.0,
       "dairy": 88.0,
       "livestock": 92.0
@@ -258,6 +307,8 @@
       "quarter": "Q3'15",
       "date": "2015-07-01",
       "composite": 18.6,
+      "composite_regime": "STRESSED",
+      "outlook": 51.9,
       "grain": 47.1,
       "dairy": 90.2,
       "livestock": 90.2
@@ -266,6 +317,8 @@
       "quarter": "Q4'15",
       "date": "2015-10-01",
       "composite": 18.8,
+      "composite_regime": "STRESSED",
+      "outlook": 51.7,
       "grain": 46.2,
       "dairy": 92.3,
       "livestock": 67.3
@@ -274,6 +327,8 @@
       "quarter": "Q1'16",
       "date": "2016-01-01",
       "composite": 24.1,
+      "composite_regime": "STRESSED",
+      "outlook": 49.4,
       "grain": 52.8,
       "dairy": 84.9,
       "livestock": 69.8
@@ -282,6 +337,8 @@
       "quarter": "Q2'16",
       "date": "2016-04-01",
       "composite": 33.4,
+      "composite_regime": "STRESSED",
+      "outlook": 49.4,
       "grain": 61.1,
       "dairy": 70.4,
       "livestock": 63.0
@@ -290,6 +347,8 @@
       "quarter": "Q3'16",
       "date": "2016-07-01",
       "composite": 32.9,
+      "composite_regime": "STRESSED",
+      "outlook": 49.3,
       "grain": 43.6,
       "dairy": 89.1,
       "livestock": 61.8
@@ -298,6 +357,8 @@
       "quarter": "Q4'16",
       "date": "2016-10-01",
       "composite": 33.7,
+      "composite_regime": "STRESSED",
+      "outlook": 49.0,
       "grain": 5.4,
       "dairy": 89.3,
       "livestock": 51.8
@@ -306,6 +367,8 @@
       "quarter": "Q1'17",
       "date": "2017-01-01",
       "composite": 37.6,
+      "composite_regime": "STRESSED",
+      "outlook": 48.4,
       "grain": 43.9,
       "dairy": 89.5,
       "livestock": 59.6
@@ -314,6 +377,8 @@
       "quarter": "Q2'17",
       "date": "2017-04-01",
       "composite": 37.3,
+      "composite_regime": "STRESSED",
+      "outlook": 45.5,
       "grain": 3.4,
       "dairy": 82.8,
       "livestock": 65.5
@@ -322,6 +387,8 @@
       "quarter": "Q3'17",
       "date": "2017-07-01",
       "composite": 40.6,
+      "composite_regime": "GUARDED",
+      "outlook": 43.4,
       "grain": 3.4,
       "dairy": 89.8,
       "livestock": 62.7
@@ -330,6 +397,8 @@
       "quarter": "Q4'17",
       "date": "2017-10-01",
       "composite": 41.6,
+      "composite_regime": "GUARDED",
+      "outlook": 43.4,
       "grain": 1.7,
       "dairy": 85.0,
       "livestock": 53.3
@@ -338,6 +407,8 @@
       "quarter": "Q1'18",
       "date": "2018-01-01",
       "composite": 45.4,
+      "composite_regime": "GUARDED",
+      "outlook": 43.5,
       "grain": 3.3,
       "dairy": 62.3,
       "livestock": 55.7
@@ -346,6 +417,8 @@
       "quarter": "Q2'18",
       "date": "2018-04-01",
       "composite": 47.9,
+      "composite_regime": "GUARDED",
+      "outlook": 43.0,
       "grain": 3.2,
       "dairy": 64.5,
       "livestock": 48.4
@@ -354,6 +427,8 @@
       "quarter": "Q3'18",
       "date": "2018-07-01",
       "composite": 44.0,
+      "composite_regime": "GUARDED",
+      "outlook": 43.2,
       "grain": 1.6,
       "dairy": 66.7,
       "livestock": 47.6
@@ -362,6 +437,8 @@
       "quarter": "Q4'18",
       "date": "2018-10-01",
       "composite": 48.1,
+      "composite_regime": "GUARDED",
+      "outlook": 40.3,
       "grain": 3.1,
       "dairy": 70.3,
       "livestock": 45.3
@@ -370,6 +447,8 @@
       "quarter": "Q1'19",
       "date": "2019-01-01",
       "composite": 50.7,
+      "composite_regime": "GUARDED",
+      "outlook": 41.0,
       "grain": 4.6,
       "dairy": 67.7,
       "livestock": 52.3
@@ -378,6 +457,8 @@
       "quarter": "Q2'19",
       "date": "2019-04-01",
       "composite": 48.9,
+      "composite_regime": "GUARDED",
+      "outlook": 44.5,
       "grain": 4.5,
       "dairy": 77.3,
       "livestock": 57.6
@@ -386,6 +467,8 @@
       "quarter": "Q3'19",
       "date": "2019-07-01",
       "composite": 46.6,
+      "composite_regime": "GUARDED",
+      "outlook": 49.2,
       "grain": 7.5,
       "dairy": 88.1,
       "livestock": 47.8
@@ -394,6 +477,8 @@
       "quarter": "Q4'19",
       "date": "2019-10-01",
       "composite": 42.3,
+      "composite_regime": "GUARDED",
+      "outlook": 59.3,
       "grain": 11.8,
       "dairy": 94.1,
       "livestock": 47.1
@@ -402,6 +487,8 @@
       "quarter": "Q1'20",
       "date": "2020-01-01",
       "composite": 37.1,
+      "composite_regime": "STRESSED",
+      "outlook": 66.0,
       "grain": 20.3,
       "dairy": 85.5,
       "livestock": 55.1
@@ -410,6 +497,8 @@
       "quarter": "Q2'20",
       "date": "2020-04-01",
       "composite": 23.0,
+      "composite_regime": "STRESSED",
+      "outlook": 80.3,
       "grain": 70.0,
       "dairy": 67.1,
       "livestock": 58.6
@@ -418,6 +507,8 @@
       "quarter": "Q3'20",
       "date": "2020-07-01",
       "composite": 26.1,
+      "composite_regime": "STRESSED",
+      "outlook": 77.4,
       "grain": 64.8,
       "dairy": 93.0,
       "livestock": 46.5
@@ -426,6 +517,8 @@
       "quarter": "Q4'20",
       "date": "2020-10-01",
       "composite": 34.2,
+      "composite_regime": "STRESSED",
+      "outlook": 70.9,
       "grain": 81.9,
       "dairy": 84.7,
       "livestock": 52.8
@@ -434,6 +527,8 @@
       "quarter": "Q1'21",
       "date": "2021-01-01",
       "composite": 44.8,
+      "composite_regime": "GUARDED",
+      "outlook": 66.5,
       "grain": 89.0,
       "dairy": 12.3,
       "livestock": 11.0
@@ -442,6 +537,8 @@
       "quarter": "Q2'21",
       "date": "2021-04-01",
       "composite": 49.1,
+      "composite_regime": "GUARDED",
+      "outlook": 52.3,
       "grain": 91.9,
       "dairy": 12.2,
       "livestock": 58.1
@@ -450,6 +547,8 @@
       "quarter": "Q3'21",
       "date": "2021-07-01",
       "composite": 43.5,
+      "composite_regime": "GUARDED",
+      "outlook": 52.5,
       "grain": 76.0,
       "dairy": 16.0,
       "livestock": 64.0
@@ -458,6 +557,8 @@
       "quarter": "Q4'21",
       "date": "2021-10-01",
       "composite": 39.4,
+      "composite_regime": "STRESSED",
+      "outlook": 52.5,
       "grain": 63.2,
       "dairy": 65.8,
       "livestock": 52.6
@@ -466,6 +567,8 @@
       "quarter": "Q1'22",
       "date": "2022-01-01",
       "composite": 53.6,
+      "composite_regime": "GUARDED",
+      "outlook": 51.9,
       "grain": 75.3,
       "dairy": 85.7,
       "livestock": 11.7
@@ -474,6 +577,8 @@
       "quarter": "Q2'22",
       "date": "2022-04-01",
       "composite": 67.1,
+      "composite_regime": "FAVORABLE",
+      "outlook": 44.1,
       "grain": 71.8,
       "dairy": 84.6,
       "livestock": 11.5
@@ -482,6 +587,8 @@
       "quarter": "Q3'22",
       "date": "2022-07-01",
       "composite": 76.2,
+      "composite_regime": "STRONG",
+      "outlook": 27.4,
       "grain": 46.8,
       "dairy": 75.9,
       "livestock": 64.6
@@ -490,6 +597,8 @@
       "quarter": "Q4'22",
       "date": "2022-10-01",
       "composite": 87.9,
+      "composite_regime": "STRONG",
+      "outlook": 9.8,
       "grain": 16.2,
       "dairy": 73.8,
       "livestock": 11.2
@@ -498,6 +607,8 @@
       "quarter": "Q1'23",
       "date": "2023-01-01",
       "composite": 99.9,
+      "composite_regime": "STRONG",
+      "outlook": 0.0,
       "grain": 19.8,
       "dairy": 19.8,
       "livestock": 13.6
@@ -506,6 +617,8 @@
       "quarter": "Q2'23",
       "date": "2023-04-01",
       "composite": 99.9,
+      "composite_regime": "STRONG",
+      "outlook": 2.1,
       "grain": 14.6,
       "dairy": 11.0,
       "livestock": 69.5
@@ -514,6 +627,8 @@
       "quarter": "Q3'23",
       "date": "2023-07-01",
       "composite": 100.0,
+      "composite_regime": "STRONG",
+      "outlook": 15.8,
       "grain": 1.2,
       "dairy": 19.3,
       "livestock": 85.5
@@ -522,6 +637,8 @@
       "quarter": "Q4'23",
       "date": "2023-10-01",
       "composite": 95.4,
+      "composite_regime": "STRONG",
+      "outlook": 32.4,
       "grain": 1.2,
       "dairy": 59.5,
       "livestock": 65.5
@@ -530,6 +647,8 @@
       "quarter": "Q1'24",
       "date": "2024-01-01",
       "composite": 89.6,
+      "composite_regime": "STRONG",
+      "outlook": 42.7,
       "grain": 1.2,
       "dairy": 57.6,
       "livestock": 72.9
@@ -538,6 +657,8 @@
       "quarter": "Q2'24",
       "date": "2024-04-01",
       "composite": 88.2,
+      "composite_regime": "STRONG",
+      "outlook": 48.4,
       "grain": 2.3,
       "dairy": 75.6,
       "livestock": 95.3
@@ -546,6 +667,8 @@
       "quarter": "Q3'24",
       "date": "2024-07-01",
       "composite": 80.8,
+      "composite_regime": "STRONG",
+      "outlook": 52.4,
       "grain": 1.1,
       "dairy": 95.4,
       "livestock": 95.4
@@ -554,6 +677,8 @@
       "quarter": "Q4'24",
       "date": "2024-10-01",
       "composite": 72.1,
+      "composite_regime": "STRONG",
+      "outlook": 60.5,
       "grain": 4.5,
       "dairy": 94.3,
       "livestock": 86.4
@@ -562,6 +687,8 @@
       "quarter": "Q1'25",
       "date": "2025-01-01",
       "composite": 70.3,
+      "composite_regime": "STRONG",
+      "outlook": 64.3,
       "grain": 6.7,
       "dairy": 83.1,
       "livestock": 94.4
@@ -570,6 +697,8 @@
       "quarter": "Q2'25",
       "date": "2025-04-01",
       "composite": 71.0,
+      "composite_regime": "STRONG",
+      "outlook": 64.3,
       "grain": 7.8,
       "dairy": 70.0,
       "livestock": 97.8
@@ -578,6 +707,8 @@
       "quarter": "Q3'25",
       "date": "2025-07-01",
       "composite": 69.3,
+      "composite_regime": "FAVORABLE",
+      "outlook": 64.0,
       "grain": 2.2,
       "dairy": 72.5,
       "livestock": 100.0
@@ -586,6 +717,8 @@
       "quarter": "Q4'25",
       "date": "2025-10-01",
       "composite": 67.9,
+      "composite_regime": "FAVORABLE",
+      "outlook": 61.4,
       "grain": 9.8,
       "dairy": 51.1,
       "livestock": 94.6
@@ -594,6 +727,8 @@
       "quarter": "Q1'26",
       "date": "2026-01-01",
       "composite": 67.4,
+      "composite_regime": "FAVORABLE",
+      "outlook": 60.6,
       "grain": 9.7,
       "dairy": 19.4,
       "livestock": 92.5
@@ -602,12 +737,21 @@
       "quarter": "Q2'26",
       "date": "2026-04-01",
       "composite": 69.7,
+      "composite_regime": "FAVORABLE",
+      "outlook": 60.7,
       "grain": 1.1,
       "dairy": 50.0,
       "livestock": 94.7
     }
   ],
-  "source": "https://farmers1st.com",
-  "api_docs": "https://farmers1st.com/api/",
-  "license": "CC BY 4.0"
+  "current": {
+    "quarter": "Q2'26",
+    "date": "2026-04-01",
+    "composite": 69.7,
+    "composite_regime": "FAVORABLE",
+    "outlook": 60.7,
+    "grain": 1.1,
+    "dairy": 50.0,
+    "livestock": 94.7
+  }
 }
