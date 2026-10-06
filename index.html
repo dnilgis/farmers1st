@@ -24,7 +24,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Farmers First Ag Index (FFAI)","description":"Agricultural financial conditions index, internally tested against USDA farm loan delinquency. 16 FRED series, a composite and three sector sub-indexes, 0-100.","url":"https://farmers1st.com/#index","creator":{"@type":"Organization","name":"Farmers First Agri Service"},"temporalCoverage":"2003/.."}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the FFAI?","acceptedAnswer":{"@type":"Answer","text":"An index of U.S. agricultural financial conditions built from 16 Federal Reserve data series, with grain, dairy and livestock sub-indexes. Published quarterly at farmers1st.com."}},{"@type":"Question","name":"Crop insurance deadline?","acceptedAnswer":{"@type":"Answer","text":"March 15 sales closing for corn, soybeans and spring grains. July 15 acreage reporting. December 1 PRF sales closing. December 10 end of insurance period for corn and soybeans."}},{"@type":"Question","name":"Service area?","acceptedAnswer":{"@type":"Answer","text":"Bemidji MN to La Crosse WI."}},{"@type":"Question","name":"What is PRF?","acceptedAnswer":{"@type":"Answer","text":"Rainfall index for hay/grazing. Auto payouts. Subsidized."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://farmers1st.com","name":"Farmers First Agri Service"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","@id":"https://farmers1st.com/#report","headline":"FFAI v3.0: 67.3 FAVORABLE — Q1 2026","author":{"@type":"Organization","name":"Farmers First Agri Service"},"publisher":{"@type":"Organization","name":"Farmers First Agri Service","logo":{"@type":"ImageObject","url":"https://farmers1st.com/logo.png"}},"datePublished":"2026-04-24"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","@id":"https://farmers1st.com/#report","headline":"FFAI v3.0: 69.7 FAVORABLE — Q2 2026","author":{"@type":"Organization","name":"Farmers First Agri Service"},"publisher":{"@type":"Organization","name":"Farmers First Agri Service","logo":{"@type":"ImageObject","url":"https://farmers1st.com/logo.png"}},"datePublished":"2026-10-06"}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -318,7 +318,7 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <h2 class="h2" id="rptHead"></h2>
 <div style="height:14px"></div>
 <div id="rptIntro"></div>
-<h3 class="h3" style="margin-top:16px">Six Cycle Forces</h3>
+<h3 class="h3" style="margin-top:16px" id="sigHead">Cycle Forces</h3>
 <div id="rptSignals"></div>
 <h3 class="h3" style="margin-top:16px">Action Items</h3>
 <div id="rptActs" style="display:none"></div>
@@ -523,7 +523,7 @@ document.getElementById('rptTag').textContent=edOld?('FFAI v3.0 // COMMENTARY WR
 if(edOld){var rn=document.createElement('div');rn.className='ffai-stale';rn.setAttribute('role','note');rn.innerHTML='<strong>This commentary was written for '+edQ+(D.editorialPublished?(' on '+D.editorialPublished):'')+'.</strong> The scores at the top of the page are '+D.quarter+'. Numbers quoted below are as published then; later data revisions can change past quarters, so the chart may show different values.';var ri0=document.getElementById('rptIntro');ri0.parentNode.insertBefore(rn,ri0);}
 document.getElementById('rptHead').textContent=D.headline;
 var ri=document.getElementById('rptIntro');D.intro.forEach(function(p){ri.innerHTML+='<p class="rp">'+p+'</p>'});
-var rs=document.getElementById('rptSignals');
+var rs=document.getElementById('rptSignals');var sgh=document.getElementById('sigHead');if(sgh){var nw=['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][D.signals.length];sgh.textContent=(nw||D.signals.length)+' Cycle Forces';}
 D.signals.forEach(function(s){var cls=s[2]==='g'?'sig':'sig c',pill=s[2]==='g'?'pill pill-g':'pill pill-a';rs.innerHTML+='<div class="'+cls+'"><h4>'+s[0]+' <span class="'+pill+'">'+s[1]+'</span></h4><p>'+s[3]+'</p></div>';});
 var ra=document.getElementById('rptActs');
 D.actions.forEach(function(a,i){ra.innerHTML+='<div class="act"><h4>'+(i+1)+'. '+a[0]+'</h4><p>'+a[1]+'</p></div>';});

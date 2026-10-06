@@ -45,8 +45,8 @@ var FFAI = {
   // Quarter the headline/intro/signals/actions below were written for.
   // When the scores move to a newer quarter, the page labels this commentary
   // as older and builds the flash bar from the numbers instead.
-  editorialQuarter: "Q1'26",
-  editorialPublished: "April 24, 2026",   // date the commentary below was written
+  editorialQuarter: "Q2'26",
+  editorialPublished: "October 6, 2026",   // date the commentary below was written
 
   // -- Quarterly History (from ffai_v3_engine.py CSV) -----------
   // Format: [label, composite, grain, dairy, livestock]
@@ -127,24 +127,25 @@ var FFAI = {
     ["Q2'26",69.7,1.1,50.0,94.7]
   ],
 
-  // -- USDA Outlook Flash Bar -----------------------------------
-  // COMPLIANCE: Keep current. Remove dated FBA/deadline references each update cycle.
-  outlookFlash: 'Q1\u002726 FFAI \u2014 COMPOSITE 67.3 FAVORABLE \u00B7 Dairy 10.8 STRESSED \u00B7 Grain 9.7 STRESSED \u00B7 Livestock 92.5 STRONG \u00B7 Q2\u002726 update pending \u00B7 Next insurance deadline: Dec 1 PRF sales closing',
+  // -- Flash bar (used when editorialQuarter matches quarter) -----
+  outlookFlash: "Q2'26 FFAI — COMPOSITE 69.7 FAVORABLE · Grain 1.1 STRESSED, ties record low · Dairy 50.0 GUARDED · Livestock 94.7 STRONG · Crude averaged $95.85, up 33% · Next insurance deadline: Dec 1 PRF sales closing",
 
-  // -- Editorial: Report ----------------------------------------
-  headline: "Dairy Hit the Wall. Everything Else Held.",
+  // -- Editorial: Report (Q2'26, written Oct 6, 2026) -------------
+  // Every number below is a Q2 (Apr-Jun 2026) quarter average from
+  // engine/ffai_v3_historical.csv, compared with Q1'26 in the same file.
+  headline: "Energy Ate the Grain Margin. Milk Came Back.",
   intro: [
-    "FFAI composite at <strong>67.3 FAVORABLE</strong> \u2014 down 0.6 from Q4. National ag conditions still decent but the dairy sub-index just collapsed. <strong>10.8 STRESSED</strong> \u2014 down 40 points in one quarter. The Jan Class III $14.59 we flagged in February is now fully visible in the data.",
-    "<strong>Grain at 9.7 STRESSED</strong> \u2014 flat, still stuck at breakeven. Soybeans jumped to $427/mt on the quarter but crude oil surged to $91/bbl, pushing diesel PPI to 439. Input costs ate the revenue gain. <strong>Livestock at 92.5 STRONG</strong> \u2014 cattle PPI at 370.7, near all-time highs."
+    "FFAI composite at <strong>69.7 FAVORABLE</strong> for Q2 2026 (April–June), up 2.3 from Q1. The national number moved little. The sectors did not.",
+    "<strong>Grain fell to 1.1 STRESSED</strong>, tying the lowest grain reading in FFAI history (Q3’24). Crude oil averaged $95.85/bbl for the quarter, up 33% from $71.90 in Q1. Crop prices did not keep up: corn was flat, soybeans rose 4.9% and wheat 15.9%. <strong>Dairy recovered to 50.0 GUARDED</strong> from 19.4, as the milk price index rose 13.9%. <strong>Livestock at 94.7 STRONG</strong>, with the cattle price index up 7.4% and hogs up 13.3%. Fed Funds averaged 3.63%, unchanged.",
+    "Note: Q1 dairy is now 19.4, not the 10.8 published in April. FRED revised the Q1 inputs after publication. Crop prices here are world prices (IMF, via FRED), not local cash bids."
   ],
 
   signals: [
-    ["Dairy Collapse",              "BEARISH",        "a", "Sub-index fell from 51.1 to 10.8 in one quarter. Raw milk prices (producer price index) fell to 127 from 150, cheese to 205. The dairy margin measure dropped below its long-run average. Recovery depends on herd contraction."],
-    ["Crude Oil Spike",             "BEARISH GRAIN",  "a", "WTI crude surged to $91/bbl in Q1 (was $60 in Q4). Diesel PPI jumped to 439. This crushes grain margins through energy and transportation costs. If crude sustains above $80, grain sub-index stays pinned."],
-    ["Soybean Strength",            "BULLISH",        "g", "Soybeans at $427/mt ($11.60/bu equiv) \u2014 up from $380 range. Biofuel demand (45Z, RFS) driving crush. But SCOTUS tariff ruling clouds China trade. Domestic crush is the real story now."],
-    ["Cattle Supply Crunch",        "BULLISH",        "g", "Cattle producer price index at 370.7, near all-time highs. Herd 86.2M, lowest since 1951. Cattle on Feed placements -5%. Livestock margin measure well above its long-run average. Watch consumer pushback above $9.50/lb retail."],
-    ["Rate Trajectory",             "WATCH",          "a", "Fed Funds at 3.64%, down from the 5.33% peak. 10Y Treasury at 4.25%. Lower rates cut the cost of carrying debt. In our data, though, rate cuts have tended to come before higher farm loan delinquency, because the Fed cuts when the economy weakens."],
-    ["Drought Watch",               "WATCH",          "a", "62% Midwest drought entering planting. SWE lowest since 1986. If it had persisted into pollination, a smaller crop would lift prices but cut yields. Coverage, not price, protects the bushels you lose."]
+    ["Energy Squeeze on Grain",  "BEARISH GRAIN",  "a", "Crude averaged $95.85/bbl in Q2, up from $71.90 in Q1. The grain margin measure fell further below its long-run average. Higher fuel costs reach row crops through fieldwork, drying and freight."],
+    ["Mixed Crop Prices",        "WATCH",          "a", "Corn flat at about $5.30/bu on the world price (IMF). Soybeans up 4.9% to about $11.60. Wheat up 15.9% to about $5.65. Not enough to offset energy."],
+    ["Milk Rebound",             "IMPROVING",      "g", "The milk price index rose 13.9% in Q2, lifting the dairy sub-index from 19.4 to 50.0. Dairy margins went from below their long-run average to slightly above it."],
+    ["Cattle and Hogs Firm",     "BULLISH",        "g", "Cattle price index up 7.4%, hogs up 13.3% in Q2. Livestock margins remain well above their long-run average despite higher energy costs."],
+    ["Farm Loan Delinquency",    "STEADY",         "g", "National ag production loan delinquency at 1.10% in Q2, from 1.12% in Q1. Below the 2003\u20132026 median of 1.32%."]
   ],
 
   // COMPLIANCE NOTE on actions:
@@ -153,25 +154,18 @@ var FFAI = {
   // - Subsidy changes: cite RMA bulletin numbers, not bill names, unless bill is fully enacted and verifiable
   // - General market info is not advice specific to any producer's situation
   actions: [
-    ["Dairy DRP: highest priority right now",
-     "Sub-index at 10.8 \u2014 margins negative. 85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Call us to evaluate DRP for the quarters still open for purchase."],
-
-    ["Protect grain downside",
-     "Grain at 9.7 STRESSED. Crude oil at $91 is compressing margins further. RP at higher coverage levels. For 2026, SCO and ECO premiums are subsidized at 80%. COP $917/ac corn."],
-
-    ["Don\u2019t cap bean upside",
-     "Soybeans strengthening on biofuel demand despite SCOTUS uncertainty. 45Z, E15, RFS are the catalysts. Domestic crush at record. Expect headline volatility but trend is up."],
-
-    ["Cattle: lock some revenue on strength",
-     "Livestock at 92.5 but crude oil spike adds input cost pressure. LRP sets floor, keeps upside. COF confirms tight supply. Consider locking some revenue on strength."],
-
-    ["Watch crude oil trajectory",
-     "WTI at $91 changes the math on everything \u2014 diesel, fertilizer, transportation. If sustains above $80, grain margins compress further. Factor energy costs into forward contracting decisions."],
-
-    ["Next insurance deadlines",
-     "Dec 1: PRF sales closing. Dec 10: end of insurance period for corn and soybeans. Crop damage: notify us within 72 hours of finding it. Call us with questions."]
+    ["Crop damage: call within 72 hours",
+     "Notice of loss is due within 72 hours of finding damage, and no later than 15 days after the end of the insurance period. Call us before you harvest or destroy a damaged field."],
+    ["Dec 10: end of insurance period, corn and soybeans",
+     "Unharvested acres are no longer covered after this date."],
+    ["Dec 1: PRF sales closing for 2027",
+     "Pasture, Rangeland, Forage coverage for hay and grazing acres. New sign-ups and changes close Dec 1."],
+    ["Dairy: set coverage for 2027 milk",
+     "Dairy Revenue Protection quarters from Jan–Mar 2027 onward can still be bought, up to five quarters out. Call us to look at your numbers."],
+    ["Grain: plan the 2027 SCO/ECO stack",
+     "With the grain sub-index tied at its record low, area coverage above your policy matters more. For most 2027 crops SCO rises to 90% and ECO covers 90% to 95%, with an 80% premium subsidy. Sales closing is March 15."]
   ],
 
-  closingLine: "Dairy hit the wall. Everything else held.",
-  closingSub: "Protect the downside. The data is clear. Market information above is general in nature \u2014 contact us for guidance specific to your operation."
+  closingLine: "Energy ate the grain margin. Milk came back.",
+  closingSub: "Market information above is general in nature — contact us for guidance specific to your operation."
 };
