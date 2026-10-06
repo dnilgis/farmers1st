@@ -520,7 +520,7 @@ svg.addEventListener('touchend',function(){setTimeout(hidePt,1500)});
 var edQ=D.editorialQuarter||D.quarter,edOld=edQ!==D.quarter;
 document.getElementById('otlkFlash').innerHTML='<strong>'+(edOld?(D.quarter+' FFAI \u2014 COMPOSITE '+sc.toFixed(1)+' '+regime(sc)+' \u00B7 Grain '+D.grain.toFixed(1)+' '+regime(D.grain)+' \u00B7 Dairy '+D.dairy.toFixed(1)+' '+regime(D.dairy)+' \u00B7 Livestock '+D.livestock.toFixed(1)+' '+regime(D.livestock)+' \u00B7 '+D.quarter+' commentary coming'):D.outlookFlash)+'</strong>';
 document.getElementById('rptTag').textContent=edOld?('FFAI v3.0 // COMMENTARY WRITTEN FOR '+edQ):('FFAI v3.0 // '+D.date);
-if(edOld){var rn=document.createElement('div');rn.className='ffai-stale';rn.setAttribute('role','note');rn.innerHTML='<strong>This commentary was written for '+edQ+'.</strong> The scores at the top of the page are '+D.quarter+'. Numbers quoted below are from '+edQ+'.';var ri0=document.getElementById('rptIntro');ri0.parentNode.insertBefore(rn,ri0);}
+if(edOld){var rn=document.createElement('div');rn.className='ffai-stale';rn.setAttribute('role','note');rn.innerHTML='<strong>This commentary was written for '+edQ+(D.editorialPublished?(' on '+D.editorialPublished):'')+'.</strong> The scores at the top of the page are '+D.quarter+'. Numbers quoted below are as published then; later data revisions can change past quarters, so the chart may show different values.';var ri0=document.getElementById('rptIntro');ri0.parentNode.insertBefore(rn,ri0);}
 document.getElementById('rptHead').textContent=D.headline;
 var ri=document.getElementById('rptIntro');D.intro.forEach(function(p){ri.innerHTML+='<p class="rp">'+p+'</p>'});
 var rs=document.getElementById('rptSignals');

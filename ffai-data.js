@@ -46,6 +46,7 @@ var FFAI = {
   // When the scores move to a newer quarter, the page labels this commentary
   // as older and builds the flash bar from the numbers instead.
   editorialQuarter: "Q1'26",
+  editorialPublished: "April 24, 2026",   // date the commentary below was written
 
   // -- Quarterly History (from ffai_v3_engine.py CSV) -----------
   // Format: [label, composite, grain, dairy, livestock]
