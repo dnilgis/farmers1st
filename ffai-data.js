@@ -10,7 +10,8 @@
 //   5. Commit -> push -> site updates
 //
 // COMPLIANCE NOTE (Apr 2026):
-//   - All deadlines must be current at time of publish
+//   - All deadlines must be current at time of publish (checked Oct 6, 2026)
+//   - No superlatives ("largest ever", "lowest since") unless computed from history
 //   - Do not attribute subsidy changes to unverified legislation
 //   - Advisory language must not be absolute ("non-negotiable" etc.)
 //   - See CHANGES.md for full audit trail
@@ -22,11 +23,12 @@ var FFAI = {
   quarter:  "Q1'26",
   date:     "Q1 2026",
   updated:  "April 24, 2026",
-  nextUpdate: "JUL '26",
+  publishedISO: "2026-04-24",   // drives the "readings are old" banner (shows after 120 days)
+  nextUpdate: "PENDING",        // set to e.g. "JAN '27" when you publish
 
   composite:  67.3,
   prevComp:   67.9,
-  regime:     "FAVORABLE",
+  regime:     "FAVORABLE",   // page now computes this from composite; keep for reference
 
   grain:       9.7,
   dairy:      10.8,
@@ -118,7 +120,7 @@ var FFAI = {
 
   // -- USDA Outlook Flash Bar -----------------------------------
   // COMPLIANCE: Keep current. Remove dated FBA/deadline references each update cycle.
-  outlookFlash: 'Q1\u002726 UPDATE \u2014 DAIRY COLLAPSES TO 10.8 STRESSED \u00B7 Composite 67.3 FAVORABLE \u00B7 Grain 9.7 flat \u00B7 Livestock 92.5 STRONG \u00B7 Fed Funds 3.64% \u00B7 Crude $91/bbl \u00B7 Raw milk PPI crashed to 127 \u00B7 July 15 acreage reporting next',
+  outlookFlash: 'Q1\u002726 FFAI \u2014 COMPOSITE 67.3 FAVORABLE \u00B7 Dairy 10.8 STRESSED \u00B7 Grain 9.7 STRESSED \u00B7 Livestock 92.5 STRONG \u00B7 Q2\u002726 update pending \u00B7 Next insurance deadline: Dec 1 PRF sales closing',
 
   // -- Editorial: Report ----------------------------------------
   headline: "Dairy Hit the Wall. Everything Else Held.",
@@ -128,12 +130,12 @@ var FFAI = {
   ],
 
   signals: [
-    ["Dairy Collapse",              "BEARISH",        "a", "Sub-index crashed from 51.1 to 10.8 in one quarter \u2014 largest single-quarter drop in FFAI history. Raw milk PPI fell to 127 (was 150). Cheese PPI down to 205. Dairy margin went negative (-0.46 z-scores). Recovery depends on herd contraction accelerating."],
+    ["Dairy Collapse",              "BEARISH",        "a", "Sub-index fell from 51.1 to 10.8 in one quarter. Raw milk prices (producer price index) fell to 127 from 150, cheese to 205. The dairy margin measure dropped below its long-run average. Recovery depends on herd contraction."],
     ["Crude Oil Spike",             "BEARISH GRAIN",  "a", "WTI crude surged to $91/bbl in Q1 (was $60 in Q4). Diesel PPI jumped to 439. This crushes grain margins through energy and transportation costs. If crude sustains above $80, grain sub-index stays pinned."],
     ["Soybean Strength",            "BULLISH",        "g", "Soybeans at $427/mt ($11.60/bu equiv) \u2014 up from $380 range. Biofuel demand (45Z, RFS) driving crush. But SCOTUS tariff ruling clouds China trade. Domestic crush is the real story now."],
-    ["Cattle Supply Crunch",        "BULLISH",        "g", "Cattle PPI at 370.7, near all-time highs. Herd 86.2M, lowest since 1951. COF placements -5%. Livestock margin at 1.86 z-scores above mean. Watch consumer pushback above $9.50/lb retail."],
+    ["Cattle Supply Crunch",        "BULLISH",        "g", "Cattle producer price index at 370.7, near all-time highs. Herd 86.2M, lowest since 1951. Cattle on Feed placements -5%. Livestock margin measure well above its long-run average. Watch consumer pushback above $9.50/lb retail."],
     ["Rate Trajectory",             "FAVORABLE",      "g", "Fed Funds at 3.64%, down from 5.33 peak. 10Y Treasury at 4.25%. Each quarter of cuts helps farmer debt service 4-5 quarters out. Outlook sub-index at 60.6 reflects continued easing."],
-    ["Drought Watch",               "WATCH",          "a", "62% Midwest drought entering planting. SWE lowest since 1986. If persists into pollination, grain sub-index could move sharply higher on supply shock."]
+    ["Drought Watch",               "WATCH",          "a", "62% Midwest drought entering planting. SWE lowest since 1986. If it had persisted into pollination, a smaller crop would lift prices but cut yields. Coverage, not price, protects the bushels you lose."]
   ],
 
   // COMPLIANCE NOTE on actions:
@@ -143,25 +145,22 @@ var FFAI = {
   // - General market info is not advice specific to any producer's situation
   actions: [
     ["Dairy DRP: highest priority right now",
-     "Sub-index at 10.8 \u2014 margins negative. 85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Call us to evaluate your specific DRP structure for Q2-Q3. This is the most important insurance decision for dairy operations right now."],
+     "Sub-index at 10.8 \u2014 margins negative. 85-90% coverage on 60-70% of quarterly milk production. Match Class III/IV. Call us to evaluate DRP for the quarters still open for purchase."],
 
     ["Protect grain downside",
-     "Grain at 9.7 STRESSED. Crude oil at $91 is compressing margins further. RP at higher coverage levels. 2026 RMA subsidy schedule increased ECO/SCO subsidies \u2014 call us for current rates. COP $917/ac corn."],
+     "Grain at 9.7 STRESSED. Crude oil at $91 is compressing margins further. RP at higher coverage levels. For 2026, SCO and ECO premiums are subsidized at 80%. COP $917/ac corn."],
 
     ["Don\u2019t cap bean upside",
      "Soybeans strengthening on biofuel demand despite SCOTUS uncertainty. 45Z, E15, RFS are the catalysts. Domestic crush at record. Expect headline volatility but trend is up."],
 
     ["Cattle: lock some revenue on strength",
-     "Livestock at 92.5 but crude oil spike adds input cost pressure. LRP sets floor, keeps upside. COF confirms tight supply. Consider locking Q3-Q4 revenue."],
+     "Livestock at 92.5 but crude oil spike adds input cost pressure. LRP sets floor, keeps upside. COF confirms tight supply. Consider locking some revenue on strength."],
 
     ["Watch crude oil trajectory",
      "WTI at $91 changes the math on everything \u2014 diesel, fertilizer, transportation. If sustains above $80, grain margins compress further. Factor energy costs into forward contracting decisions."],
 
-    ["July 15: acreage reporting deadline",
-     "Report all planted acres by July 15 to maintain crop insurance coverage. Late or inaccurate reporting can void your policy. Call us if you have questions about reporting requirements."],
-
-    ["Next FFAI update: July 2026",
-     "Q2\u201926 data. Will show whether dairy bottoms or deepens, and whether crude oil spike persists. Run ffai_data_check.py after July 20."]
+    ["Next insurance deadlines",
+     "Dec 1: PRF sales closing. Dec 10: end of insurance period for corn and soybeans. Crop damage: notify us within 72 hours of finding it. Call us with questions."]
   ],
 
   closingLine: "Dairy hit the wall. Everything else held.",

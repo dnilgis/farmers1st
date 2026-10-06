@@ -4,28 +4,32 @@ Generate FFAI API JSON files from ffai_v3_engine.py output.
 Run after the engine, copies JSON into api/v3/ for deployment.
 
 Usage:
-    python generate_api.py ffai_v3_historical.csv
-    python generate_api.py  (defaults to ffai_v3_historical.csv)
+    python generate_api.py ffai_v3_historical.csv [NEXT_UPDATE]
+    python generate_api.py  (defaults to ffai_v3_historical.csv, next update "pending")
+    NEXT_UPDATE is free text, e.g. 2027-01
 """
 import csv, json, sys, os
-from datetime import datetime
+from datetime import datetime, timezone
 
 def main():
     fname = sys.argv[1] if len(sys.argv) > 1 else 'ffai_v3_historical.csv'
+    next_update = sys.argv[2] if len(sys.argv) > 2 else 'pending'
     outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'api', 'v3')
     os.makedirs(outdir, exist_ok=True)
 
     with open(fname, 'r') as f:
         rows = list(csv.DictReader(f))
 
-    now = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    now = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     # ── Parse rows ──
+    # Keep only scored quarters, and read EVERY field from the same row.
+    # (Before Oct 2026 the outlook value came from rows[-1] even when that
+    # row was an incomplete quarter with no composite.)
+    rows = [r for r in rows if r.get('composite', '').strip()]
     quarters = []
     for row in rows:
         comp = row.get('composite', '')
-        if not comp:
-            continue
         q = {
             'quarter': row.get('quarter', ''),
             'date': row.get('date', ''),
@@ -79,7 +83,7 @@ def main():
             'GUARDED': '40-55',
             'STRESSED': '0-40',
         },
-        'next_update': '',  # Fill manually or compute
+        'next_update': next_update,
         'source': 'https://farmers1st.com',
         'api_docs': 'https://farmers1st.com/api/',
         'license': 'CC BY 4.0',

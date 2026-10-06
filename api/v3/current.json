@@ -31,7 +31,7 @@
     "GUARDED": "40-55",
     "STRESSED": "0-40"
   },
-  "next_update": "2026-07",
+  "next_update": "pending",
   "source": "https://farmers1st.com",
   "api_docs": "https://farmers1st.com/api/",
   "license": "CC BY 4.0"

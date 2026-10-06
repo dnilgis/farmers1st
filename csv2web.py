@@ -14,6 +14,8 @@ def main():
     with open(fname, 'r') as f:
         reader = csv.DictReader(f)
         rows = list(reader)
+    # Only scored quarters; current and previous come from this same list.
+    rows = [r for r in rows if r.get('composite', '').strip()]
     
     for i, row in enumerate(rows):
         q = row.get('quarter', '')
