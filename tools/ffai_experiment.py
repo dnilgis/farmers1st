@@ -23,11 +23,10 @@ Measured for each:
   vs national delinquency (FRED DRFAPGACBS): level and change correlation,
              effective sample size, and whether it improves a next-quarter
              forecast over "same as last quarter" (expanding, out of sample)
-  vs Chicago Fed 7th District loan repayment index (if the file can be read)
 
 Usage:  FRED_API_KEY=... python tools/ffai_experiment.py
 """
-import importlib.util, io, os, sys, math, urllib.request
+import importlib.util, os, sys, math
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -39,10 +38,6 @@ NOMINAL = ['corn_bu', 'soy_bu', 'wheat_bu', 'crude', 'diesel_ppi', 'fert_ppi', '
            'milk_ppi', 'cheese_ppi', 'butter_ppi', 'cattle_ppi', 'hogs_ppi']
 SECTORS = ['grain', 'dairy', 'livestock']
 WEIGHTS = {'grain': 0.50, 'dairy': 0.12, 'livestock': 0.38}
-CHICAGO_URLS = [
-    'https://www.chicagofed.org/-/media/others/research/data/agconditions/credit-conditions-7th-district-xls.xls?sc_lang=en&hash=20BBD1A1826B74788382F81834584451',
-    'https://www.chicagofed.org/-/media/others/research/data/agconditions/credit-conditions-7th-district-xls.xls',
-]
 
 
 def load_engine():
@@ -153,107 +148,6 @@ def revisions(fn, raw, k=12):
     return {'mean_rev': float(np.nanmean(d)), 'max_rev': float(np.nanmax(d)), 'share_changed': float(np.nanmean(d >= 0.05))}
 
 
-# ---------------------------------------------------------------- Chicago Fed
-def chicago_repayment(log):
-    """Try to read the 7th District non-real-estate loan repayment index (quarterly)."""
-    data = None
-    for u in CHICAGO_URLS:
-        try:
-            req = urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 (farmers1st.com FFAI research)'})
-            data = urllib.request.urlopen(req, timeout=60).read()
-            log.append(f'Chicago Fed file: downloaded {len(data)} bytes from {u.split("?")[0]}')
-            break
-        except Exception as e:
-            log.append(f'Chicago Fed file: {u.split("?")[0]} failed: {e}')
-    if not data:
-        return None
-    os.makedirs(OUT, exist_ok=True)
-    open(os.path.join(OUT, 'chicagofed_credit_conditions.xls'), 'wb').write(data)
-    try:
-        sheets = pd.read_excel(io.BytesIO(data), sheet_name=None, header=None)
-    except Exception as e:
-        log.append(f'Chicago Fed file: could not open as a spreadsheet: {e}')
-        return None
-    # Save the top of every sheet so a proper reader can be written if the guess below fails.
-    with open(os.path.join(OUT, 'chicagofed_layout.txt'), 'w', encoding='utf-8') as f:
-        for name, sh in sheets.items():
-            f.write(f'=== sheet {name!r} shape {sh.shape}\n{sh.head(15).to_string()}\n\n')
-    for name, sh in sheets.items():
-        for hr in range(min(20, len(sh))):
-            row = [str(v).lower() for v in sh.iloc[hr].values]
-            cols = [j for j, v in enumerate(row) if 'repayment' in v]
-            if not cols:
-                continue
-            # Show the layout in the log so a wrong guess can be fixed from the logs alone.
-            show = sh.iloc[max(0, hr - 2):hr + 7, :min(sh.shape[1], 8)]
-            log.append(f'Chicago Fed layout, sheet {name!r}, header row {hr}:\n```\n{show.to_string()}\n...\n'
-                       f'{sh.iloc[-3:, :min(sh.shape[1], 8)].to_string()}\n```')
-            body = sh.iloc[hr + 1:]
-            s = periods_and_values(body, cols[0])
-            if s is not None and len(s) >= 25:
-                log.append(f'Chicago Fed repayment index: sheet {name!r}, column {sh.iloc[hr, cols[0]]!r}, '
-                           f'{len(s)} quarters, {s.index[0].date()} to {s.index[-1].date()}, latest {s.iloc[-1]}')
-                return s
-            log.append(f'Chicago Fed file: found {sh.iloc[hr, cols[0]]!r} on sheet {name!r} but could not read its dates')
-    log.append('Chicago Fed file: repayment series not read; layout shown above and in chicagofed_layout.txt')
-    return None
-
-
-QWORDS = {'q1': 1, 'q2': 2, 'q3': 3, 'q4': 4, '1q': 1, '2q': 2, '3q': 3, '4q': 4,
-          '1st': 1, '2nd': 2, '3rd': 3, '4th': 4, 'first': 1, 'second': 2, 'third': 3, 'fourth': 4,
-          'jan': 1, 'feb': 1, 'mar': 1, 'apr': 2, 'may': 2, 'jun': 2, 'jul': 3, 'aug': 3, 'sep': 3,
-          'oct': 4, 'nov': 4, 'dec': 4}
-
-
-def periods_and_values(body, vcol):
-    """Work out the quarter of each row from the cells left of the value column.
-    Handles real dates, Excel serial dates, a year column (forward-filled) with
-    a quarter column, and text like '2001 Q1', '1Q01', 'Jan 2001', '1st'.
-    Returns None unless the quarters come out strictly increasing."""
-    import re
-    year, out = None, []
-    for _, r in body.iterrows():
-        v = pd.to_numeric(pd.Series([r.iloc[vcol]]), errors='coerce').iloc[0]
-        q = None
-        for c in range(0, vcol):
-            x = r.iloc[c]
-            if isinstance(x, (pd.Timestamp, np.datetime64)) or hasattr(x, 'year') and hasattr(x, 'month'):
-                ts = pd.Timestamp(x); year, q = ts.year, (ts.month - 1) // 3 + 1; continue
-            if isinstance(x, (int, float, np.integer, np.floating)) and not pd.isna(x):
-                fx = float(x)
-                if 1900 <= fx <= 2100 and fx == int(fx):
-                    year = int(fx)
-                elif 20000 <= fx <= 80000:  # Excel serial date
-                    ts = pd.Timestamp('1899-12-30') + pd.Timedelta(days=fx); year, q = ts.year, (ts.month - 1) // 3 + 1
-                elif fx in (1, 2, 3, 4):
-                    q = int(fx)
-                continue
-            t = str(x).strip().lower()
-            if not t or t == 'nan':
-                continue
-            m = re.search(r'(19|20)\d\d', t)
-            if m:
-                year = int(m.group(0))
-            else:
-                m2 = re.search(r"(?:^|\D)'?(\d\d)$", t)
-                if m2 and re.search(r'q|quarter', t):
-                    year = 2000 + int(m2.group(1)) if int(m2.group(1)) < 50 else 1900 + int(m2.group(1))
-            for w, n in QWORDS.items():
-                if re.search(r'(?<![a-z0-9])' + w + r'(?![a-z])', t):
-                    q = n; break
-            m3 = re.search(r'q\s*([1-4])(?!\d)', t) or re.search(r'(?<!\d)([1-4])\s*q', t)
-            if m3:
-                q = int(m3.group(1))
-        if year is not None and q is not None and not pd.isna(v):
-            out.append((pd.Timestamp(year=year, month=3 * q - 2, day=1), float(v)))
-    if len(out) < 25:
-        return None
-    s = pd.Series([v for _, v in out], index=[d for d, _ in out])
-    if not s.index.is_monotonic_increasing or s.index.has_duplicates:
-        return None
-    return s
-
-
 # ---------------------------------------------------------------- main
 def main():
     eng = load_engine()
@@ -269,7 +163,6 @@ def main():
     # common evaluation window: quarters where the current engine publishes a score
     win = res['S0']['grain'].dropna().index.intersection(comp0.dropna().index)
     delq = raw['delinquency']
-    chi = chicago_repayment(log)
 
     series = {'C0 composite (current)': comp0}
     for k in variants:
@@ -279,8 +172,6 @@ def main():
     table = pd.DataFrame({k: v.reindex(win) for k, v in series.items()})
     os.makedirs(OUT, exist_ok=True)
     out = table.copy(); out.insert(0, 'quarter', raw['quarter'].reindex(win)); out['delinquency'] = delq.reindex(win)
-    if chi is not None:
-        out['chicago_repayment'] = chi.reindex(win)
     out.round(2).to_csv(os.path.join(OUT, 'experiment_series.csv'))
 
     md = ['## FFAI experiment (nothing published)', '', *[f'- {l}' for l in log],
@@ -321,11 +212,6 @@ def main():
 
     md += target_table('national farm loan delinquency (FRED DRFAPGACBS)', delq,
                        'Good index = negative r (higher score, less delinquency) and "helps? yes".')
-    if chi is not None:
-        md += target_table('Chicago Fed 7th District loan repayment index', chi,
-                           'Good index = positive r (higher score, better repayment) and "helps? yes".')
-    else:
-        md += ['', '### vs Chicago Fed repayment index', '', 'Not available this run (see log lines above).']
 
     # chart
     try:
