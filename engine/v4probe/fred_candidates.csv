@@ -1,0 +1,60 @@
+search,id,title,freq,start,end,sa
+net farm income,IITTRHB,U.S Individual Income Tax: Tax Rates for Regular Tax: Highest Bracket,A,1913-01,2018-01,NSA
+net farm income,B1448C1A027NBEA,"Net farm income, USDA",A,1967-01,2025-01,NSA
+net farm income,IITTRLB,U.S Individual Income Tax: Tax Rates for Regular Tax: Lowest Bracket,A,1913-01,2018-01,NSA
+net farm income,BOPNIC,Individual Income Tax Filing: Adjusted Gross Income (AGI): Business or Profession Net Inco,A,1999-01,2016-01,NSA
+net farm income,TNOFPE,Farm Personal Income in Tennessee (DISCONTINUED),Q,1948-01,2003-07,SAAR
+net farm income,A364RC1A027NBEA,Net value added: Net domestic product: Business: Nonfarm,A,1929-01,2025-01,NSA
+net farm income,A08158USA144NNBR,Net Income of Farm Operators from Farming for United States,A,1910-01,1941-01,NSA
+net farm income,A365RC1A027NBEA,Farm output: Net farm value added,A,1929-01,2025-01,NSA
+net farm income,PRS85006131,Nonfarm Business Sector: Unit Nonlabor Payments for All Workers,Q,1948-01,2026-04,SA
+net farm income,W251RC1A027NBEA,Farm output: Net operating surplus,A,1929-01,2025-01,NSA
+net farm income,A1024C1A027NBEA,Farm output: Net operating surplus: Proprietors' income and corporate profits with invento,A,1929-01,2025-01,NSA
+net farm income,A364RA3A086NBEA,Real net value added: Net domestic product: Business: Nonfarm (chain-type quantity index),A,1929-01,2025-01,NSA
+farm income United States,PAYEMS,"All Employees, Total Nonfarm",M,1939-01,2026-09,SA
+farm income United States,RECPROUSM156N,Smoothed U.S. Recession Probabilities,M,1967-06,2026-08,NSA
+farm income United States,PAYNSA,"All Employees, Total Nonfarm",M,1939-01,2026-09,NSA
+farm income United States,L312041A027NBEA,Government subsidies: Federal: Agricultural,A,1960-01,2025-01,NSA
+farm income United States,B181RC1Q027SBEA,Exports of agricultural goods,Q,1967-01,2026-04,SAAR
+farm income United States,VAPGDPAFH,"Value Added by Industry: Agriculture, Forestry, Fishing, and Hunting as a Percentage of GD",Q,2005-01,2026-04,NSA
+farm income United States,DTENRG3A086NBEA,Personal consumption expenditures: Services: Housing: Rental of tenant-occupied nonfarm ho,A,1929-01,2025-01,NSA
+farm income United States,A2000C1A027NBEA,Farm output,A,1929-01,2025-01,NSA
+farm income United States,DTENRC1A027NBEA,Personal consumption expenditures: Services: Housing: Rental of tenant-occupied nonfarm ho,A,1929-01,2025-01,NSA
+farm sector income,MPU4910111,Private Nonfarm Business Sector: Capital Costs,A,1987-01,2024-01,NSA
+farm sector income,PRS85006081,Nonfarm Business Sector: Nonlabor Payments for All Workers,Q,1948-01,2026-04,SA
+farm sector income,PRS85006082,Nonfarm Business Sector: Nonlabor Payments for All Workers,Q,1947-04,2026-04,SA
+farm sector income,PRS85006132,Nonfarm Business Sector: Unit Nonlabor Payments for All Workers,Q,1947-04,2026-04,SA
+farm sector income,NCBFAFA027N,Nonfinancial corporate business; financial assets with revaluations with corporate farms (,A,1960-01,2012-01,NSA
+farm sector income,BOGZ1FU136231003Q,Farm Business (Included in Nonfinancial Corporate and Noncorporate Business Sectors); Taxe,Q,1946-10,2026-04,NSA
+farm sector income,BOGZ1FA136111103Q,Farm Business (Included in Nonfinancial Corporate and Noncorporate Business Sectors); Prop,Q,1946-10,2026-04,SAAR
+farm sector income,NCBFAFQ027S,Nonfinancial corporate business; financial assets with revaluations with corporate farms (,Q,1960-01,2013-07,NSA
+farm sector income,BOGZ1FU136111103A,Farm Business (Included in Nonfinancial Corporate and Noncorporate Business Sectors); Prop,A,1946-01,2025-01,NSA
+farm sector income,NNBFCTQ027S,"Nonfinancial noncorporate business; equity in Farm Credit System; asset, Level (DISCONTINU",Q,1945-10,2017-10,NSA
+farm sector income,BOGZ1FU136111103Q,Farm Business (Included in Nonfinancial Corporate and Noncorporate Business Sectors); Prop,Q,1946-10,2026-04,NSA
+chapter 12 bankruptcy,A10030USA173NNBR,Number of Concerns in Business for United States,A,1866-01,1938-01,NSA
+farm real estate value,MVEONWMVBSNNCB,"Nonfinancial Corporate Business; Corporate Equities; Liability, Level (DISCONTINUED)",Q,1945-10,2017-10,NSA
+farm real estate value,RREABSNNB,"Nonfinancial Noncorporate Business; Residential Real Estate at Market Value, Level (DISCON",Q,1949-10,2015-01,NSA
+farm real estate value,REABSNNCB,"Nonfinancial Corporate Business; Real Estate at Market Value, Level (DISCONTINUED)",Q,1949-10,2015-01,NSA
+farm real estate value,REABSNNB,"Nonfinancial Noncorporate Business; Real Estate at Market Value, Level (DISCONTINUED)",Q,1949-10,2015-01,NSA
+farm real estate value,BOGZ1FU115035033A,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",A,1946-01,2025-01,NSA
+farm real estate value,BOGZ1FA115035033Q,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",Q,1946-10,2026-04,SAAR
+farm real estate value,BOGZ1FL115035033Q,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",Q,1945-10,2026-04,NSA
+farm real estate value,BOGZ1FA115035033A,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",A,1946-01,2025-01,SAAR
+farm real estate value,NREABSNNB,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",Q,1949-10,2015-01,NSA
+farm real estate value,BOGZ1FU115035033Q,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",Q,1946-10,2026-04,NSA
+farm real estate value,BOGZ1FL115035033A,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",A,1945-01,2025-01,NSA
+farm real estate value,BOGZ1FR115035033Q,"Nonfinancial Noncorporate Business; Nonresidential Real Estate, Excluding Noncorporate Far",Q,1946-10,2026-04,NSA
+farm sector debt,BCNSDODNS,"Nonfinancial Corporate Business; Debt Securities and Loans; Liability, Level",Q,1945-10,2026-04,SA
+farm sector debt,NNBTCMDODNS,"Nonfinancial Noncorporate Business; Credit Market Instruments; Liability, Level (DISCONTIN",Q,1949-10,2015-01,NSA
+farm sector debt,FBTCMDODNS,Farm Business; Credit Market Instruments; Liability (DISCONTINUED),Q,1949-10,2015-01,NSA
+agricultural loans delinquency,DRFAPGACBN,"Delinquency Rate on Loans to Finance Agricultural Production, All Commercial Banks",Q,1987-01,2026-04,NSA
+agricultural loans delinquency,DRFAPGACBS,"Delinquency Rate on Loans to Finance Agricultural Production, All Commercial Banks",Q,1987-01,2026-04,SA
+agricultural loans delinquency,DRFAPGOBS,"Delinquency Rate on Loans to Finance Agricultural Production, Banks Not Among the 100 Larg",Q,1987-01,2026-04,SA
+agricultural loans delinquency,DALLFAPGACBEP,"Asset Quality Measures, Delinquencies on All Loans and Leases, To Finance Agricultural Pro",Q,1987-01,2026-04,NSA
+agricultural loans delinquency,DRFAPGT100S,"Delinquency Rate on Loans to Finance Agricultural Production, Banks Ranked 1st to 100th La",Q,1987-01,2026-04,SA
+agricultural loans delinquency,DALLFAPGOBEP,"Asset Quality Measures, Delinquencies on All Loans and Leases, To Finance Agricultural Pro",Q,1987-01,2026-04,NSA
+agricultural loans delinquency,DALLFAPGT100EP,"Asset Quality Measures, Delinquencies on All Loans and Leases, To Finance Agricultural Pro",Q,1987-01,2026-04,NSA
+agricultural loans delinquency,DRFAPGT100N,"Delinquency Rate on Loans to Finance Agricultural Production, Banks Ranked 1st to 100th La",Q,1987-01,2026-04,NSA
+agricultural loans delinquency,DRFAPGOBN,"Delinquency Rate on Loans to Finance Agricultural Production, Banks Not Among the 100 Larg",Q,1987-01,2026-04,NSA
+prices received by farmers,M0460AUSM319NNBR,"Index of Prices Received by Farmers, All Groups for United States",M,1910-01,1967-01,NSA
+prices paid by farmers,M04127USM319NNBR,Index of Prices Paid by Farmers for Commodities Used in Both Living and Production for Uni,M,1925-01,1967-01,NSA
