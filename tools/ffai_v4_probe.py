@@ -47,16 +47,35 @@ def probe_nass(key, md, log):
         md.append('NASS_API_KEY is not set. Add it as a repository secret and run probe again.')
         return
     found = []
-    for group in ('PRICES RECEIVED', 'PRICES PAID'):
+    # Costs: group "PRICES PAID" (worked in probe run 4). Only the 2011 = 100 base is needed.
+    try:
+        vals = nass('get_param_values', key, param='short_desc', group_desc='PRICES PAID', agg_level_desc='NATIONAL')
+        names = [s for s in vals.get('short_desc', []) if 'INDEX' in s.upper() and '2011' in s]
+        log.append(f'NASS PRICES PAID: {len(vals.get("short_desc", []))} national series, {len(names)} are 2011-base indexes')
+        found += [('PRICES PAID', n) for n in names]
+    except Exception as e:
+        log.append(f'NASS PRICES PAID: list failed: {e}')
+    # Revenue: prices received sit under the crop/animal sectors, not a "PRICES RECEIVED" group
+    # (probe run 4 found none there). Find them by statistic category instead.
+    want_dollar = ('CORN', 'SOYBEANS', 'WHEAT', 'MILK', 'CATTLE', 'HOGS', 'HAY')
+    for label, params in [
+        ('received index (statisticcat LIKE)', {'statisticcat_desc__LIKE': 'INDEX FOR PRICE RECEIVED'}),
+        ('received index (short_desc LIKE)', {'short_desc__LIKE': 'INDEX FOR PRICE RECEIVED'}),
+        ('received $ (statisticcat = PRICE RECEIVED)', {'statisticcat_desc': 'PRICE RECEIVED'}),
+    ]:
         try:
-            vals = nass('get_param_values', key, param='short_desc', group_desc=group, agg_level_desc='NATIONAL')
-            names = [s for s in vals.get('short_desc', []) if 'INDEX' in s.upper()]
-            log.append(f'NASS {group}: {len(vals.get("short_desc", []))} national series, {len(names)} are indexes')
-            found += [(group, n) for n in names]
+            vals = nass('get_param_values', key, param='short_desc', agg_level_desc='NATIONAL', **params)
+            allnames = vals.get('short_desc', [])
+            if 'index' in label:
+                names = [s for s in allnames if '2011' in s]
+            else:
+                names = [s for s in allnames if 'MEASURED IN $' in s.upper() and any(s.upper().startswith(w) for w in want_dollar)]
+            log.append(f'NASS {label}: {len(allnames)} national series, keeping {len(names)}')
+            found += [('PRICES RECEIVED', n) for n in names if ('PRICES RECEIVED', n) not in found]
         except Exception as e:
-            log.append(f'NASS {group}: list failed: {e}')
+            log.append(f'NASS {label}: list failed: {e}')
     rows, frames = [], []
-    for group, name in found[:150]:
+    for group, name in found[:300]:
         try:
             data = nass('api_GET', key, short_desc=name, agg_level_desc='NATIONAL').get('data', [])
         except Exception as e:
