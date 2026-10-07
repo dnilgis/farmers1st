@@ -4,16 +4,17 @@
 #   experiment = score the data several alternative ways and compare them. Changes nothing.
 #   probe    = list the national USDA and FRED series available for FFAI v4 and save them to
 #              engine/v4probe/ in the repo. The website is unchanged.
-# Repository secrets (Settings > Secrets and variables > Actions): FRED_API_KEY, and NASS_API_KEY for probe.
+#   v4       = build FFAI v4 and run its pre-registered validation; saves to engine/v4/. Website unchanged.
+# Repository secrets (Settings > Secrets and variables > Actions): FRED_API_KEY, and NASS_API_KEY for probe and v4.
 name: FFAI quarterly update
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "preview = show results only. publish = update the website. experiment = compare scoring methods. probe = list v4 data."
+        description: "preview = show results only. publish = update the website. experiment = compare scoring methods. probe = list v4 data. v4 = build and validate v4."
         type: choice
-        options: [preview, publish, experiment, probe]
+        options: [preview, publish, experiment, probe, v4]
         default: preview
 
 permissions:
@@ -63,6 +64,14 @@ jobs:
           NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
         run: python -u tools/ffai_v4_probe.py
 
+      - name: Build FFAI v4 and run its validation (website unchanged)
+        if: inputs.mode == 'v4'
+        working-directory: engine
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
+        run: python -u ffai_v4.py
+
       - name: Keep engine output with the run
         uses: actions/upload-artifact@v4
         with:
@@ -75,6 +84,7 @@ jobs:
             og-share.png
             engine/experiment/
             engine/v4probe/
+            engine/v4/
           if-no-files-found: ignore
 
       - name: Commit to main
@@ -95,14 +105,14 @@ jobs:
 
       # Pushes made with the workflow token normally start the Pages build on
       # their own. This asks for one anyway; harmless if it is not needed.
-      - name: Save probe data to the repo (website unchanged)
-        if: inputs.mode == 'probe'
+      - name: Save probe or v4 output to the repo (website unchanged)
+        if: inputs.mode == 'probe' || inputs.mode == 'v4'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add engine/v4probe/
+          git add engine/v4probe/ engine/v4/ 2>/dev/null || true
           if git diff --cached --quiet; then echo "Nothing to save."; exit 0; fi
-          git commit -m "FFAI v4 data probe (run ${{ github.run_number }})"
+          git commit -m "FFAI ${{ inputs.mode }} output (run ${{ github.run_number }})"
           git push
 
       - name: Ask GitHub Pages to rebuild
