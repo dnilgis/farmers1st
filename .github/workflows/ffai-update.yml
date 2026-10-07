@@ -2,16 +2,18 @@
 #   preview  = run the engine and show the new scores in the run summary. Changes nothing.
 #   publish  = same, then write the scores into the site and commit to main.
 #   experiment = score the data several alternative ways and compare them. Changes nothing.
-# Needs one repository secret: FRED_API_KEY (Settings > Secrets and variables > Actions).
+#   probe    = list the national USDA and FRED series available for FFAI v4 and save them to
+#              engine/v4probe/ in the repo. The website is unchanged.
+# Repository secrets (Settings > Secrets and variables > Actions): FRED_API_KEY, and NASS_API_KEY for probe.
 name: FFAI quarterly update
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "preview = show results only. publish = update the website. experiment = compare scoring methods."
+        description: "preview = show results only. publish = update the website. experiment = compare scoring methods. probe = list v4 data."
         type: choice
-        options: [preview, publish, experiment]
+        options: [preview, publish, experiment, probe]
         default: preview
 
 permissions:
@@ -38,14 +40,14 @@ jobs:
         run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0
 
       - name: Run engine (pulls FRED)
-        if: inputs.mode != 'experiment'
+        if: inputs.mode == 'preview' || inputs.mode == 'publish'
         working-directory: engine
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python -u ffai_v3_engine.py
 
       - name: Write scores into the site files
-        if: inputs.mode != 'experiment'
+        if: inputs.mode == 'preview' || inputs.mode == 'publish'
         run: python tools/ffai_publish.py engine/ffai_v3_historical.csv
 
       - name: Experiment (compare scoring methods, publishes nothing)
@@ -53,6 +55,13 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python -u tools/ffai_experiment.py
+
+      - name: Probe v4 data sources (publishes nothing)
+        if: inputs.mode == 'probe'
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
+        run: python -u tools/ffai_v4_probe.py
 
       - name: Keep engine output with the run
         uses: actions/upload-artifact@v4
@@ -65,6 +74,7 @@ jobs:
             engine/ffai_v3_website.json
             og-share.png
             engine/experiment/
+            engine/v4probe/
           if-no-files-found: ignore
 
       - name: Commit to main
@@ -85,6 +95,16 @@ jobs:
 
       # Pushes made with the workflow token normally start the Pages build on
       # their own. This asks for one anyway; harmless if it is not needed.
+      - name: Save probe data to the repo (website unchanged)
+        if: inputs.mode == 'probe'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine/v4probe/
+          if git diff --cached --quiet; then echo "Nothing to save."; exit 0; fi
+          git commit -m "FFAI v4 data probe (run ${{ github.run_number }})"
+          git push
+
       - name: Ask GitHub Pages to rebuild
         if: inputs.mode == 'publish'
         continue-on-error: true
