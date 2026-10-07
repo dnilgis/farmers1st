@@ -1,6 +1,7 @@
 # FFAI quarterly update. Run from the Actions tab: "FFAI quarterly update" > Run workflow.
 #   preview  = run the engine and show the new scores in the run summary. Changes nothing.
 #   publish  = same, then write the scores into the site and commit to main.
+#   experiment = score the data several alternative ways and compare them. Changes nothing.
 # Needs one repository secret: FRED_API_KEY (Settings > Secrets and variables > Actions).
 name: FFAI quarterly update
 
@@ -8,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "preview = show results only. publish = update the website."
+        description: "preview = show results only. publish = update the website. experiment = compare scoring methods."
         type: choice
-        options: [preview, publish]
+        options: [preview, publish, experiment]
         default: preview
 
 permissions:
@@ -34,16 +35,24 @@ jobs:
 
       # Versions pinned to the ones this was tested with (Oct 2026).
       - name: Install libraries
-        run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0
+        run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0 xlrd==2.0.2 openpyxl==3.1.5
 
       - name: Run engine (pulls FRED)
+        if: inputs.mode != 'experiment'
         working-directory: engine
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python -u ffai_v3_engine.py
 
       - name: Write scores into the site files
+        if: inputs.mode != 'experiment'
         run: python tools/ffai_publish.py engine/ffai_v3_historical.csv
+
+      - name: Experiment (compare scoring methods, publishes nothing)
+        if: inputs.mode == 'experiment'
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python -u tools/ffai_experiment.py
 
       - name: Keep engine output with the run
         uses: actions/upload-artifact@v4
@@ -55,6 +64,8 @@ jobs:
             engine/ffai_v3_chart.png
             engine/ffai_v3_website.json
             og-share.png
+            engine/experiment/
+          if-no-files-found: ignore
 
       - name: Commit to main
         if: inputs.mode == 'publish'
