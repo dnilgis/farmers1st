@@ -1,0 +1,141 @@
+{
+  "quarter": "Q2'26",
+  "headline_method": "A",
+  "validated": true,
+  "tests": {
+    "A": {
+      "T1": true,
+      "T2": true,
+      "T3": true
+    },
+    "B": {
+      "T1": true,
+      "T2": true,
+      "T3": true
+    }
+  },
+  "sectors": {
+    "all": {
+      "ratio": 84.5,
+      "score": 11.0,
+      "regime": "STRESSED"
+    },
+    "crops": {
+      "ratio": 73.4,
+      "score": 0.0,
+      "regime": "STRESSED"
+    },
+    "livestock": {
+      "ratio": 113.9,
+      "score": 94.0,
+      "regime": "STRONG"
+    },
+    "dairy": {
+      "ratio": 60.2,
+      "score": 0.0,
+      "regime": "STRESSED"
+    }
+  },
+  "drivers": {
+    "Prices: feed grains": {
+      "qoq_pct": 4.4,
+      "yoy_pct": -4.8
+    },
+    "Prices: oilseeds": {
+      "qoq_pct": 6.7,
+      "yoy_pct": 8.6
+    },
+    "Prices: food grains": {
+      "qoq_pct": 1.1,
+      "yoy_pct": -3.7
+    },
+    "Prices: livestock": {
+      "qoq_pct": 5.5,
+      "yoy_pct": 14.1
+    },
+    "Prices: dairy": {
+      "qoq_pct": 13.9,
+      "yoy_pct": -0.9
+    },
+    "Costs: feed": {
+      "qoq_pct": 4.5,
+      "yoy_pct": 2.7
+    },
+    "Costs: fuel": {
+      "qoq_pct": 30.8,
+      "yoy_pct": 37.5
+    },
+    "Costs: fertilizer": {
+      "qoq_pct": 12.9,
+      "yoy_pct": 23.1
+    },
+    "Costs: chemicals": {
+      "qoq_pct": 0.8,
+      "yoy_pct": -5.6
+    },
+    "Costs: seed": {
+      "qoq_pct": 0.0,
+      "yoy_pct": 0.0
+    },
+    "Costs: interest": {
+      "qoq_pct": 0.0,
+      "yoy_pct": -0.8
+    },
+    "Costs: wages": {
+      "qoq_pct": 0.0,
+      "yoy_pct": 0.0
+    },
+    "Costs: cash rent": {
+      "qoq_pct": 0.0,
+      "yoy_pct": 3.9
+    },
+    "Costs: machinery": {
+      "qoq_pct": 0.3,
+      "yoy_pct": 1.4
+    }
+  },
+  "farm_prices": {
+    "Corn": {
+      "unit": "$/bu",
+      "value": 4.36,
+      "prev_q": 4.17,
+      "year_ago": 4.58
+    },
+    "Soybeans": {
+      "unit": "$/bu",
+      "value": 11.37,
+      "prev_q": 10.67,
+      "year_ago": 10.33
+    },
+    "Wheat": {
+      "unit": "$/bu",
+      "value": 5.76,
+      "prev_q": 5.25,
+      "year_ago": 5.49
+    },
+    "Milk": {
+      "unit": "$/cwt",
+      "value": 21.07,
+      "prev_q": 18.5,
+      "year_ago": 21.27
+    },
+    "Steers & heifers": {
+      "unit": "$/cwt",
+      "value": 253.0,
+      "prev_q": 238.67,
+      "year_ago": 221.0
+    },
+    "Hogs": {
+      "unit": "$/cwt",
+      "value": 68.57,
+      "prev_q": 65.6,
+      "year_ago": 70.2
+    },
+    "Alfalfa hay": {
+      "unit": "$/ton",
+      "value": 194.67,
+      "prev_q": 164.67,
+      "year_ago": 182.67
+    }
+  }
+}
