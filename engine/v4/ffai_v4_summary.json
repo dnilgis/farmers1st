@@ -12,6 +12,52 @@
       "T1": true,
       "T2": true,
       "T3": true
+    },
+    "detail": {
+      "A": {
+        "T1": {
+          "r": 0.75,
+          "n_years": 30,
+          "eff_n": 29.3,
+          "p_one_sided": 0.0,
+          "target": "real net farm income"
+        },
+        "T2": {
+          "r": 0.84,
+          "n_years": 30,
+          "eff_n": 29.8,
+          "p_one_sided": 0.0,
+          "target": "real market income (NFI minus federal ag subsidies)"
+        },
+        "T3": {
+          "rmse_model": 0.173,
+          "rmse_no_change": 0.221,
+          "rmse_last_year": 0.32,
+          "test_years": 20
+        }
+      },
+      "B": {
+        "T1": {
+          "r": 0.7,
+          "n_years": 20,
+          "eff_n": 19.6,
+          "p_one_sided": 0.0,
+          "target": "real net farm income"
+        },
+        "T2": {
+          "r": 0.78,
+          "n_years": 20,
+          "eff_n": 19.7,
+          "p_one_sided": 0.0,
+          "target": "real market income (NFI minus federal ag subsidies)"
+        },
+        "T3": {
+          "rmse_model": 0.135,
+          "rmse_no_change": 0.202,
+          "rmse_last_year": 0.252,
+          "test_years": 10
+        }
+      }
     }
   },
   "sectors": {

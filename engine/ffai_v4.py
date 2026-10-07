@@ -57,6 +57,10 @@ MONTHS = {m: i + 1 for i, m in enumerate(['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JU
 BASE_A = ('1995-01-01', '2019-10-01')
 BASE_B = ('2005-01-01', '2019-10-01')
 TRAIL = 40  # quarters for candidate B
+# Headline method, fixed after the launch decision (run 6, Oct 7 2026: A and B both
+# passed 3/3, tie -> A by the pre-registered rule). Fixed so the headline cannot
+# switch methods from one quarter to the next. Tests still run and print every quarter.
+HEADLINE_METHOD = 'A'
 
 SECTORS = {  # name: (received series, paid series)
     'all':       ('COMMODITY TOTALS - INDEX FOR PRICE RECEIVED, 2011',
@@ -215,6 +219,7 @@ def validate(sc, fr, md):
     targets = {'real net farm income': np.log(real).diff(),
                'real market income (NFI minus federal ag subsidies)': np.log(market[market > 0]).diff()}
     res = {}
+    detail = {}
     md += ['', '## Pre-registered validation (annual, year-over-year changes)', '',
            'Measures use the all-farms ratio. A = log ratio; B = log(ratio / previous 40-quarter average). '
            'Annual value = mean of the year\'s 4 quarters (years with all 4 only).', '']
@@ -228,18 +233,22 @@ def validate(sc, fr, md):
         for tname, dy in targets.items():
             r, n, ne, p = eff_n_p(dx, dy)
             rows.append(f'| {cand} | corr with change in {tname} | r = {r:+.2f} | n = {n} years, effective n = {ne:.1f} | one-sided p = {p:.3f} | {"PASS" if (r > 0 and p < 0.05) else "fail"} |')
-            passes['T1' if tname.startswith('real net') else 'T2'] = bool(r > 0 and p < 0.05)
+            tk = 'T1' if tname.startswith('real net') else 'T2'
+            passes[tk] = bool(r > 0 and p < 0.05)
+            detail.setdefault(cand, {})[tk] = {'r': round(float(r), 3), 'n_years': int(n), 'eff_n': round(float(ne), 1), 'p_one_sided': float(f'{p:.2g}'), 'target': tname}
         m, z, l, n_oos = oos(dx, targets['real net farm income'])
         t3 = bool(m < z and m < l)
         rows.append(f'| {cand} | out-of-sample error, change in log real NFI | model {m:.3f} vs no-change {z:.3f} vs last-year {l:.3f} | {n_oos} test years | | {"PASS" if t3 else "fail"} |')
         passes['T3'] = t3
+        detail.setdefault(cand, {})['T3'] = {'rmse_model': round(m, 3), 'rmse_no_change': round(z, 3), 'rmse_last_year': round(l, 3), 'test_years': int(n_oos)}
         res[cand] = passes
         md += ['| Cand. | Test | Result | Sample | p | Verdict |', '|---|---|---|---|---|---|'] if cand == 'A' else []
         md += rows
-    na, nb = sum(res['A'].values()), sum(res['B'].values())
-    winner = 'B' if nb > na else 'A'
+    na, nb = sum(res['A'].values()), sum(res['B'].values())  # before detail is added
+    rule_pick = 'B' if nb > na else 'A'
+    winner = HEADLINE_METHOD
     validated = res[winner]['T1']
-    md += ['', f'Tests passed: A {na}/3, B {nb}/3. Headline uses **{winner}** '
+    md += ['', f'Tests passed: A {na}/3, B {nb}/3 (the launch rule would pick {rule_pick} today). Headline uses **{winner}**, fixed at launch '
                f'({"validated against real net farm income" if validated else "NOT validated: fails T1; ship as descriptive only"}).']
     # reference only
     dq = fr['delinquency']
@@ -247,6 +256,7 @@ def validate(sc, fr, md):
         x = np.log(sc[col]).diff(); y = dq.reindex(sc.index).diff()
         r, n, ne, p = eff_n_p(-x, y)
         md.append(f'- Reference only: quarterly change in {cand} vs change in national ag loan delinquency: r = {(-r):+.2f} (n = {n}). No claim made.')
+    res['detail'] = detail
     return winner, validated, res
 
 
@@ -274,7 +284,7 @@ def main():
                   f'subsidies {fr["subsidies"].index.min().year}-{fr["subsidies"].index.max().year}')
         winner, validated, res = validate(sc, fr, md)
     else:
-        winner, validated, res = 'A', False, {}
+        winner, validated, res = HEADLINE_METHOD, False, {}
         md.append('- FRED_API_KEY not set: validation skipped (offline test).')
 
     last = sc.index[-1]

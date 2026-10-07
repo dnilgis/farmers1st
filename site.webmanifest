@@ -1,7 +1,7 @@
 {
   "name": "Farmers First Agri Service",
   "short_name": "FFAI",
-  "description": "Farmers First Ag Index — Validated Agricultural Financial Conditions",
+  "description": "Farmers First Ag Index: what U.S. farms are paid against what they pay, quarterly",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f5f0",

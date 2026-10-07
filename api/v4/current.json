@@ -1,0 +1,42 @@
+{
+  "ffai_version": "4.0",
+  "generated": "2026-10-07T01:32:20Z",
+  "quarter": "Q2'26",
+  "date": "2026-04-01",
+  "score": 11.0,
+  "regime": "STRESSED",
+  "ratio": 84.5,
+  "vs_previous_10yr_avg_pct": -1.9,
+  "sectors": {
+    "crops": {
+      "ratio": 73.4,
+      "score": 0.0,
+      "regime": "STRESSED"
+    },
+    "livestock": {
+      "ratio": 113.9,
+      "score": 94.0,
+      "regime": "STRONG"
+    },
+    "dairy": {
+      "ratio": 60.2,
+      "score": 0.0,
+      "regime": "STRESSED"
+    }
+  },
+  "previous": {
+    "quarter": "Q1'26",
+    "score": 0.0,
+    "ratio": 79.2
+  },
+  "regime_thresholds": {
+    "STRONG": "70-100",
+    "FAVORABLE": "55-70",
+    "GUARDED": "40-55",
+    "STRESSED": "0-40"
+  },
+  "next_update": "2026-11",
+  "source": "https://farmers1st.com",
+  "api_docs": "https://farmers1st.com/api/",
+  "license": "CC BY 4.0"
+}

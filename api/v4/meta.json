@@ -1,0 +1,87 @@
+{
+  "ffai_version": "4.0",
+  "generated": "2026-10-07T01:32:20Z",
+  "name": "Farmers First Ag Index v4",
+  "description": "National ratio of prices farms receive to prices farms pay (USDA NASS indexes, 2011 = 100), scored as a percentile of the 1995-2019 quarters.",
+  "ratios": {
+    "all": "COMMODITY TOTALS received / PPITW paid (matches USDA's published ratio within about one point)",
+    "crops": "CROP TOTALS received / CROP SECTOR paid",
+    "livestock": "LIVESTOCK TOTALS received / ANIMAL SECTOR paid",
+    "dairy": "DAIRY PRODUCT TOTALS received / ANIMAL SECTOR paid (the animal-sector cost index includes feeder cattle and replacement cows bought)"
+  },
+  "score": "share of 1995-2019 quarters at or below this quarter's ratio, 0-100",
+  "base_period": "1995-2019",
+  "quarter_rule": "average of 3 months; a quarter is published only when all 3 months of both sides are out",
+  "validation": {
+    "preregistered_in": "engine/ffai_v4.py (git commit 163cc4b, before the first validation run)",
+    "target": "year-over-year change in USDA net farm income (FRED B1448C1A027NBEA) deflated by CPI",
+    "method_used": "A",
+    "results": {
+      "A": {
+        "T1": {
+          "r": 0.75,
+          "n_years": 30,
+          "eff_n": 29.3,
+          "p_one_sided": "<0.001",
+          "target": "real net farm income"
+        },
+        "T2": {
+          "r": 0.84,
+          "n_years": 30,
+          "eff_n": 29.8,
+          "p_one_sided": "<0.001",
+          "target": "real market income (NFI minus federal ag subsidies)"
+        },
+        "T3": {
+          "rmse_model": 0.173,
+          "rmse_no_change": 0.221,
+          "rmse_last_year": 0.32,
+          "test_years": 20
+        }
+      },
+      "B": {
+        "T1": {
+          "r": 0.7,
+          "n_years": 20,
+          "eff_n": 19.6,
+          "p_one_sided": "<0.001",
+          "target": "real net farm income"
+        },
+        "T2": {
+          "r": 0.78,
+          "n_years": 20,
+          "eff_n": 19.7,
+          "p_one_sided": "<0.001",
+          "target": "real market income (NFI minus federal ag subsidies)"
+        },
+        "T3": {
+          "rmse_model": 0.135,
+          "rmse_no_change": 0.202,
+          "rmse_last_year": 0.252,
+          "test_years": 10
+        }
+      }
+    },
+    "validated": true,
+    "scope": "year-over-year changes in the all-farms ratio; the 0-100 score level and the sector scores were not tested",
+    "same_year_only": "the relationship is within the same year; it is not a forecast",
+    "headline_lock": "A and B both passed 3/3; by the pre-registered tie rule A was chosen, and the engine was then set to keep A (HEADLINE_METHOD) so a later run cannot switch it",
+    "note": "the latest year of net farm income is a USDA forecast and can be revised",
+    "not_claimed": "no relationship with national farm loan delinquency (r about 0)"
+  },
+  "limitations": [
+    "Prices only: yields, volumes and government payments are not in the ratio.",
+    "The ratio declined about 1.2 points a year over 1995-2019, consistent with rising yields; scores against 1995-2019 therefore run low in most recent years. STRESSED means low against that period, not low income.",
+    "Scores for 1995-2019 are ranked against the whole period, including later years; they are not what a reader would have seen at the time.",
+    "Prices paid includes household living costs as well as farm inputs.",
+    "Interest, cash rent, seed and taxes are updated by USDA once a year; the wage index has not changed since April 2025.",
+    "The latest month of prices received is preliminary and is revised the following month."
+  ],
+  "sources": [
+    "USDA NASS Quick Stats, Agricultural Prices",
+    "FRED (validation only)"
+  ],
+  "source": "https://farmers1st.com",
+  "api_docs": "https://farmers1st.com/api/",
+  "license": "CC BY 4.0"
+}

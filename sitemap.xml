@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://farmers1st.com/</loc><lastmod>2026-10-06</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://farmers1st.com/</loc><lastmod>2026-10-07</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://farmers1st.com/privacy/</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://farmers1st.com/equal-opportunity/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://farmers1st.com/disclaimer/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://farmers1st.com/ffai_v3_methodology.pdf</loc><changefreq>quarterly</changefreq><priority>0.6</priority></url>
   <url><loc>https://farmers1st.com/api/</loc><changefreq>quarterly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://farmers1st.com/api/v4/current.json</loc><changefreq>quarterly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://farmers1st.com/api/v4/history.json</loc><changefreq>quarterly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://farmers1st.com/api/v4/meta.json</loc><changefreq>quarterly</changefreq><priority>0.6</priority></url>
   <url><loc>https://farmers1st.com/api/v3/current.json</loc><changefreq>quarterly</changefreq><priority>0.6</priority></url>
   <url><loc>https://farmers1st.com/api/v3/history.json</loc><changefreq>quarterly</changefreq><priority>0.6</priority></url>
   <url><loc>https://farmers1st.com/api/v3/meta.json</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>

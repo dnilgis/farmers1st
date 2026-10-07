@@ -1,5 +1,6 @@
 // ===============================================================
-// FFAI v3.0 DATA -- QUARTERLY INDEX + EDITORIAL CONTENT
+// FFAI v3.0 DATA -- RETIRED OCT 2026, FROZEN AT Q2'26. The page no longer loads this file.
+// Current data: ffai-v4.js (numbers) and ffai-commentary.js (text).
 // ===============================================================
 //
 // HOW TO UPDATE (browser only, since Oct 2026):

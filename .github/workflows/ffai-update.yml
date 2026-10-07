@@ -1,11 +1,12 @@
 # FFAI quarterly update. Run from the Actions tab: "FFAI quarterly update" > Run workflow.
-#   preview  = run the engine and show the new scores in the run summary. Changes nothing.
-#   publish  = same, then write the scores into the site and commit to main.
+#   preview  = run the FFAI v4 engine (USDA NASS) and show the new scores. Changes nothing.
+#   publish  = same, then write the v4 numbers into the site and commit to main.
+#              (FFAI v3 is retired and frozen; nothing here updates it.)
 #   experiment = score the data several alternative ways and compare them. Changes nothing.
 #   probe    = list the national USDA and FRED series available for FFAI v4 and save them to
 #              engine/v4probe/ in the repo. The website is unchanged.
 #   v4       = build FFAI v4 and run its pre-registered validation; saves to engine/v4/. Website unchanged.
-# Repository secrets (Settings > Secrets and variables > Actions): FRED_API_KEY, and NASS_API_KEY for probe and v4.
+# Repository secrets (Settings > Secrets and variables > Actions): NASS_API_KEY and FRED_API_KEY (FRED is used for v4 validation).
 name: FFAI quarterly update
 
 on:
@@ -40,16 +41,17 @@ jobs:
       - name: Install libraries
         run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0
 
-      - name: Run engine (pulls FRED)
+      - name: Run FFAI v4 engine (pulls USDA NASS, validates against FRED)
         if: inputs.mode == 'preview' || inputs.mode == 'publish'
         working-directory: engine
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-        run: python -u ffai_v3_engine.py
+          NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
+        run: python -u ffai_v4.py
 
-      - name: Write scores into the site files
+      - name: Write v4 numbers into the site files
         if: inputs.mode == 'preview' || inputs.mode == 'publish'
-        run: python tools/ffai_publish.py engine/ffai_v3_historical.csv
+        run: python tools/ffai_v4_publish.py
 
       - name: Experiment (compare scoring methods, publishes nothing)
         if: inputs.mode == 'experiment'
@@ -77,11 +79,9 @@ jobs:
         with:
           name: ffai-engine-output
           path: |
-            engine/ffai_v3_historical.csv
-            engine/ffai_v3_validation.txt
-            engine/ffai_v3_chart.png
-            engine/ffai_v3_website.json
             og-share.png
+            ffai-v4.js
+            api/v4/
             engine/experiment/
             engine/v4probe/
             engine/v4/
@@ -92,14 +92,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ffai-data.js api/v3/current.json api/v3/history.json index.html og-share.png \
-                  engine/ffai_v3_historical.csv engine/ffai_v3_validation.txt engine/ffai_v3_chart.png engine/ffai_v3_website.json
+          git add ffai-v4.js api/v4/ index.html og-share.png sitemap.xml engine/v4/
           if git diff --cached --quiet; then
             echo "No changes to publish." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          Q=$(python -c "import json;print(json.load(open('api/v3/current.json'))['quarter'])")
+          Q=$(python -c "import json;print(json.load(open('api/v4/current.json'))['quarter'])")
           git commit -m "FFAI data update: $Q (run ${{ github.run_number }})"
+          git pull --rebase origin main
           git push
           echo "Published $Q to main." >> "$GITHUB_STEP_SUMMARY"
 
@@ -113,6 +113,7 @@ jobs:
           git add engine/v4probe/ engine/v4/ 2>/dev/null || true
           if git diff --cached --quiet; then echo "Nothing to save."; exit 0; fi
           git commit -m "FFAI ${{ inputs.mode }} output (run ${{ github.run_number }})"
+          git pull --rebase origin main
           git push
 
       - name: Ask GitHub Pages to rebuild
