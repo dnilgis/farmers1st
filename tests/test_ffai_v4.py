@@ -128,11 +128,15 @@ class Engine(unittest.TestCase):
 class Publish(unittest.TestCase):
     def test_to_reach_hand_worked(self):
         base = [float(v) for v in range(1, 101)]          # 100 base quarters, ratio 1..100
-        out = {t['regime']: t for t in P.to_reach(base, 50.0)}
-        self.assertEqual(out['GUARDED']['ratio'], 40.0)   # 40 of 100 at or below 40
-        self.assertTrue(out['GUARDED']['reached']); self.assertEqual(out['GUARDED']['move_pct'], -20.0)
-        self.assertEqual(out['FAVORABLE']['ratio'], 55.0); self.assertEqual(out['FAVORABLE']['move_pct'], 10.0)
-        self.assertEqual(out['STRONG']['ratio'], 70.0); self.assertFalse(out['STRONG']['reached'])
+        out = {t['label']: t for t in P.to_reach(base, 40.0)}
+        self.assertEqual(list(out), ['BELOW MIDDLE', 'ABOVE MIDDLE', 'HIGH'])
+        self.assertEqual(out['BELOW MIDDLE']['ratio'], 25.0)   # 25 of 100 at or below 25
+        self.assertTrue(out['BELOW MIDDLE']['reached']); self.assertEqual(out['BELOW MIDDLE']['move_pct'], -37.5)
+        self.assertEqual(out['ABOVE MIDDLE']['ratio'], 50.0); self.assertEqual(out['ABOVE MIDDLE']['move_pct'], 25.0)
+        self.assertFalse(out['ABOVE MIDDLE']['reached'])
+        self.assertEqual(out['HIGH']['ratio'], 75.0); self.assertFalse(out['HIGH']['reached'])
+        self.assertEqual(out['HIGH']['move_pct'], 87.5)
+        self.assertTrue(all(t['regime'] == t['label'] for t in out.values()))
 
     def test_to_reach_agrees_with_engine_score(self):
         base = sorted(round(v, 1) for v in np.random.default_rng(3).normal(100, 10, 100))
@@ -179,6 +183,42 @@ class Publish(unittest.TestCase):
             c = pd.read_csv(csvp)
             self.assertEqual(len(c), hist['count'])
             self.assertEqual(float(c['score'].iloc[-1]), cur['score'])
+
+
+    def test_published_labels_and_real_time_flags(self):
+        cur = json.load(open(os.path.join(ROOT, 'api', 'v4', 'current.json')))
+        hist = json.load(open(os.path.join(ROOT, 'api', 'v4', 'history.json')))
+        self.assertEqual(cur['label'], P.L.label(cur['score'])); self.assertEqual(cur['regime'], cur['label'])
+        self.assertEqual(cur['label_legacy'], P.L.label_legacy(cur['score'])); self.assertEqual(cur['label_vs'], '1995-2019')
+        for k, v in cur['sectors'].items():
+            self.assertEqual(v['label'], P.L.label(v['score']), k)
+        self.assertIn('label', hist['fields']); self.assertIn('real_time', hist['fields'])
+        for h in hist['quarters']:
+            self.assertEqual(h['label'], P.L.label(h['score']), h['quarter'])
+            self.assertIs(h['real_time'], P.qkey(h['quarter']) >= P.qkey(P.FIRST_LIVE), h['quarter'])
+            if P.parse_q(h['quarter'])[1] <= 2019:
+                self.assertFalse(h['real_time'])
+        ya = cur['year_ago']
+        self.assertEqual(P.qkey(cur['quarter']) - P.qkey(ya['quarter']), 4)
+        self.assertAlmostEqual(cur['ratio_change_vs_year_ago_pct'], 100 * (cur['ratio'] / ya['ratio'] - 1), delta=0.15)
+
+    def test_page_and_badge_hold_no_label_lines(self):
+        # The label is computed once, in publish; the page and badge only read it.
+        import re
+        for rel in ('index.html', 'api/v4/badge.js'):
+            txt = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            if rel.endswith('.html'):   # code only; the methodology text may name the old labels
+                txt = '\n'.join(re.findall(r'<script>(.*?)</script>', txt, re.S))
+                self.assertIn('D4.headline', txt)
+            for pat in ('>=70', '>=55', '>=40', '>= 70', '>= 55', '>= 40', '>=75', '>=25', '>= 75', '>= 25', 'STRESSED', 'FAVORABLE'):
+                self.assertNotIn(pat, txt, f'{rel} contains {pat!r}')
+
+    def test_v3_files_are_marked_retired(self):
+        for f in ('current.json', 'history.json', 'meta.json'):
+            d = json.load(open(os.path.join(ROOT, 'api', 'v3', f)))
+            self.assertEqual(d.get('status'), 'retired', f)
+            self.assertEqual(d.get('superseded_by'), '/api/v4/current.json', f)
+            self.assertTrue(d.get('retired_note'), f)
 
 
 class Stress(unittest.TestCase):

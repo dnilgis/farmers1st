@@ -279,11 +279,17 @@ def part2(m, q, sc, md, fkey):
     # Vintage: NFI as first published for each year
     try:
         first = {}
+        skipped = []
         for y in range(1996, last_year + 1):
-            s = fred_asof(E.FRED_IDS['nfi'], fkey, f'{y + 1}-03-31')
+            try:
+                s = fred_asof(E.FRED_IDS['nfi'], fkey, f'{y + 1}-03-31')
+            except Exception as e:  # ALFRED refuses dates before the series' first vintage (HTTP 400)
+                skipped.append(f'{y} ({e})'); continue
             if pd.Timestamp(y, 1, 1) in s.index and pd.Timestamp(y - 1, 1, 1) in s.index:
                 first[y] = math.log(s[pd.Timestamp(y, 1, 1)] / cpi[y]) - math.log(s[pd.Timestamp(y - 1, 1, 1)] / cpi[y - 1])
         fp = pd.Series(first)
+        if skipped:
+            md += [f'Vintage check: ALFRED gave no first print for {len(skipped)} year(s): {", ".join(skipped[:3])}{" ..." if len(skipped) > 3 else ""}.', '']
         if len(fp) >= 10:
             r, n, ne, p = E.eff_n_p(dA, fp)
             md += [f'Vintage check: change in log real NFI as published by the end of March after each year ({len(fp)} years): '

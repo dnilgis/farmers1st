@@ -1,7 +1,7 @@
 // FFAI v4 numbers. Written by tools/ffai_v4_publish.py from engine/v4/ output.
 // Do not edit by hand; commentary is in ffai-commentary.js.
 var FFAI4 = {
- "version": "4.0",
+ "version": "4.1",
  "quarter": "Q2'26",
  "date": "Q2 2026",
  "months": "April–June 2026",
@@ -13,6 +13,24 @@ var FFAI4 = {
  "method": "A",
  "base": "1995–2019",
  "validated": true,
+ "labels": [
+  {
+   "label": "LOW",
+   "range": "0-25"
+  },
+  {
+   "label": "BELOW MIDDLE",
+   "range": "25-50"
+  },
+  {
+   "label": "ABOVE MIDDLE",
+   "range": "50-75"
+  },
+  {
+   "label": "HIGH",
+   "range": "75-100"
+  }
+ ],
  "validation": {
   "T1_r": 0.75,
   "T1_years": 30,
@@ -37,10 +55,18 @@ var FFAI4 = {
  "headline": {
   "ratio": 84.5,
   "score": 11.0,
-  "regime": "STRESSED",
+  "label": "LOW",
+  "regime": "LOW",
+  "label_vs": "1995-2019",
+  "label_legacy": "STRESSED",
+  "year_ago_quarter": "Q2'25",
+  "year_ago_score": 24.0,
+  "year_ago_ratio": 93.4,
+  "ratio_yoy_pct": -9.5,
   "prev_ratio": 79.2,
   "prev_score": 0.0,
   "prev_quarter": "Q1'26",
+  "ratio_qoq_pct": 6.6,
   "pct_less_than_2011": 15.5,
   "worse_than_base_pct": 89.0,
   "records": {
@@ -57,17 +83,21 @@ var FFAI4 = {
    "from": "Q2'16",
    "to": "Q1'26"
   },
-  "year_ago_quarter": "Q2'25",
-  "year_ago_score": 24.0,
-  "year_ago_ratio": 93.4
+  "text": "Farm prices received vs prices paid, Q2 2026: 84.5 (2011 = 100), down 9.5% from Q2 2025"
  },
  "sectors": {
   "crops": {
    "ratio": 73.4,
    "score": 0.0,
-   "regime": "STRESSED",
+   "label": "LOW",
+   "regime": "LOW",
+   "label_legacy": "STRESSED",
+   "year_ago_ratio": 71.6,
+   "year_ago_score": 0.0,
+   "ratio_yoy_pct": 2.4,
    "prev_ratio": 64.7,
    "prev_score": 0.0,
+   "ratio_qoq_pct": 13.3,
    "records": {
     "low": 64.7,
     "low_q": "Q1'26",
@@ -80,9 +110,15 @@ var FFAI4 = {
   "livestock": {
    "ratio": 113.9,
    "score": 94.0,
-   "regime": "STRONG",
+   "label": "HIGH",
+   "regime": "HIGH",
+   "label_legacy": "STRONG",
+   "year_ago_ratio": 112.8,
+   "year_ago_score": 93.0,
+   "ratio_yoy_pct": 1.0,
    "prev_ratio": 110.2,
    "prev_score": 90.0,
+   "ratio_qoq_pct": 3.3,
    "records": {
     "low": 77.7,
     "low_q": "Q3'20",
@@ -95,9 +131,15 @@ var FFAI4 = {
   "dairy": {
    "ratio": 60.2,
    "score": 0.0,
-   "regime": "STRESSED",
+   "label": "LOW",
+   "regime": "LOW",
+   "label_legacy": "STRESSED",
+   "year_ago_ratio": 68.8,
+   "year_ago_score": 1.0,
+   "ratio_yoy_pct": -12.4,
    "prev_ratio": 54.0,
    "prev_score": 0.0,
+   "ratio_qoq_pct": 11.5,
    "records": {
     "low": 54.0,
     "low_q": "Q1'26",
@@ -255,98 +297,155 @@ var FFAI4 = {
  "to_reach": {
   "all": [
    {
-    "regime": "GUARDED",
-    "score": 40,
-    "ratio": 97.5,
-    "move_pct": 15.4,
+    "label": "BELOW MIDDLE",
+    "regime": "BELOW MIDDLE",
+    "score": 25,
+    "ratio": 93.6,
+    "move_pct": 10.7,
     "reached": false
    },
    {
-    "regime": "FAVORABLE",
-    "score": 55,
-    "ratio": 101.2,
-    "move_pct": 19.8,
+    "label": "ABOVE MIDDLE",
+    "regime": "ABOVE MIDDLE",
+    "score": 50,
+    "ratio": 100.2,
+    "move_pct": 18.5,
     "reached": false
    },
    {
-    "regime": "STRONG",
-    "score": 70,
-    "ratio": 104.3,
-    "move_pct": 23.4,
+    "label": "HIGH",
+    "regime": "HIGH",
+    "score": 75,
+    "ratio": 106.2,
+    "move_pct": 25.6,
     "reached": false
    }
   ],
   "crops": [
    {
-    "regime": "GUARDED",
-    "score": 40,
-    "ratio": 95.2,
-    "move_pct": 29.7,
+    "label": "BELOW MIDDLE",
+    "regime": "BELOW MIDDLE",
+    "score": 25,
+    "ratio": 86.9,
+    "move_pct": 18.5,
     "reached": false
    },
    {
-    "regime": "FAVORABLE",
-    "score": 55,
-    "ratio": 99.3,
-    "move_pct": 35.3,
+    "label": "ABOVE MIDDLE",
+    "regime": "ABOVE MIDDLE",
+    "score": 50,
+    "ratio": 98.1,
+    "move_pct": 33.7,
     "reached": false
    },
    {
-    "regime": "STRONG",
-    "score": 70,
-    "ratio": 103.1,
-    "move_pct": 40.5,
+    "label": "HIGH",
+    "regime": "HIGH",
+    "score": 75,
+    "ratio": 105.1,
+    "move_pct": 43.3,
     "reached": false
    }
   ],
   "livestock": [
    {
-    "regime": "GUARDED",
-    "score": 40,
-    "ratio": 96.0,
-    "move_pct": -15.7,
+    "label": "BELOW MIDDLE",
+    "regime": "BELOW MIDDLE",
+    "score": 25,
+    "ratio": 91.7,
+    "move_pct": -19.4,
     "reached": true
    },
    {
-    "regime": "FAVORABLE",
-    "score": 55,
-    "ratio": 98.9,
-    "move_pct": -13.2,
+    "label": "ABOVE MIDDLE",
+    "regime": "ABOVE MIDDLE",
+    "score": 50,
+    "ratio": 98.7,
+    "move_pct": -13.3,
     "reached": true
    },
    {
-    "regime": "STRONG",
-    "score": 70,
-    "ratio": 102.2,
-    "move_pct": -10.2,
+    "label": "HIGH",
+    "regime": "HIGH",
+    "score": 75,
+    "ratio": 103.4,
+    "move_pct": -9.2,
     "reached": true
    }
   ],
   "dairy": [
    {
-    "regime": "GUARDED",
-    "score": 40,
-    "ratio": 94.1,
-    "move_pct": 56.2,
+    "label": "BELOW MIDDLE",
+    "regime": "BELOW MIDDLE",
+    "score": 25,
+    "ratio": 85.4,
+    "move_pct": 41.8,
     "reached": false
    },
    {
-    "regime": "FAVORABLE",
-    "score": 55,
-    "ratio": 102.1,
-    "move_pct": 69.5,
+    "label": "ABOVE MIDDLE",
+    "regime": "ABOVE MIDDLE",
+    "score": 50,
+    "ratio": 98.4,
+    "move_pct": 63.4,
     "reached": false
    },
    {
-    "regime": "STRONG",
-    "score": 70,
-    "ratio": 108.5,
-    "move_pct": 80.1,
+    "label": "HIGH",
+    "regime": "HIGH",
+    "score": 75,
+    "ratio": 111.6,
+    "move_pct": 85.2,
     "reached": false
    }
   ]
  },
- "dairy_cost_check": null,
+ "dairy_cost_check": {
+  "from_quarter": "Q4'19",
+  "feeder_cattle_paid_pct": 191.0,
+  "feed_paid_pct": 8.6,
+  "dairy_vs_feed_score": 26.0,
+  "alternatives": [
+   {
+    "cost_index": "Animal sector (published)",
+    "ratio": 60.2,
+    "score": 0.0,
+    "label": "LOW"
+   },
+   {
+    "cost_index": "Feed only",
+    "ratio": 93.4,
+    "score": 26.0,
+    "label": "BELOW MIDDLE"
+   },
+   {
+    "cost_index": "Production items",
+    "ratio": 63.7,
+    "score": 0.0,
+    "label": "LOW"
+   },
+   {
+    "cost_index": "Production items, interest, taxes, wages (PITW)",
+    "ratio": 63.3,
+    "score": 0.0,
+    "label": "LOW"
+   },
+   {
+    "cost_index": "Everything farms pay (PPITW)",
+    "ratio": 64.1,
+    "score": 0.0,
+    "label": "LOW"
+   }
+  ]
+ },
+ "chart": {
+  "band_low": 93.6,
+  "band_mid": 100.2,
+  "band_high": 106.2,
+  "base_from": "Q1'95",
+  "base_to": "Q4'19",
+  "first_live": "Q2'26"
+ },
  "history": [
   [
    "Q1'95",
@@ -354,7 +453,9 @@ var FFAI4 = {
    112.4,
    109.2,
    114.2,
-   91.0
+   91.0,
+   "HIGH",
+   false
   ],
   [
    "Q2'95",
@@ -362,7 +463,9 @@ var FFAI4 = {
    122.5,
    101.5,
    111.4,
-   93.0
+   93.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'95",
@@ -370,7 +473,9 @@ var FFAI4 = {
    122.7,
    102.5,
    112.2,
-   95.0
+   95.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'95",
@@ -378,7 +483,9 @@ var FFAI4 = {
    123.9,
    98.2,
    122.1,
-   98.0
+   98.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'96",
@@ -386,7 +493,9 @@ var FFAI4 = {
    129.4,
    95.0,
    120.5,
-   96.0
+   96.0,
+   "HIGH",
+   false
   ],
   [
    "Q2'96",
@@ -394,7 +503,9 @@ var FFAI4 = {
    137.7,
    93.9,
    120.6,
-   99.0
+   99.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'96",
@@ -402,7 +513,9 @@ var FFAI4 = {
    136.7,
    100.8,
    132.9,
-   100.0
+   100.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'96",
@@ -410,7 +523,9 @@ var FFAI4 = {
    119.2,
    102.3,
    129.8,
-   97.0
+   97.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'97",
@@ -418,7 +533,9 @@ var FFAI4 = {
    117.5,
    100.8,
    112.5,
-   92.0
+   92.0,
+   "HIGH",
+   false
   ],
   [
    "Q2'97",
@@ -426,7 +543,9 @@ var FFAI4 = {
    117.6,
    103.7,
    103.8,
-   89.0
+   89.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'97",
@@ -434,7 +553,9 @@ var FFAI4 = {
    116.1,
    102.6,
    103.8,
-   90.0
+   90.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'97",
@@ -442,7 +563,9 @@ var FFAI4 = {
    114.0,
    96.4,
    119.4,
-   88.0
+   88.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'98",
@@ -450,7 +573,9 @@ var FFAI4 = {
    112.7,
    91.6,
    122.3,
-   81.0
+   81.0,
+   "HIGH",
+   false
   ],
   [
    "Q2'98",
@@ -458,7 +583,9 @@ var FFAI4 = {
    114.2,
    96.6,
    117.2,
-   87.0
+   87.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'98",
@@ -466,7 +593,9 @@ var FFAI4 = {
    106.0,
    88.8,
    134.5,
-   85.0
+   85.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'98",
@@ -474,7 +603,9 @@ var FFAI4 = {
    103.1,
    82.2,
    155.7,
-   80.0
+   80.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'99",
@@ -482,7 +613,9 @@ var FFAI4 = {
    102.3,
    88.6,
    137.1,
-   74.0
+   74.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'99",
@@ -490,7 +623,9 @@ var FFAI4 = {
    105.1,
    95.0,
    110.5,
-   76.0
+   76.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'99",
@@ -498,7 +633,9 @@ var FFAI4 = {
    98.9,
    96.2,
    128.5,
-   71.0
+   71.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'99",
@@ -506,7 +643,9 @@ var FFAI4 = {
    90.8,
    98.8,
    117.0,
-   48.0
+   48.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'00",
@@ -514,7 +653,9 @@ var FFAI4 = {
    91.9,
    102.2,
    98.4,
-   42.0
+   42.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'00",
@@ -522,7 +663,9 @@ var FFAI4 = {
    100.9,
    107.3,
    99.1,
-   70.0
+   70.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'00",
@@ -530,7 +673,9 @@ var FFAI4 = {
    95.2,
    102.2,
    104.8,
-   56.0
+   56.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'00",
@@ -538,7 +683,9 @@ var FFAI4 = {
    93.0,
    100.3,
    102.9,
-   49.0
+   49.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'01",
@@ -546,7 +693,9 @@ var FFAI4 = {
    92.9,
    105.6,
    106.3,
-   54.0
+   54.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'01",
@@ -554,7 +703,9 @@ var FFAI4 = {
    99.3,
    110.1,
    123.5,
-   79.0
+   79.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'01",
@@ -562,7 +713,9 @@ var FFAI4 = {
    101.7,
    105.3,
    131.9,
-   83.0
+   83.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'01",
@@ -570,7 +723,9 @@ var FFAI4 = {
    89.3,
    93.3,
    115.8,
-   35.0
+   35.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'02",
@@ -578,7 +733,9 @@ var FFAI4 = {
    101.6,
    98.0,
    104.7,
-   57.0
+   57.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'02",
@@ -586,7 +743,9 @@ var FFAI4 = {
    98.8,
    91.9,
    97.0,
-   38.0
+   38.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'02",
@@ -594,7 +753,9 @@ var FFAI4 = {
    106.0,
    89.0,
    90.3,
-   50.0
+   50.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'02",
@@ -602,7 +763,9 @@ var FFAI4 = {
    97.3,
    90.2,
    94.1,
-   36.0
+   36.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'03",
@@ -610,7 +773,9 @@ var FFAI4 = {
    96.3,
    97.6,
    88.9,
-   39.0
+   39.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'03",
@@ -618,7 +783,9 @@ var FFAI4 = {
    104.9,
    102.7,
    85.8,
-   63.0
+   63.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'03",
@@ -626,7 +793,9 @@ var FFAI4 = {
    102.6,
    108.3,
    103.7,
-   75.0
+   75.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'03",
@@ -634,7 +803,9 @@ var FFAI4 = {
    105.6,
    115.4,
    109.6,
-   86.0
+   86.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'04",
@@ -642,7 +813,9 @@ var FFAI4 = {
    104.6,
    106.4,
    105.6,
-   82.0
+   82.0,
+   "HIGH",
+   false
   ],
   [
    "Q2'04",
@@ -650,7 +823,9 @@ var FFAI4 = {
    107.2,
    114.1,
    133.3,
-   94.0
+   94.0,
+   "HIGH",
+   false
   ],
   [
    "Q3'04",
@@ -658,7 +833,9 @@ var FFAI4 = {
    102.6,
    115.5,
    111.7,
-   84.0
+   84.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'04",
@@ -666,7 +843,9 @@ var FFAI4 = {
    94.3,
    114.6,
    117.0,
-   69.0
+   69.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q1'05",
@@ -674,7 +853,9 @@ var FFAI4 = {
    90.2,
    113.2,
    111.4,
-   62.0
+   62.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'05",
@@ -682,7 +863,9 @@ var FFAI4 = {
    97.6,
    111.1,
    102.8,
-   68.0
+   68.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'05",
@@ -690,7 +873,9 @@ var FFAI4 = {
    92.6,
    104.5,
    103.4,
-   51.0
+   51.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'05",
@@ -698,7 +883,9 @@ var FFAI4 = {
    85.2,
    108.4,
    103.5,
-   31.0
+   31.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'06",
@@ -706,7 +893,9 @@ var FFAI4 = {
    86.7,
    105.5,
    89.9,
-   24.0
+   24.0,
+   "LOW",
+   false
   ],
   [
    "Q2'06",
@@ -714,7 +903,9 @@ var FFAI4 = {
    96.0,
    100.1,
    79.3,
-   28.0
+   28.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'06",
@@ -722,7 +913,9 @@ var FFAI4 = {
    95.5,
    104.5,
    81.0,
-   40.0
+   40.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q4'06",
@@ -730,7 +923,9 @@ var FFAI4 = {
    94.6,
    99.6,
    91.6,
-   43.0
+   43.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'07",
@@ -738,7 +933,9 @@ var FFAI4 = {
    102.9,
    96.3,
    95.1,
-   59.0
+   59.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'07",
@@ -746,7 +943,9 @@ var FFAI4 = {
    102.7,
    101.3,
    113.3,
-   72.0
+   72.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'07",
@@ -754,7 +953,9 @@ var FFAI4 = {
    102.7,
    99.7,
    133.8,
-   78.0
+   78.0,
+   "HIGH",
+   false
   ],
   [
    "Q4'07",
@@ -762,7 +963,9 @@ var FFAI4 = {
    106.1,
    93.2,
    130.8,
-   77.0
+   77.0,
+   "HIGH",
+   false
   ],
   [
    "Q1'08",
@@ -770,7 +973,9 @@ var FFAI4 = {
    109.9,
    87.3,
    111.6,
-   73.0
+   73.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'08",
@@ -778,7 +983,9 @@ var FFAI4 = {
    109.2,
    87.8,
    102.1,
-   65.0
+   65.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'08",
@@ -786,7 +993,9 @@ var FFAI4 = {
    106.0,
    89.1,
    98.4,
-   61.0
+   61.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'08",
@@ -794,7 +1003,9 @@ var FFAI4 = {
    98.4,
    81.7,
    93.9,
-   37.0
+   37.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'09",
@@ -802,7 +1013,9 @@ var FFAI4 = {
    96.8,
    80.0,
    69.7,
-   22.0
+   22.0,
+   "LOW",
+   false
   ],
   [
    "Q2'09",
@@ -810,7 +1023,9 @@ var FFAI4 = {
    97.9,
    82.2,
    65.9,
-   21.0
+   21.0,
+   "LOW",
+   false
   ],
   [
    "Q3'09",
@@ -818,7 +1033,9 @@ var FFAI4 = {
    95.2,
    80.4,
    70.0,
-   19.0
+   19.0,
+   "LOW",
+   false
   ],
   [
    "Q4'09",
@@ -826,7 +1043,9 @@ var FFAI4 = {
    98.6,
    79.8,
    88.6,
-   30.0
+   30.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'10",
@@ -834,7 +1053,9 @@ var FFAI4 = {
    93.8,
    86.2,
    88.0,
-   25.0
+   25.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'10",
@@ -842,7 +1063,9 @@ var FFAI4 = {
    91.4,
    95.5,
    84.5,
-   26.0
+   26.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'10",
@@ -850,7 +1073,9 @@ var FFAI4 = {
    93.9,
    95.4,
    94.2,
-   34.0
+   34.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q4'10",
@@ -858,7 +1083,9 @@ var FFAI4 = {
    103.1,
    89.8,
    95.9,
-   60.0
+   60.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q1'11",
@@ -866,7 +1093,9 @@ var FFAI4 = {
    99.4,
    98.8,
    95.8,
-   46.0
+   46.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'11",
@@ -874,7 +1103,9 @@ var FFAI4 = {
    102.0,
    100.4,
    99.5,
-   58.0
+   58.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'11",
@@ -882,7 +1113,9 @@ var FFAI4 = {
    101.0,
    99.3,
    106.2,
-   52.0
+   52.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'11",
@@ -890,7 +1123,9 @@ var FFAI4 = {
    97.7,
    101.3,
    98.3,
-   45.0
+   45.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'12",
@@ -898,7 +1133,9 @@ var FFAI4 = {
    98.1,
    101.7,
    85.4,
-   44.0
+   44.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'12",
@@ -906,7 +1143,9 @@ var FFAI4 = {
    101.2,
    98.9,
    77.5,
-   41.0
+   41.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'12",
@@ -914,7 +1153,9 @@ var FFAI4 = {
    107.8,
    95.0,
    85.2,
-   55.0
+   55.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q4'12",
@@ -922,7 +1163,9 @@ var FFAI4 = {
    107.0,
    96.0,
    99.1,
-   67.0
+   67.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q1'13",
@@ -930,7 +1173,9 @@ var FFAI4 = {
    106.9,
    96.4,
    89.8,
-   66.0
+   66.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q2'13",
@@ -938,7 +1183,9 @@ var FFAI4 = {
    104.0,
    98.8,
    90.4,
-   64.0
+   64.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'13",
@@ -946,7 +1193,9 @@ var FFAI4 = {
    100.0,
    98.2,
    89.4,
-   47.0
+   47.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q4'13",
@@ -954,7 +1203,9 @@ var FFAI4 = {
    88.7,
    101.1,
    99.1,
-   27.0
+   27.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'14",
@@ -962,7 +1213,9 @@ var FFAI4 = {
    86.9,
    107.5,
    108.5,
-   32.0
+   32.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'14",
@@ -970,7 +1223,9 @@ var FFAI4 = {
    91.5,
    110.0,
    102.5,
-   53.0
+   53.0,
+   "ABOVE MIDDLE",
+   false
   ],
   [
    "Q3'14",
@@ -978,7 +1233,9 @@ var FFAI4 = {
    84.1,
    115.7,
    103.1,
-   33.0
+   33.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q4'14",
@@ -986,7 +1243,9 @@ var FFAI4 = {
    76.8,
    117.5,
    96.6,
-   18.0
+   18.0,
+   "LOW",
+   false
   ],
   [
    "Q1'15",
@@ -994,7 +1253,9 @@ var FFAI4 = {
    78.2,
    111.4,
    73.8,
-   17.0
+   17.0,
+   "LOW",
+   false
   ],
   [
    "Q2'15",
@@ -1002,7 +1263,9 @@ var FFAI4 = {
    82.8,
    112.2,
    73.1,
-   29.0
+   29.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'15",
@@ -1010,7 +1273,9 @@ var FFAI4 = {
    81.1,
    106.5,
    75.3,
-   20.0
+   20.0,
+   "LOW",
+   false
   ],
   [
    "Q4'15",
@@ -1018,7 +1283,9 @@ var FFAI4 = {
    76.5,
    95.1,
    81.5,
-   8.0
+   8.0,
+   "LOW",
+   false
   ],
   [
    "Q1'16",
@@ -1026,7 +1293,9 @@ var FFAI4 = {
    78.0,
    98.7,
    72.8,
-   13.0
+   13.0,
+   "LOW",
+   false
   ],
   [
    "Q2'16",
@@ -1034,7 +1303,9 @@ var FFAI4 = {
    83.2,
    98.8,
    68.9,
-   15.0
+   15.0,
+   "LOW",
+   false
   ],
   [
    "Q3'16",
@@ -1042,7 +1313,9 @@ var FFAI4 = {
    79.6,
    91.7,
    80.8,
-   11.0
+   11.0,
+   "LOW",
+   false
   ],
   [
    "Q4'16",
@@ -1050,7 +1323,9 @@ var FFAI4 = {
    76.0,
    83.4,
    87.1,
-   2.0
+   2.0,
+   "LOW",
+   false
   ],
   [
    "Q1'17",
@@ -1058,7 +1333,9 @@ var FFAI4 = {
    76.2,
    95.2,
    86.7,
-   12.0
+   12.0,
+   "LOW",
+   false
   ],
   [
    "Q2'17",
@@ -1066,7 +1343,9 @@ var FFAI4 = {
    82.3,
    103.4,
    79.7,
-   23.0
+   23.0,
+   "LOW",
+   false
   ],
   [
    "Q3'17",
@@ -1074,7 +1353,9 @@ var FFAI4 = {
    81.8,
    93.5,
    84.5,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q4'17",
@@ -1082,7 +1363,9 @@ var FFAI4 = {
    76.7,
    91.3,
    83.8,
-   10.0
+   10.0,
+   "LOW",
+   false
   ],
   [
    "Q1'18",
@@ -1090,7 +1373,9 @@ var FFAI4 = {
    76.6,
    93.5,
    72.0,
-   7.0
+   7.0,
+   "LOW",
+   false
   ],
   [
    "Q2'18",
@@ -1098,7 +1383,9 @@ var FFAI4 = {
    80.7,
    89.5,
    73.7,
-   14.0
+   14.0,
+   "LOW",
+   false
   ],
   [
    "Q3'18",
@@ -1106,7 +1393,9 @@ var FFAI4 = {
    79.3,
    84.4,
    74.5,
-   5.0
+   5.0,
+   "LOW",
+   false
   ],
   [
    "Q4'18",
@@ -1114,7 +1403,9 @@ var FFAI4 = {
    75.0,
    85.9,
    78.5,
-   1.0
+   1.0,
+   "LOW",
+   false
   ],
   [
    "Q1'19",
@@ -1122,7 +1413,9 @@ var FFAI4 = {
    74.5,
    89.5,
    77.0,
-   3.0
+   3.0,
+   "LOW",
+   false
   ],
   [
    "Q2'19",
@@ -1130,7 +1423,9 @@ var FFAI4 = {
    77.4,
    92.2,
    81.1,
-   9.0
+   9.0,
+   "LOW",
+   false
   ],
   [
    "Q3'19",
@@ -1138,7 +1433,9 @@ var FFAI4 = {
    80.2,
    84.9,
    87.1,
-   6.0
+   6.0,
+   "LOW",
+   false
   ],
   [
    "Q4'19",
@@ -1146,7 +1443,9 @@ var FFAI4 = {
    76.5,
    84.7,
    94.3,
-   4.0
+   4.0,
+   "LOW",
+   false
   ],
   [
    "Q1'20",
@@ -1154,7 +1453,9 @@ var FFAI4 = {
    77.1,
    87.2,
    84.5,
-   5.0
+   5.0,
+   "LOW",
+   false
   ],
   [
    "Q2'20",
@@ -1162,7 +1463,9 @@ var FFAI4 = {
    79.4,
    83.2,
    71.3,
-   0.0
+   0.0,
+   "LOW",
+   false
   ],
   [
    "Q3'20",
@@ -1170,7 +1473,9 @@ var FFAI4 = {
    81.3,
    77.7,
    86.6,
-   0.0
+   0.0,
+   "LOW",
+   false
   ],
   [
    "Q4'20",
@@ -1178,7 +1483,9 @@ var FFAI4 = {
    80.4,
    81.3,
    87.4,
-   3.0
+   3.0,
+   "LOW",
+   false
   ],
   [
    "Q1'21",
@@ -1186,7 +1493,9 @@ var FFAI4 = {
    82.1,
    83.0,
    73.6,
-   4.0
+   4.0,
+   "LOW",
+   false
   ],
   [
    "Q2'21",
@@ -1194,7 +1503,9 @@ var FFAI4 = {
    90.2,
    90.3,
    77.4,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q3'21",
@@ -1202,7 +1513,9 @@ var FFAI4 = {
    89.9,
    89.9,
    73.2,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q4'21",
@@ -1210,7 +1523,9 @@ var FFAI4 = {
    85.7,
    86.9,
    83.0,
-   15.0
+   15.0,
+   "LOW",
+   false
   ],
   [
    "Q1'22",
@@ -1218,7 +1533,9 @@ var FFAI4 = {
    83.8,
    88.1,
    93.5,
-   17.0
+   17.0,
+   "LOW",
+   false
   ],
   [
    "Q2'22",
@@ -1226,7 +1543,9 @@ var FFAI4 = {
    88.6,
    89.1,
    98.9,
-   39.0
+   39.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q3'22",
@@ -1234,7 +1553,9 @@ var FFAI4 = {
    90.1,
    89.8,
    88.9,
-   29.0
+   29.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q4'22",
@@ -1242,7 +1563,9 @@ var FFAI4 = {
    89.8,
    89.9,
    91.0,
-   30.0
+   30.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q1'23",
@@ -1250,7 +1573,9 @@ var FFAI4 = {
    84.0,
    88.4,
    76.4,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q2'23",
@@ -1258,7 +1583,9 @@ var FFAI4 = {
    88.3,
    95.9,
    67.1,
-   22.0
+   22.0,
+   "LOW",
+   false
   ],
   [
    "Q3'23",
@@ -1266,7 +1593,9 @@ var FFAI4 = {
    84.8,
    102.1,
    67.3,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q4'23",
@@ -1274,7 +1603,9 @@ var FFAI4 = {
    74.1,
    97.3,
    74.6,
-   4.0
+   4.0,
+   "LOW",
+   false
   ],
   [
    "Q1'24",
@@ -1282,7 +1613,9 @@ var FFAI4 = {
    72.7,
    96.4,
    70.7,
-   9.0
+   9.0,
+   "LOW",
+   false
   ],
   [
    "Q2'24",
@@ -1290,7 +1623,9 @@ var FFAI4 = {
    76.1,
    103.0,
    75.4,
-   16.0
+   16.0,
+   "LOW",
+   false
   ],
   [
    "Q3'24",
@@ -1298,7 +1633,9 @@ var FFAI4 = {
    73.3,
    105.1,
    84.7,
-   17.0
+   17.0,
+   "LOW",
+   false
   ],
   [
    "Q4'24",
@@ -1306,7 +1643,9 @@ var FFAI4 = {
    67.8,
    102.2,
    83.5,
-   12.0
+   12.0,
+   "LOW",
+   false
   ],
   [
    "Q1'25",
@@ -1314,7 +1653,9 @@ var FFAI4 = {
    65.8,
    105.9,
    76.7,
-   29.0
+   29.0,
+   "BELOW MIDDLE",
+   false
   ],
   [
    "Q2'25",
@@ -1322,7 +1663,9 @@ var FFAI4 = {
    71.6,
    112.8,
    68.8,
-   24.0
+   24.0,
+   "LOW",
+   false
   ],
   [
    "Q3'25",
@@ -1330,7 +1673,9 @@ var FFAI4 = {
    71.4,
    119.0,
    65.2,
-   17.0
+   17.0,
+   "LOW",
+   false
   ],
   [
    "Q4'25",
@@ -1338,7 +1683,9 @@ var FFAI4 = {
    67.1,
    112.2,
    60.3,
-   1.0
+   1.0,
+   "LOW",
+   false
   ],
   [
    "Q1'26",
@@ -1346,7 +1693,9 @@ var FFAI4 = {
    64.7,
    110.2,
    54.0,
-   0.0
+   0.0,
+   "LOW",
+   false
   ],
   [
    "Q2'26",
@@ -1354,7 +1703,9 @@ var FFAI4 = {
    73.4,
    113.9,
    60.2,
-   11.0
+   11.0,
+   "LOW",
+   true
   ]
  ]
 };

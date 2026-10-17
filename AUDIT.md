@@ -113,3 +113,16 @@ Severity: HIGH = a reader is misled today. MEDIUM = a claim is weaker than the p
 - **R4.** Commit each NASS pull to `engine/v4/vintages/` (small CSVs) so revision and nowcast error can be measured from first prints.
 - **R5.** Tighten the NASS parse (M7.6). Keep the regime lines in one place (L1).
 - **R6.** Add the v3 JSON status field (H2).
+
+---
+
+## Applied (Oct 17, 2026, Sig approved)
+
+- **H1 / R2.** Labels are now LOW / BELOW MIDDLE / ABOVE MIDDLE / HIGH, split at the 1995-2019 quartiles (25 / 50 / 75), always shown with "vs 1995-2019". The headline leads with the ratio and its change from the same quarter a year earlier; the score and label are secondary. Old labels stay in the API as `label_legacy` (version 4.1, documented in the stability note).
+- **L1.** The label lines live only in `engine/ffai_v4_labels.py`. Publish writes the label into the JSON; the page and badge read it. A selftest fails if label lines reappear in the page scripts or badge.
+- **M5.** The year-ago quarter is the main comparison in the hero, sector tiles, What Moved, farm-gate prices, badge, metadata and commentary. Quarter-to-quarter is secondary and marked partly seasonal.
+- **H2 / R6.** `api/v3/current.json`, `history.json`, `meta.json` and `engine/ffai_v3_website.json` carry `status: retired`, `superseded_by` and `retired_note`.
+- **M4 / R3.** `real_time` in history.json and history.csv (true from Q2'26, the v4 launch). The chart greys the in-sample 1995-2019 quarters, with a legend.
+- **M7.6 / R5.** The NASS parse accepts only the 12 month names and stops on duplicate months that disagree (selftests for both).
+- **L2.** Dairy against feed, production items, PITW and PPITW is computed by the engine and shown in the methodology.
+- **R1.** Stress run 39001256902 (branch fx/ffai-audit): `engine/stress/stress_report_run_39001256902.md`. Track record: same direction in 24 of 30 years (1996-2025); now on the page with every miss shown. In the 11 LOW years, real net farm income was above its 1995-2019 median in 6. The ALFRED vintage check failed (HTTP 400); the stress tool now skips years ALFRED refuses.

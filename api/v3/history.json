@@ -1,4 +1,9 @@
 {
+  "status": "retired",
+  "superseded_by": "/api/v4/current.json",
+  "superseded_by_url": "https://farmers1st.com/api/v4/current.json",
+  "retired": "2026-10",
+  "retired_note": "FFAI v3 was retired in October 2026 and is no longer updated. These are its last values, kept for the record. They are not current and used a different method (Federal Reserve series) that disagrees with FFAI v4 for the same quarter. For the current index use https://farmers1st.com/api/v4/current.json",
   "ffai_version": "3.0",
   "generated": "2026-10-06T23:34:54Z",
   "count": 74,

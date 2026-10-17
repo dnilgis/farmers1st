@@ -1,5 +1,5 @@
 {
-  "ffai_version": "4.0",
+  "ffai_version": "4.1",
   "generated": "2026-10-07T01:32:20Z",
   "name": "Farmers First Ag Index v4",
   "description": "National ratio of prices farms receive to prices farms pay (USDA NASS indexes, 2011 = 100), scored as a percentile of the 1995-2019 quarters.",
@@ -11,6 +11,18 @@
   },
   "score": "share of 1995-2019 quarters at or below this quarter's ratio, 0-100",
   "base_period": "1995-2019",
+  "labels": {
+    "lines": {
+      "LOW": "0-25",
+      "BELOW MIDDLE": "25-50",
+      "ABOVE MIDDLE": "50-75",
+      "HIGH": "75-100"
+    },
+    "meaning": "The label says where the ratio sits against the 1995-2019 quarters, split at their quartiles. It describes prices received against prices paid, not farm income. Show it with \"vs 1995-2019\".",
+    "legacy": "Until Oct 2026 the labels were STRESSED (0-40), GUARDED (40-55), FAVORABLE (55-70) and STRONG (70-100). They were never tested and read STRESSED in every quarter from 2020, so they were replaced. The old label is still published as label_legacy."
+  },
+  "comparisons": "The main comparison is the same quarter a year earlier. Quarter-to-quarter changes are partly seasonal.",
+  "real_time": "real_time is true only for quarters scored live, from Q2'26 (the v4 launch, Oct 7, 2026) on. Earlier quarters were back-filled; 1995-2019 are also in-sample, ranked against a period that includes later quarters.",
   "quarter_rule": "average of 3 months; a quarter is published only when all 3 months of both sides are out",
   "validation": {
     "preregistered_in": "engine/ffai_v4.py (git commit 163cc4b, before the first validation run)",
@@ -75,7 +87,7 @@
       "how": "Fisher z with the effective sample size"
     },
     "tests_run": "6 tests ran (2 candidate scores x 3 tests); 6 passed. All correlation tests stay below 0.05 after a Holm correction for running them together. The error tests (T3) have no p value; with 20 and 10 test years the gap is not tested for significance.",
-    "scope": "year-over-year changes in the all-farms ratio; the 0-100 score level and the sector scores were not tested",
+    "scope": "year-over-year changes in the all-farms ratio; the 0-100 score level, the labels and the sector scores were not tested",
     "same_year_only": "the relationship is within the same year; it is not a forecast",
     "headline_lock": "A and B both passed 3/3; by the pre-registered tie rule A was chosen, and the engine was then set to keep A (HEADLINE_METHOD) so a later run cannot switch it",
     "note": "the latest year of net farm income is a USDA forecast and can be revised",
@@ -83,8 +95,9 @@
   },
   "limitations": [
     "Prices only: yields, volumes and government payments are not in the ratio.",
-    "The ratio declined about 1.2 points a year over 1995-2019, consistent with rising yields; scores against 1995-2019 therefore run low in most recent years. STRESSED means low against that period, not low income.",
-    "Scores for 1995-2019 are ranked against the whole period, including later years; they are not what a reader would have seen at the time.",
+    "The ratio declined about 1.2 points a year over 1995-2019, consistent with rising yields; scores against 1995-2019 therefore run low in most recent years. LOW means low against that period, not low income.",
+    "Scores for 1995-2019 are ranked against the whole period, including later years; they are not what a reader would have seen at the time (real_time is false for them).",
+    "The quarterly ratio is seasonal; compare with the same quarter a year earlier.",
     "Prices paid includes household living costs as well as farm inputs.",
     "Interest, cash rent, seed and taxes are updated by USDA once a year; the wage index has not changed since April 2025.",
     "The latest month of prices received is preliminary and is revised the following month."
@@ -96,5 +109,5 @@
   "source": "https://farmers1st.com",
   "api_docs": "https://farmers1st.com/api/",
   "license": "CC BY 4.0",
-  "fields_stable": "Fields in current.json, history.json and history.csv keep their names and meaning within v4; new fields may be added. A change in meaning gets a new version number."
+  "fields_stable": "Fields in current.json, history.json and history.csv keep their names within v4; new fields may be added. A change in meaning gets a new version number. Version 4.1 (Oct 2026): the label values changed. regime now carries the new label (LOW 0-25, BELOW MIDDLE 25-50, ABOVE MIDDLE 50-75, HIGH 75-100, vs 1995-2019) and equals label; the old value (STRESSED / GUARDED / FAVORABLE / STRONG) is in label_legacy, with its lines in label_legacy_thresholds. to_reach entries use the new lines (25, 50, 75) and carry both label and regime. Added: headline, label, label_vs, ratio_change_vs_year_ago_pct, ratio_change_vs_previous_pct, sector year-ago fields, and label and real_time in history.json and history.csv (as the last two CSV columns). score, ratio and every other field are unchanged."
 }

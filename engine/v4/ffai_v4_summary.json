@@ -64,22 +64,26 @@
     "all": {
       "ratio": 84.5,
       "score": 11.0,
-      "regime": "STRESSED"
+      "regime": "LOW",
+      "label_legacy": "STRESSED"
     },
     "crops": {
       "ratio": 73.4,
       "score": 0.0,
-      "regime": "STRESSED"
+      "regime": "LOW",
+      "label_legacy": "STRESSED"
     },
     "livestock": {
       "ratio": 113.9,
       "score": 94.0,
-      "regime": "STRONG"
+      "regime": "HIGH",
+      "label_legacy": "STRONG"
     },
     "dairy": {
       "ratio": 60.2,
       "score": 0.0,
-      "regime": "STRESSED"
+      "regime": "LOW",
+      "label_legacy": "STRESSED"
     }
   },
   "drivers": {
@@ -183,5 +187,44 @@
       "prev_q": 164.67,
       "year_ago": 182.67
     }
-  }
+  },
+  "dairy_cost_check": {
+    "from_quarter": "Q4'19",
+    "feeder_cattle_paid_pct": 191.0,
+    "feed_paid_pct": 8.6,
+    "dairy_vs_feed_score": 26.0,
+    "alternatives": [
+      {
+        "cost_index": "Animal sector (published)",
+        "ratio": 60.2,
+        "score": 0.0,
+        "label": "LOW"
+      },
+      {
+        "cost_index": "Feed only",
+        "ratio": 93.4,
+        "score": 26.0,
+        "label": "BELOW MIDDLE"
+      },
+      {
+        "cost_index": "Production items",
+        "ratio": 63.7,
+        "score": 0.0,
+        "label": "LOW"
+      },
+      {
+        "cost_index": "Production items, interest, taxes, wages (PITW)",
+        "ratio": 63.3,
+        "score": 0.0,
+        "label": "LOW"
+      },
+      {
+        "cost_index": "Everything farms pay (PPITW)",
+        "ratio": 64.1,
+        "score": 0.0,
+        "label": "LOW"
+      }
+    ]
+  },
+  "provenance": "tests and validated: run 6 (Oct 7 2026). Everything else: rebuilt Oct 17 2026 from engine/v4probe/nass_national_indexes.csv with the current engine (identical ratios and scores to run 6). The next engine run rewrites this file."
 }

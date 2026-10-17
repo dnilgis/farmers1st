@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FFAI API — Farmers First Ag Index Developer Docs</title>
+<title>FFAI API: Farmers First Ag Index Developer Docs</title>
 <meta name="description" content="Free JSON API for the Farmers First Ag Index: U.S. farm prices received vs prices paid, quarterly since 1995. CC BY 4.0.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -39,7 +39,7 @@ pre .n{color:#6ca6cd}
 table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:.85rem}
 th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.5px;text-transform:uppercase;color:var(--t500);padding:8px 12px;border-bottom:2px solid var(--t900)}
 td{padding:8px 12px;border-bottom:1px solid var(--b100);vertical-align:top}
-td:first-child{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;color:var(--t900);white-space:nowrap}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;color:var(--t900);overflow-wrap:anywhere}
 .badge-demo{background:var(--white);border:2px solid var(--b100);padding:24px;margin:12px 0 20px;text-align:center}
 .badge-demo h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;color:var(--t400);margin-bottom:12px;text-transform:uppercase}
 .note{background:#fdf6e3;border-left:4px solid var(--amb);padding:12px 16px;margin:12px 0 20px;font-size:.85rem;color:var(--t700)}
@@ -58,7 +58,7 @@ footer a{color:var(--t400)}
 <main>
 <p style="font-size:1rem;color:var(--t900);font-weight:600;margin-bottom:20px">Free, open access to the Farmers First Ag Index: what U.S. farms are paid against what they pay, every quarter since 1995. No API key. No rate limits. No auth. Just JSON.</p>
 
-<div class="note"><strong>License:</strong> CC BY 4.0 &mdash; use freely with attribution to Farmers First Agri Service (<a href="https://farmers1st.com">farmers1st.com</a>). Built from USDA NASS price data; updated quarterly once USDA has published all three months of a quarter. Tested internally against USDA net farm income; not reviewed or endorsed by USDA, RMA, or FCIC.</div>
+<div class="note"><strong>License:</strong> CC BY 4.0: use freely with attribution to Farmers First Agri Service (<a href="https://farmers1st.com">farmers1st.com</a>). Built from USDA NASS price data; updated quarterly once USDA has published all three months of a quarter. Tested internally against USDA net farm income; not reviewed or endorsed by USDA, RMA, or FCIC.</div>
 
 <h2>Endpoints (v4, current)</h2>
 
@@ -105,19 +105,25 @@ footer a{color:var(--t400)}
 <h2>Fields</h2>
 <table>
 <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+<tr><td>headline</td><td>string</td><td>One-line headline: the ratio and its change from the same quarter a year earlier.</td></tr>
+<tr><td>ratio</td><td>float</td><td>USDA index of prices received divided by prices paid, &times; 100 (2011 = 100). The headline number.</td></tr>
+<tr><td>ratio_change_vs_year_ago_pct</td><td>float</td><td>% change in the ratio from the same quarter a year earlier. The main comparison.</td></tr>
+<tr><td>ratio_change_vs_previous_pct</td><td>float</td><td>% change from the previous quarter. Partly seasonal; read the year-ago change first.</td></tr>
 <tr><td>score</td><td>float</td><td>All-farms score, 0-100: share of 1995-2019 quarters whose ratio was at or below this quarter&rsquo;s.</td></tr>
-<tr><td>regime</td><td>string</td><td>STRONG (70+), FAVORABLE (55-70), GUARDED (40-55), STRESSED (0-40)</td></tr>
-<tr><td>ratio</td><td>float</td><td>USDA index of prices received divided by prices paid, &times; 100 (2011 = 100).</td></tr>
-<tr><td>sectors.crops</td><td>object</td><td>Crop prices received / prices paid by crop farms: ratio, score, regime.</td></tr>
+<tr><td>label</td><td>string</td><td>Where the ratio sits against 1995-2019: LOW (under 25), BELOW MIDDLE (25-50), ABOVE MIDDLE (50-75), HIGH (75+). Show it with &ldquo;vs 1995-2019&rdquo; (<code>label_vs</code>). A price position, not a farm income reading.</td></tr>
+<tr><td>regime</td><td>string</td><td>Same value as <code>label</code> since version 4.1 (Oct 2026). Before that it held the old labels, now in <code>label_legacy</code>.</td></tr>
+<tr><td>label_legacy</td><td>string</td><td>The pre-Oct 2026 label: STRONG (70+), FAVORABLE (55-70), GUARDED (40-55), STRESSED (0-40). Kept for readers that still expect it; not recommended.</td></tr>
+<tr><td>sectors.crops</td><td>object</td><td>Crop prices received / prices paid by crop farms: ratio, score, label, regime, label_legacy, year-ago ratio and change.</td></tr>
 <tr><td>sectors.livestock</td><td>object</td><td>Meat animal prices received / prices paid by animal farms.</td></tr>
 <tr><td>sectors.dairy</td><td>object</td><td>Dairy prices received / prices paid by animal farms.</td></tr>
 <tr><td>quarter</td><td>string</td><td>Quarter label, e.g. "Q2'26"</td></tr>
 <tr><td>date</td><td>string</td><td>ISO date of quarter start (YYYY-MM-DD)</td></tr>
 <tr><td>year_ago</td><td>object</td><td>Same quarter one year earlier: quarter, score, ratio. Farm prices are seasonal, so this is the fairer comparison.</td></tr>
-<tr><td>to_reach</td><td>object</td><td>For all farms and each sector, the ratio at each regime line (40, 55, 70) and the % change in the ratio needed to get there. Arithmetic, not a forecast.</td></tr>
+<tr><td>to_reach</td><td>object</td><td>For all farms and each sector, the ratio at each label line (25, 50, 75) and the % change in the ratio needed to get there. Arithmetic, not a forecast.</td></tr>
 <tr><td>generated</td><td>string</td><td>When the file was written (UTC). The data quarter is in <code>quarter</code>.</td></tr>
 </table>
-<p><strong>Stability:</strong> within v4, existing fields keep their names and meaning; new fields may be added, so ignore fields you do not know. A change in meaning gets a new version number and a new path.</p>
+<p><strong>history.json and history.csv</strong> also carry <code>label</code> and <code>real_time</code> for each quarter. <code>real_time</code> is true only for quarters scored live, from Q2&rsquo;26 (the v4 launch) on; earlier quarters were filled in after the fact, and 1995-2019 are in-sample (ranked against a period that includes later quarters). In the CSV they are the last two columns.</p>
+<p><strong>Stability:</strong> within v4, existing fields keep their names; new fields may be added, so ignore fields you do not know. A change in meaning gets a new version number. <strong>One exception, version 4.1 (Oct 2026):</strong> the old labels (STRESSED, GUARDED, FAVORABLE, STRONG) sounded like farm income, were never tested, and read STRESSED in every quarter from 2020 on. <code>regime</code> now carries the new label and equals <code>label</code>; the old value is in <code>label_legacy</code>, with its lines in <code>label_legacy_thresholds</code>. <code>score</code>, <code>ratio</code> and all other fields are unchanged.</p>
 <p>Only the all-farms score was validated (against USDA net farm income, year over year). Sector scores are descriptive. Details in <a href="/api/v4/meta.json">meta.json</a> and the <a href="/#methodology">methodology</a>.</p>
 
 <h2>Code Examples</h2>
@@ -126,7 +132,7 @@ footer a{color:var(--t400)}
 <pre><span class="k">fetch</span>(<span class="s">'https://farmers1st.com/api/v4/current.json'</span>)
   .<span class="k">then</span>(r => r.json())
   .<span class="k">then</span>(d => {
-    console.log(<span class="s">`FFAI: ${d.score} ${d.regime} (ratio ${d.ratio})`</span>);
+    console.log(<span class="s">`FFAI: ratio ${d.ratio} (${d.ratio_change_vs_year_ago_pct}% vs a year ago); score ${d.score}, ${d.label} vs ${d.label_vs}`</span>);
     console.log(<span class="s">`Crops: ${d.sectors.crops.score}`</span>);
     console.log(<span class="s">`Livestock: ${d.sectors.livestock.score}`</span>);
     console.log(<span class="s">`Dairy: ${d.sectors.dairy.score}`</span>);
@@ -148,7 +154,7 @@ ffai <- fromJSON(<span class="s">"https://farmers1st.com/api/v4/history.json"</s
 plot(ffai$quarters$ratio, type=<span class="s">"l"</span>, main=<span class="s">"Prices received / paid"</span>)</pre>
 
 <h2 id="badge">Embeddable Badge</h2>
-<p>Add the FFAI score to any website with two lines of HTML. The badge fetches current data from the API and renders itself. Every div with the attribute <code>data-ffai-badge</code> (or the older <code>id="ffai-badge"</code>) becomes a badge; load the script once per page.</p>
+<p>Add the FFAI reading (ratio, change from a year earlier, score and label) to any website with two lines of HTML. The badge fetches current data from the API and renders itself. Every div with the attribute <code>data-ffai-badge</code> (or the older <code>id="ffai-badge"</code>) becomes a badge; load the script once per page.</p>
 
 <h3>Standard</h3>
 <pre>&lt;div data-ffai-badge&gt;&lt;/div&gt;
@@ -178,11 +184,11 @@ plot(ffai$quarters$ratio, type=<span class="s">"l"</span>, main=<span class="s">
 <p><strong>Revisions:</strong> the score is measured against a fixed 1995-2019 base, so published values change only if USDA revises its own data.</p>
 
 <h2>FFAI v3 (retired, frozen)</h2>
-<p>FFAI v3 (Federal Reserve series, Q1 2008 &ndash; Q2 2026) was retired in October 2026 after testing showed its composite mostly followed the Fed Funds interest rate. As promised when v3 launched, its endpoints stay online and unchanged: <a href="/api/v3/current.json">/api/v3/current.json</a>, <a href="/api/v3/history.json">/api/v3/history.json</a>, <a href="/api/v3/meta.json">/api/v3/meta.json</a>, <a href="/api/v3/badge.js">/api/v3/badge.js</a>. They will not be updated. The v3 badge now shows a short retirement notice instead of the frozen score, because the last v3 reading (Q2 2026, 70 FAVORABLE) disagrees with v4 for the same quarter.</p>
+<p>FFAI v3 (Federal Reserve series, Q1 2008 &ndash; Q2 2026) was retired in October 2026 after testing showed its composite mostly followed the Fed Funds interest rate. As promised when v3 launched, its endpoints stay online with their last values: <a href="/api/v3/current.json">/api/v3/current.json</a>, <a href="/api/v3/history.json">/api/v3/history.json</a>, <a href="/api/v3/meta.json">/api/v3/meta.json</a>, <a href="/api/v3/badge.js">/api/v3/badge.js</a>. They will not be updated. Each v3 JSON file now carries <code>"status": "retired"</code>, <code>"superseded_by": "/api/v4/current.json"</code> and a <code>retired_note</code>, so its old values cannot be read as current. The v3 badge now shows a short retirement notice instead of the frozen score, because the last v3 reading (Q2 2026, 70 FAVORABLE) disagrees with v4 for the same quarter (11, LOW vs 1995-2019).</p>
 
 <h2>Contact</h2>
 <p>Questions, integrations, or just want to say hi:<br>
-<strong>Sig Lindquist</strong> &mdash; <a href="mailto:sig@farmers1st.com">sig@farmers1st.com</a> &mdash; <a href="tel:715-797-2428">715-797-2428</a><br>
+<strong>Sig Lindquist</strong> | <a href="mailto:sig@farmers1st.com">sig@farmers1st.com</a> | <a href="tel:715-797-2428">715-797-2428</a><br>
 Farmers First Agri Service, Chetek, WI</p>
 </main>
 
