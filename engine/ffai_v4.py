@@ -51,6 +51,8 @@ import pandas as pd
 from scipy import stats
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import ffai_v4_labels as L  # noqa: E402  (the label lines live there, and only there)
 OUT = os.path.join(HERE, 'v4')
 NASS = 'https://quickstats.nass.usda.gov/api/'
 MONTHS = {m: i + 1 for i, m in enumerate(['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'])}
@@ -98,6 +100,14 @@ FARM_PRICES = {  # label: (series, unit)
 # Extra cost series, used only for the dairy cost-side check printed on the site.
 FEEDER_CATTLE = 'CATTLE, FEEDER CATTLE - INDEX FOR PRICE PAID, 2011'
 FEED_PAID = 'FEED - INDEX FOR PRICE PAID, 2011'
+PROD_PAID = 'PRODUCTION ITEMS - INDEX FOR PRICE PAID, 2011'
+PITW_PAID = 'PITW, (PRODUCTION ITEMS, INTEREST TAXES & WAGE RATES) - INDEX FOR PRICE PAID, 2011'
+# Dairy prices received against other USDA cost indexes (label, paid series). Same list the stress tool prints.
+DAIRY_ALT_COSTS = (('Animal sector (published)', 'ANIMAL SECTOR - INDEX FOR PRICE PAID, 2011'),
+                   ('Feed only', FEED_PAID),
+                   ('Production items', PROD_PAID),
+                   ('Production items, interest, taxes, wages (PITW)', PITW_PAID),
+                   ('Everything farms pay (PPITW)', 'PPITW, (COMMODITIES, SERVICES, INTEREST, TAXES & WAGE RATES) - INDEX FOR PRICE PAID, 2011'))
 DAIRY_CHECK_FROM = '2019-10-01'  # Q4 2019, the last quarter before 2020
 FRED_IDS = {'nfi': 'B1448C1A027NBEA', 'subsidies': 'L312041A027NBEA', 'cpi': 'CPIAUCSL', 'delinquency': 'DRFAPGACBS'}
 
@@ -114,27 +124,48 @@ def http_json(url, timeout=90, tries=3):
     raise last
 
 
+MONTH_NAMES = tuple(MONTHS)  # the only reference_period_desc values accepted for a monthly row
+
+
+def parse_monthly(data, name):
+    """NASS rows -> {month start: value} for one series.
+
+    Accepts only rows whose reference_period_desc is exactly one of the 12 month names
+    (so "MARKETING YEAR" can never be read as March). Two rows for the same month must
+    agree; if they do not, stop rather than keep whichever came last."""
+    s = {}
+    for r in data:
+        per = (r.get('reference_period_desc') or '').strip().upper()
+        if per not in MONTHS:
+            continue
+        try:
+            v = float(str(r.get('Value', '')).replace(',', ''))
+        except ValueError:
+            continue
+        t = pd.Timestamp(int(r['year']), MONTHS[per], 1)
+        if t in s and s[t] != v:
+            raise RuntimeError(f'NASS gave two different values for {name!r} {t:%b %Y}: {s[t]} and {v}')
+        s[t] = v
+    return s
+
+
 def nass_monthly(names, key, local_csv=None):
     """Monthly values for each NASS short_desc. local_csv = probe file, for offline tests."""
     if local_csv:
         d = pd.read_csv(local_csv)
-        d = d[(d.freq == 'MONTHLY') & d.series.isin(names)].drop_duplicates(['series', 'date'])
+        d = d[(d.freq == 'MONTHLY') & d.series.isin(names)]
+        clash = d.groupby(['series', 'date']).value.nunique()
+        clash = clash[clash > 1]
+        if len(clash):
+            raise RuntimeError(f'probe CSV has {len(clash)} month(s) with two different values, e.g. {clash.index[0]}')
+        d = d.drop_duplicates(['series', 'date']).copy()
         d['date'] = pd.to_datetime(d.date)
         return d.pivot(index='date', columns='series', values='value').sort_index()
     cols = {}
     for n in names:
         q = urllib.parse.urlencode({'key': key, 'format': 'JSON', 'short_desc': n, 'agg_level_desc': 'NATIONAL',
                                     'freq_desc': 'MONTHLY'})
-        data = http_json(f'{NASS}api_GET/?{q}').get('data', [])
-        s = {}
-        for r in data:
-            m = MONTHS.get((r.get('reference_period_desc') or '')[:3].upper())
-            try:
-                v = float(str(r.get('Value', '')).replace(',', ''))
-            except ValueError:
-                continue
-            if m:
-                s[pd.Timestamp(int(r['year']), m, 1)] = v
+        s = parse_monthly(http_json(f'{NASS}api_GET/?{q}').get('data', []), n)
         if not s:
             raise RuntimeError(f'NASS returned no monthly values for {n!r}')
         cols[n] = pd.Series(s)
@@ -200,7 +231,11 @@ def score(q):
 
 
 def regime(v):
-    return None if v is None or np.isnan(v) else 'STRONG' if v >= 70 else 'FAVORABLE' if v >= 55 else 'GUARDED' if v >= 40 else 'STRESSED'
+    """Label for a 0-100 score (LOW / BELOW MIDDLE / ABOVE MIDDLE / HIGH, vs 1995-2019)."""
+    return L.label(v)
+
+
+regime_legacy = L.label_legacy
 
 
 # ------------------------------------------------------------------ validation
@@ -292,7 +327,7 @@ def main():
     local = os.environ.get('FFAI_V4_LOCAL_CSV')
     if not local and not key:
         sys.exit('ERROR: NASS_API_KEY is not set.')
-    names = sorted({x for p in SECTORS.values() for x in p} | set(DRIVERS.values()) | {v[0] for v in FARM_PRICES.values()} | {USDA_RATIO, FEEDER_CATTLE, FEED_PAID})
+    names = sorted({x for p in SECTORS.values() for x in p} | set(DRIVERS.values()) | {v[0] for v in FARM_PRICES.values()} | {USDA_RATIO, FEEDER_CATTLE, FEED_PAID, PROD_PAID, PITW_PAID})
     m = nass_monthly(names, key, local)
     missing = [n for n in names if n not in m.columns]
     if missing:
@@ -315,7 +350,7 @@ def main():
         md.append('- FRED_API_KEY not set: validation skipped (offline test).')
 
     last = sc.index[-1]
-    md += ['', f'## Latest quarter: {qlabel(last)}', '', '| Sector | Ratio (2011 = 100) | A (level pct) | B (vs decade pct) | Headline score | Regime |', '|---|---|---|---|---|---|']
+    md += ['', f'## Latest quarter: {qlabel(last)}', '', '| Sector | Ratio (2011 = 100) | A (level pct) | B (vs decade pct) | Headline score | Label (vs 1995-2019) |', '|---|---|---|---|---|---|']
     for s in SECTORS:
         a, b = sc.loc[last, f'{s}_A'], sc.loc[last, f'{s}_B']
         h = b if winner == 'B' else a
@@ -343,8 +378,18 @@ def main():
                    'feeder_cattle_paid_pct': fin(100 * (q[FEEDER_CATTLE].iloc[-1] / q.loc[DAIRY_CHECK_FROM, FEEDER_CATTLE] - 1)),
                    'feed_paid_pct': fin(100 * (q[FEED_PAID].iloc[-1] / q.loc[DAIRY_CHECK_FROM, FEED_PAID] - 1)),
                    'dairy_vs_feed_score': fin(pct_in(feed_ratio.loc[BASE_A[0]:BASE_A[1]], feed_ratio.iloc[-1]))}
+    # The same dairy prices against each of USDA's broader cost indexes (score A, latest quarter).
+    alts = []
+    for lab, paid in DAIRY_ALT_COSTS:
+        r = 100 * q[SECTORS['dairy'][0]] / q[paid]
+        v = fin(r.iloc[-1])
+        sc_alt = fin(pct_in(r.loc[BASE_A[0]:BASE_A[1]], r.iloc[-1])) if v is not None else None
+        alts.append({'cost_index': lab, 'ratio': v, 'score': sc_alt, 'label': regime(sc_alt)})
+    dairy_check['alternatives'] = alts
     md += ['', f"Dairy cost check: since {dairy_check['from_quarter']}, feeder cattle prices paid {dairy_check['feeder_cattle_paid_pct']:+.1f}%, "
-               f"feed {dairy_check['feed_paid_pct']:+.1f}%. Dairy prices received against feed costs alone would score {dairy_check['dairy_vs_feed_score']:.0f}."]
+               f"feed {dairy_check['feed_paid_pct']:+.1f}%. Dairy prices received against feed costs alone would score {dairy_check['dairy_vs_feed_score']:.0f}.",
+           '', '| Dairy against | Ratio | Score |', '|---|---|---|'] + \
+          [f"| {a['cost_index']} | {'not published' if a['ratio'] is None else a['ratio']} | {'' if a['score'] is None else round(a['score'])} |" for a in alts]
 
     tab = sc.copy(); tab.insert(0, 'quarter', [qlabel(t) for t in tab.index])
     for lab, (s, unit) in FARM_PRICES.items():
@@ -354,7 +399,8 @@ def main():
     summary = {'quarter': qlabel(last), 'headline_method': winner, 'validated': bool(validated), 'tests': res,
                'sectors': {s: {'ratio': round(float(sc.loc[last, f'{s}_ratio']), 1),
                                'score': round(float(sc.loc[last, f'{s}_{winner}']), 1),
-                               'regime': regime(sc.loc[last, f'{s}_{winner}'])} for s in SECTORS},
+                               'regime': regime(sc.loc[last, f'{s}_{winner}']),
+                               'label_legacy': regime_legacy(sc.loc[last, f'{s}_{winner}'])} for s in SECTORS},
                'drivers': drivers, 'farm_prices': prices, 'dairy_cost_check': dairy_check}
     json.dump(summary, open(os.path.join(OUT, 'ffai_v4_summary.json'), 'w'), indent=2, allow_nan=False)
     try:

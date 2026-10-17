@@ -34,7 +34,7 @@ E = importlib.util.module_from_spec(spec); spec.loader.exec_module(E)
 CPI_NASS = 'CONSUMER PRICE INDEX - INDEX FOR PRICE PAID, 2011'
 PITW = 'PITW, (PRODUCTION ITEMS, INTEREST TAXES & WAGE RATES) - INDEX FOR PRICE PAID, 2011'
 PROD = 'PRODUCTION ITEMS - INDEX FOR PRICE PAID, 2011'
-REGIMES = ('STRESSED', 'GUARDED', 'FAVORABLE', 'STRONG')
+REGIMES = E.L.NAMES  # LOW, BELOW MIDDLE, ABOVE MIDDLE, HIGH (vs 1995-2019)
 
 
 # ------------------------------------------------------------------ helpers (tested)
@@ -75,6 +75,23 @@ def partial_quarter_error(rcv, paid, months):
     part = 100 * part.r / part.p
     err = 100 * (part / full - 1)
     return err.dropna(), part, full
+
+
+def track_record(dA, real, yr_score):
+    """One row per year: change in the all-farms ratio (yearly mean of the 4 quarters) against the
+    change in real net farm income, both in %, whether they moved the same way, and the year's label
+    (yearly mean score A). Every year with both numbers is kept, misses included."""
+    dl = np.log(real).diff()
+    rows = []
+    for y in dA.index:
+        if y not in dl.index or not np.isfinite(dl.get(y, np.nan)) or not np.isfinite(dA[y]):
+            continue
+        rx, ry = 100 * (math.exp(dA[y]) - 1), 100 * (math.exp(dl[y]) - 1)
+        rows.append({'year': int(y), 'ratio_change_pct': round(rx, 1), 'real_nfi_change_pct': round(ry, 1),
+                     'same_direction': bool((rx > 0) == (ry > 0)) if rx != 0 and ry != 0 else None,
+                     'score_A': round(float(yr_score[y]), 1) if y in yr_score.index else None,
+                     'label': E.regime(yr_score[y]) if y in yr_score.index else None})
+    return pd.DataFrame(rows)
 
 
 def regime_freq(scores):
@@ -125,10 +142,10 @@ def part1(m, q, sc, md):
 
     both = sc[['all_A', 'all_B']].dropna()
     ra, rb = both.all_A.map(E.regime), both.all_B.map(E.regime)
-    opp = ((both.all_A < 40) & (both.all_B >= 70)) | ((both.all_A >= 70) & (both.all_B < 40))
+    opp = (ra == 'LOW') & (rb == 'HIGH') | (ra == 'HIGH') & (rb == 'LOW')
     md += ['### The two pre-registered candidates', '',
            f'Both passed all three tests. Their labels differ in {(ra != rb).sum()} of {len(both)} quarters; in {opp.sum()} one says '
-           f'STRESSED and the other STRONG. Latest: A {sc.loc[last, "all_A"]:.0f} {E.regime(sc.loc[last, "all_A"])}, '
+           f'LOW and the other HIGH. Latest: A {sc.loc[last, "all_A"]:.0f} {E.regime(sc.loc[last, "all_A"])}, '
            f'B {sc.loc[last, "all_B"]:.0f} {E.regime(sc.loc[last, "all_B"])}. The tests checked changes, not levels, so they cannot say which label is right.', '']
 
     md += ['### Seasonality (mean % above or below the trend, by quarter, with standard error)', '', '| Sector | Q1 | Q2 | Q3 | Q4 |', '|---|---|---|---|---|']
@@ -146,8 +163,7 @@ def part1(m, q, sc, md):
 
     rcv = E.SECTORS['dairy'][0]
     md += ['', '### Dairy score under other USDA cost indexes (latest quarter)', '', '| Cost index | Ratio | Score |', '|---|---|---|']
-    for lab, p in (('Animal sector (published)', E.SECTORS['dairy'][1]), ('Feed only', E.FEED_PAID), ('Production items', PROD),
-                   ('Production items, interest, taxes, wages', PITW), ('Everything farms pay (PPITW)', E.SECTORS['all'][1])):
+    for lab, p in E.DAIRY_ALT_COSTS:
         if p in q:
             r = 100 * q[rcv] / q[p]
             md.append(f'| {lab} | {r.iloc[-1]:.1f} | {E.pct_in(r.loc[E.BASE_A[0]:E.BASE_A[1]], r.iloc[-1]):.0f} |')
@@ -226,20 +242,38 @@ def part2(m, q, sc, md, fkey):
                       f'{mm:.3f} vs {z:.3f} vs {l:.3f} ({nt}) |')
     md += ['', f'Holm correction over the 4 published correlation tests: {sum(holm(allp))} of 4 still below 0.05.', '']
 
-    # Regime labels against income
+    # Track record: every year, misses included
     real = (nfi / cpi).dropna()
-    yrA = sc['all_A'].groupby(sc.index.year).mean()
+    yrA = sc['all_A'].groupby(sc.index.year).mean().where(sc['all_A'].groupby(sc.index.year).count() == 4).dropna()
+    tr = track_record(dA, real, yrA)
+    os.makedirs(OUT, exist_ok=True)
+    tr.to_csv(os.path.join(OUT, 'track_record.csv'), index=False)
+    hits = int(tr.same_direction.fillna(False).sum()); n_dir = int(tr.same_direction.notna().sum())
+    md += [f'### Track record: yearly change in the all-farms ratio vs real net farm income ({int(tr.year.min())}-{int(tr.year.max())})', '',
+           f'Same direction in {hits} of {n_dir} years. Every year is listed, misses included. Real = deflated by CPI-U (annual average). '
+           f'The latest year of net farm income ({last_year}) is a USDA forecast.', '',
+           '| Year | Ratio change | Real net farm income change | Same direction? | Label (yearly average score, vs 1995-2019) |', '|---|---|---|---|---|']
+    for r in tr.itertuples():
+        sd = 'yes' if r.same_direction is True else 'MISS' if r.same_direction is False else 'flat'
+        md.append(f'| {r.year} | {r.ratio_change_pct:+.1f}% | {r.real_nfi_change_pct:+.1f}% | {sd} | {r.label or ""} {"" if r.score_A is None else f"({r.score_A:.0f})"} |')
+    md.append('')
+
+    # Labels against income
     med = real.loc[1995:2019].median()
     md += ['### Real net farm income in years under each label (all farms, yearly average score A)', '',
            '| Label | Years | Real NFI above its 1995-2019 middle value | Mean change in log real NFI same year | next year |', '|---|---|---|---|---|']
     dl = np.log(real).diff()
+    lab_rows = []
     for reg in REGIMES:
         ys = [y for y, v in yrA.items() if E.regime(v) == reg and y in real.index]
         if not ys:
-            md.append(f'| {reg} | 0 | | | |'); continue
+            md.append(f'| {reg} | 0 | | | |'); lab_rows.append({'label': reg, 'years': 0}); continue
         above = sum(real[y] > med for y in ys)
         same = np.nanmean([dl.get(y, np.nan) for y in ys]); nxt = np.nanmean([dl.get(y + 1, np.nan) for y in ys])
         md.append(f'| {reg} | {len(ys)} | {above} of {len(ys)} | {same:+.3f} | {nxt:+.3f} |')
+        lab_rows.append({'label': reg, 'years': len(ys), 'year_list': ' '.join(map(str, ys)), 'above_base_middle': int(above),
+                         'mean_dlog_same_year': round(float(same), 3), 'mean_dlog_next_year': round(float(nxt), 3)})
+    pd.DataFrame(lab_rows).to_csv(os.path.join(OUT, 'income_by_label.csv'), index=False)
     md += ['', 'Years overlap and the labels trend with the base, so these are descriptions, not tests.', '']
 
     # Vintage: NFI as first published for each year

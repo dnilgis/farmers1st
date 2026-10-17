@@ -33,8 +33,37 @@ class Engine(unittest.TestCase):
         self.assertTrue(math.isnan(E.pct_in(base, float('nan'))))
 
     def test_regime_lines(self):
-        self.assertEqual([E.regime(v) for v in (39.9, 40, 54.9, 55, 69.9, 70)],
+        # The pre-Oct 2026 labels, still published as label_legacy.
+        self.assertEqual([E.regime_legacy(v) for v in (39.9, 40, 54.9, 55, 69.9, 70)],
                          ['STRESSED', 'GUARDED', 'GUARDED', 'FAVORABLE', 'FAVORABLE', 'STRONG'])
+
+    def test_label_lines_are_the_base_quartiles(self):
+        self.assertEqual([E.regime(v) for v in (0, 24.9, 25, 49.9, 50, 74.9, 75, 100)],
+                         ['LOW', 'LOW', 'BELOW MIDDLE', 'BELOW MIDDLE', 'ABOVE MIDDLE', 'ABOVE MIDDLE', 'HIGH', 'HIGH'])
+        for v in (None, float('nan'), 'x'):
+            self.assertIsNone(E.regime(v)); self.assertIsNone(E.regime_legacy(v))
+        self.assertIs(E.L, P.L)   # publish and engine share one definition
+
+    def test_nass_parse_accepts_only_the_12_month_names(self):
+        rows = [{'year': '2020', 'reference_period_desc': 'MAR', 'Value': '101.5'},
+                {'year': '2020', 'reference_period_desc': 'MARKETING YEAR', 'Value': '999'},
+                {'year': '2020', 'reference_period_desc': 'MARCH', 'Value': '998'},
+                {'year': '2020', 'reference_period_desc': 'YEAR', 'Value': '997'},
+                {'year': '2020', 'reference_period_desc': 'DEC', 'Value': '1,234'},
+                {'year': '2020', 'reference_period_desc': 'JAN', 'Value': '(NA)'}]
+        self.assertEqual(E.parse_monthly(rows, 'x'), {pd.Timestamp(2020, 3, 1): 101.5, pd.Timestamp(2020, 12, 1): 1234.0})
+
+    def test_nass_parse_fails_on_duplicate_months_that_disagree(self):
+        same = [{'year': '2020', 'reference_period_desc': 'MAR', 'Value': '101.5'}] * 2
+        self.assertEqual(E.parse_monthly(same, 'x'), {pd.Timestamp(2020, 3, 1): 101.5})
+        clash = same[:1] + [{'year': '2020', 'reference_period_desc': 'MAR', 'Value': '101.6'}]
+        with self.assertRaisesRegex(RuntimeError, 'two different values'):
+            E.parse_monthly(clash, 'x')
+        with tempfile.TemporaryDirectory() as d:
+            f = os.path.join(d, 'p.csv')
+            pd.DataFrame({'series': ['S', 'S'], 'group': 'g', 'freq': 'MONTHLY', 'date': '2020-03-01', 'value': [1.0, 2.0]}).to_csv(f, index=False)
+            with self.assertRaisesRegex(RuntimeError, 'two different values'):
+                E.nass_monthly(['S'], None, f)
 
     def test_missing_values_never_become_nan_in_json(self):
         s = pd.Series([100.0, float('nan'), 110.0])
@@ -171,6 +200,17 @@ class Stress(unittest.TestCase):
         err, part, full = S.partial_quarter_error(r, p, 1)
         self.assertEqual(float(err.abs().max()), 0.0)
         self.assertEqual(float(full.iloc[0]), 120.0)
+
+    def test_track_record_keeps_misses(self):
+        dA = pd.Series({2001: math.log(1.10), 2002: math.log(0.95), 2003: math.log(1.02)})
+        real = pd.Series({2000: 100.0, 2001: 120.0, 2002: 132.0, 2003: 132.0})
+        yr = pd.Series({2001: 80.0, 2002: 30.0, 2003: 10.0})
+        t = S.track_record(dA, real, yr)
+        self.assertEqual(list(t.year), [2001, 2002, 2003])
+        self.assertEqual(list(t.ratio_change_pct), [10.0, -5.0, 2.0])
+        self.assertEqual(list(t.real_nfi_change_pct), [20.0, 10.0, 0.0])
+        self.assertEqual(list(t.same_direction), [True, False, None])   # 2002 is a miss; 2003 income flat
+        self.assertEqual(list(t.label), ['HIGH', 'BELOW MIDDLE', 'LOW'])
 
     def test_part2_without_key_says_so(self):
         md = []

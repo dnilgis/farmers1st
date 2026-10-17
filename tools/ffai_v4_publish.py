@@ -24,6 +24,8 @@ from datetime import date, datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 V4 = os.path.join(ROOT, 'engine', 'v4')
+sys.path.insert(0, os.path.join(ROOT, 'engine'))
+import ffai_v4_labels as L  # noqa: E402  (the one place the label lines live)
 SECT = ('all', 'crops', 'livestock', 'dairy')
 LABEL = {'all': 'All farms', 'crops': 'Crops', 'livestock': 'Livestock', 'dairy': 'Dairy'}
 BASE = '1995–2019'
