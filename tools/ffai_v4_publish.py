@@ -8,14 +8,16 @@ Reads   engine/v4/ffai_v4_quarterly.csv, engine/v4/ffai_v4_summary.json
 Writes  ffai-v4.js            numbers the page reads (never the commentary)
         api/v4/current.json   latest quarter
         api/v4/history.json   every quarter since Q1 1995
+        api/v4/history.csv    the same, as a spreadsheet
         api/v4/meta.json      method and validation results
         og-share.png          share image
         index.html            meta description, og:title, twitter:title
 Commentary lives in ffai-commentary.js and is written by hand.
 
 Refuses to write anything if a ratio is not positive, a score is outside
-0-100, quarters are not consecutive, history got shorter, or the engine did
-not record its validation results.
+0-100, quarters are not consecutive, history got shorter, the engine did
+not record its validation results, or the all-farms ratio stops matching
+USDA's own published ratio (a sign a series was misread).
 """
 import csv, json, math, os, re, subprocess, sys, tempfile
 from datetime import date, datetime, timedelta, timezone
@@ -102,12 +104,15 @@ def load():
             fail(f'quarters not consecutive: {a["quarter"]} then {b["quarter"]}')
     if hist[-1]['quarter'] != summ.get('quarter'):
         fail(f'CSV ends {hist[-1]["quarter"]} but summary says {summ.get("quarter")}')
+    gap = usda_check(rows)
+    if gap and gap[0] > USDA_TOL:
+        fail(f'all-farms ratio is {gap[0]:.2f} points from USDA\'s published ratio in {gap[1]} (limit {USDA_TOL}); check the NASS series')
     old = os.path.join(ROOT, 'api', 'v4', 'history.json')
     if os.path.exists(old):
         n_old = json.load(open(old)).get('count', 0)
         if len(hist) < n_old:
             fail(f'history would shrink from {n_old} to {len(hist)} quarters')
-    return hist, summ, method, det
+    return hist, summ, method, det, rows
 
 
 def records(hist, s):
@@ -119,6 +124,65 @@ def records(hist, s):
 
 
 TRAIL = 40  # quarters; matches engine candidate B
+USDA_TOL = 1.5  # max gap, all-farms ratio vs USDA's published ratio (USDA rounds to whole numbers)
+THRESHOLDS = (('GUARDED', 40), ('FAVORABLE', 55), ('STRONG', 70))
+
+
+def base_ratios(rows, s):
+    """Unrounded 1995-2019 ratios for sector s, straight from the engine CSV."""
+    return sorted(float(r[f'{s}_ratio']) for r in rows
+                  if r.get(f'{s}_ratio') and 1995 <= parse_q(r['quarter'])[1] <= 2019)
+
+
+def to_reach(base, x):
+    """For each regime line, the ratio where the score reaches it and the % move in the
+    ratio that takes it there (prices received moving, prices paid held). Score = share of
+    base quarters at or below the ratio, so the line sits at the k-th smallest base value."""
+    out = []
+    for name, t in THRESHOLDS:
+        k = max(-(-t * len(base) // 100) - 1, 0)  # integer ceiling; float 55/100*100 is 55.000000000000007
+        v = base[k]
+        out.append({'regime': name, 'score': t, 'ratio': r1(v), 'move_pct': r1(100 * (v / x - 1)), 'reached': x >= v})
+    return out
+
+
+def fisher_ci(r, n_eff):
+    """95% range for a correlation, Fisher z with the effective sample size."""
+    if r is None or n_eff is None or n_eff <= 3 or abs(r) >= 1:
+        return None
+    z, se = math.atanh(r), 1 / math.sqrt(n_eff - 3)
+    return [round(math.tanh(z - 1.96 * se), 2), round(math.tanh(z + 1.96 * se), 2)]
+
+
+def multiple_tests(tests, det):
+    """Say how many tests ran and whether the correlation tests survive a Holm correction."""
+    names = [(c, t) for c in ('A', 'B') if c in tests for t in ('T1', 'T2', 'T3')]
+    passed = sum(bool(tests[c][t]) for c, t in names)
+    ps = sorted(float(det[c][t]['p_one_sided']) for c, t in names if t != 'T3' and c in det and t in det[c])
+    holm = all(p < 0.05 / (len(ps) - i) for i, p in enumerate(ps)) if ps else False
+    return (f'{len(names)} tests ran ({len(names) // 3} candidate scores x 3 tests); {passed} passed. '
+            + ('All correlation tests stay below 0.05 after a Holm correction for running them together. '
+               if holm else 'Not every correlation test survives a Holm correction for running them together. ')
+            + 'The error tests (T3) have no p value; with ' + ' and '.join(str(det[c]['T3']['test_years']) for c in ('A', 'B') if c in det)
+            + ' test years the gap is not tested for significance.')
+
+
+def usda_check(rows):
+    """Largest gap between our all-farms ratio and USDA's published ratio, by quarter."""
+    gaps = [(abs(float(r['all_ratio']) - float(r['usda_ratio'])), r['quarter']) for r in rows
+            if r.get('usda_ratio') and r.get('all_ratio')]
+    return max(gaps) if gaps else None
+
+
+def revisions(old_hist, hist, tol=0.05):
+    """Past quarters whose published ratio or score changed (USDA revisions)."""
+    old = {h['quarter']: h for h in old_hist}
+    out = []
+    for h in hist:
+        o = old.get(h['quarter'])
+        if o and (abs(o['ratio'] - h['all']) > tol or abs(o['score'] - h['all_score']) > tol):
+            out.append(f"{h['quarter']}: ratio {o['ratio']} -> {h['all']}, score {o['score']} -> {h['all_score']}")
+    return out
 
 
 def decade(hist):
@@ -208,16 +272,18 @@ def main():
     today = datetime.now(timezone.utc).date()
     if '--today' in args:
         i = args.index('--today'); today = date.fromisoformat(args[i + 1]); del args[i:i + 2]
-    hist, summ, method, det = load()
+    hist, summ, method, det, rows = load()
     last, prev = hist[-1], hist[-2]
     # Same quarter and same numbers as what is already published: keep the old dates,
     # so a re-run does not reset "published" or push back the stale-data banner.
     gen_keep = None
+    revised = []
     try:
         oc = json.load(open(os.path.join(ROOT, 'api', 'v4', 'current.json'), encoding='utf-8'))
         oh = json.load(open(os.path.join(ROOT, 'api', 'v4', 'history.json'), encoding='utf-8'))
         new_q = [{'quarter': h['quarter'], 'ratio': h['all'], 'score': h['all_score']} for h in hist]
         old_q = [{'quarter': h['quarter'], 'ratio': h['ratio'], 'score': h['score']} for h in oh['quarters']]
+        revised = revisions(oh['quarters'], hist)
         if oc.get('quarter') == last['quarter'] and new_q == old_q and oc.get('generated'):
             gen_keep = oc['generated']
             today = date.fromisoformat(gen_keep[:10])
@@ -227,14 +293,20 @@ def main():
     qn, yr = parse_q(last['quarter'])
     due = quarter_end(next_label(last['quarter'])) + timedelta(days=35)  # NASS posts a month's prices about a month later
     a = det[method]
+    ci = {t: fisher_ci(a[t].get('r'), a[t].get('eff_n')) for t in ('T1', 'T2')}
+    reach = {s: to_reach(base_ratios(rows, s), float(rows[-1][f'{s}_ratio'])) for s in SECT}
+    yago = hist[-5] if len(hist) >= 5 else None
     headline = {'ratio': last['all'], 'score': last['all_score'], 'regime': regime(last['all_score']),
                 'prev_ratio': prev['all'], 'prev_score': prev['all_score'], 'prev_quarter': prev['quarter'],
                 'pct_less_than_2011': r1(100 - last['all']), 'worse_than_base_pct': r1(100 - last['all_score']),
-                'records': records(hist, 'all'), 'decade': decade(hist)}
+                'records': records(hist, 'all'), 'decade': decade(hist),
+                'year_ago_quarter': yago and yago['quarter'], 'year_ago_score': yago and yago['all_score'],
+                'year_ago_ratio': yago and yago['all']}
     sectors = {s: {'ratio': last[s], 'score': last[f'{s}_score'], 'regime': regime(last[f'{s}_score']),
                    'prev_ratio': prev[s], 'prev_score': prev[f'{s}_score'], 'records': records(hist, s)}
                for s in ('crops', 'livestock', 'dairy')}
-    drivers = [{'item': DRIVER_NAME.get(k, k), **v, 'not_updated': abs(v['qoq_pct']) < 0.05} for k, v in summ['drivers'].items()]
+    drivers = [{'item': DRIVER_NAME.get(k, k), **v, 'missing': v.get('qoq_pct') is None,
+                'not_updated': v.get('qoq_pct') is not None and abs(v['qoq_pct']) < 0.05} for k, v in summ['drivers'].items()]
     data = {
         'version': '4.0', 'quarter': last['quarter'], 'date': f'Q{qn} {yr}', 'months': f'{MONTHS[qn - 1]} {yr}',
         'published': f'{today.strftime("%B")} {today.day}, {today.year}', 'publishedISO': today.isoformat(),
@@ -244,9 +316,11 @@ def main():
         'validation': {'T1_r': a['T1']['r'], 'T1_years': a['T1']['n_years'], 'T2_r': a['T2']['r'],
                        'T3_model': a['T3']['rmse_model'], 'T3_no_change': a['T3']['rmse_no_change'],
                        'T3_last_year': a['T3']['rmse_last_year'], 'T3_years': a['T3']['test_years'],
+                       'T1_eff_n': a['T1'].get('eff_n'), 'T1_ci': ci['T1'], 'T2_ci': ci['T2'],
                        'T1_pass': bool(summ['tests'][method]['T1']), 'T2_pass': bool(summ['tests'][method]['T2']),
                        'T3_pass': bool(summ['tests'][method]['T3'])},
         'headline': headline, 'sectors': sectors, 'drivers': drivers, 'farm_prices': summ['farm_prices'],
+        'to_reach': reach, 'dairy_cost_check': summ.get('dairy_cost_check'),
         'history': [[h['quarter'], h['all'], h['crops'], h['livestock'], h['dairy'], h['all_score']] for h in hist],
     }
     js = ('// FFAI v4 numbers. Written by tools/ffai_v4_publish.py from engine/v4/ output.\n'
@@ -264,6 +338,8 @@ def main():
                'sectors': {s: {'ratio': last[s], 'score': last[f'{s}_score'], 'regime': regime(last[f'{s}_score'])}
                            for s in ('crops', 'livestock', 'dairy')},
                'previous': {'quarter': prev['quarter'], 'score': prev['all_score'], 'ratio': prev['all']},
+               'year_ago': yago and {'quarter': yago['quarter'], 'score': yago['all_score'], 'ratio': yago['all']},
+               'to_reach': {s: [{k: t[k] for k in ('regime', 'score', 'ratio', 'move_pct')} for t in reach[s]] for s in SECT},
                'regime_thresholds': {'STRONG': '70-100', 'FAVORABLE': '55-70', 'GUARDED': '40-55', 'STRESSED': '0-40'},
                'next_update': f'{due.year}-{due.month:02d}', **common}
     history = {'ffai_version': '4.0', 'generated': now, 'count': len(hist), 'frequency': 'quarterly',
@@ -283,6 +359,8 @@ def main():
             'validation': {'preregistered_in': 'engine/ffai_v4.py (git commit 163cc4b, before the first validation run)',
                            'target': 'year-over-year change in USDA net farm income (FRED B1448C1A027NBEA) deflated by CPI',
                            'method_used': method, 'results': pfmt(det), 'validated': bool(summ.get('validated')),
+                           'r_95pct_range': {'T1': ci['T1'], 'T2': ci['T2'], 'how': 'Fisher z with the effective sample size'},
+                           'tests_run': multiple_tests(summ['tests'], det),
                            'scope': 'year-over-year changes in the all-farms ratio; the 0-100 score level and the sector scores were not tested',
                            'same_year_only': 'the relationship is within the same year; it is not a forecast',
                            'headline_lock': 'A and B both passed 3/3; by the pre-registered tie rule A was chosen, and the engine was then set to keep A (HEADLINE_METHOD) so a later run cannot switch it',
@@ -295,9 +373,16 @@ def main():
                             'Interest, cash rent, seed and taxes are updated by USDA once a year; the wage index has not changed since April 2025.',
                             'The latest month of prices received is preliminary and is revised the following month.'],
             'sources': ['USDA NASS Quick Stats, Agricultural Prices', 'FRED (validation only)'], **common}
+    meta['fields_stable'] = ('Fields in current.json, history.json and history.csv keep their names and meaning within v4; '
+                             'new fields may be added. A change in meaning gets a new version number.')
     for n, o in (('current.json', current), ('history.json', history), ('meta.json', meta)):
         with open(os.path.join(api, n), 'w', encoding='utf-8') as f:
-            json.dump(o, f, indent=2, ensure_ascii=False); f.write('\n')
+            json.dump(o, f, indent=2, ensure_ascii=False, allow_nan=False); f.write('\n')
+    with open(os.path.join(api, 'history.csv'), 'w', encoding='utf-8', newline='') as f:
+        w = csv.writer(f, lineterminator='\n')
+        w.writerow(history['fields'])
+        for h in history['quarters']:
+            w.writerow(['' if h[k] is None else h[k] for k in history['fields']])
 
     draw_og(os.path.join(ROOT, 'og-share.png'), data)
 
@@ -331,7 +416,8 @@ def main():
           f'All farms: ratio {last["all"]} (2011 = 100), score {s:.0f} {rg} (prev {prev["all_score"]:.0f}, {prev["quarter"]})', '',
           '| Sector | Ratio | Score |', '|---|---|---|'] + \
          [f'| {LABEL[x]} | {last[x]} | {last[f"{x}_score"]:.0f} {regime(last[f"{x}_score"])} |' for x in SECT] + \
-         ['', 'Wrote ffai-v4.js, api/v4/*.json, og-share.png, index.html meta, sitemap.xml lastmod.']
+         ['', 'Wrote ffai-v4.js, api/v4/*.json, api/v4/history.csv, og-share.png, index.html meta, sitemap.xml lastmod.'] + \
+         (['', f'USDA revised {len(revised)} past quarter(s):'] + [f'- {x}' for x in revised] if revised else [])
     print('\n'.join(md))
     p = os.environ.get('GITHUB_STEP_SUMMARY')
     if p:

@@ -95,6 +95,10 @@ FARM_PRICES = {  # label: (series, unit)
     'Hogs': ('HOGS - PRICE RECEIVED, MEASURED IN $ / CWT', '$/cwt'),
     'Alfalfa hay': ('HAY, ALFALFA - PRICE RECEIVED, MEASURED IN $ / TON', '$/ton'),
 }
+# Extra cost series, used only for the dairy cost-side check printed on the site.
+FEEDER_CATTLE = 'CATTLE, FEEDER CATTLE - INDEX FOR PRICE PAID, 2011'
+FEED_PAID = 'FEED - INDEX FOR PRICE PAID, 2011'
+DAIRY_CHECK_FROM = '2019-10-01'  # Q4 2019, the last quarter before 2020
 FRED_IDS = {'nfi': 'B1448C1A027NBEA', 'subsidies': 'L312041A027NBEA', 'cpi': 'CPIAUCSL', 'delinquency': 'DRFAPGACBS'}
 
 
@@ -149,6 +153,24 @@ def to_quarters(m):
     q = m.resample('QS').mean()
     n = m.resample('QS').count()
     return q.where(n == 3)
+
+
+def fin(x, nd=1):
+    """Rounded float, or None when the value is missing (never NaN in the JSON)."""
+    try:
+        x = float(x)
+    except (TypeError, ValueError):
+        return None
+    return round(x, nd) if math.isfinite(x) else None
+
+
+def pct_change(x, i, j):
+    """Percent change from row j to row i of a series, None if either end is missing."""
+    try:
+        a, b = float(x.iloc[i]), float(x.iloc[j])
+    except IndexError:
+        return None
+    return fin(100 * (a / b - 1)) if math.isfinite(a) and math.isfinite(b) and b else None
 
 
 def qlabel(t):
@@ -220,6 +242,7 @@ def validate(sc, fr, md):
                'real market income (NFI minus federal ag subsidies)': np.log(market[market > 0]).diff()}
     res = {}
     detail = {}
+    annual = {'real_nfi_dlog': targets['real net farm income'], 'real_market_dlog': targets['real market income (NFI minus federal ag subsidies)']}
     md += ['', '## Pre-registered validation (annual, year-over-year changes)', '',
            'Measures use the all-farms ratio. A = log ratio; B = log(ratio / previous 40-quarter average). '
            'Annual value = mean of the year\'s 4 quarters (years with all 4 only).', '']
@@ -228,6 +251,7 @@ def validate(sc, fr, md):
         yr = s.groupby(s.index.year)
         ann = yr.mean().where(yr.count() == 4).dropna()
         dx = ann.diff()
+        annual[f'{cand}_dlog'] = dx
         passes = {}
         rows = []
         for tname, dy in targets.items():
@@ -257,6 +281,8 @@ def validate(sc, fr, md):
         r, n, ne, p = eff_n_p(-x, y)
         md.append(f'- Reference only: quarterly change in {cand} vs change in national ag loan delinquency: r = {(-r):+.2f} (n = {n}). No claim made.')
     res['detail'] = detail
+    # The numbers behind T1-T3, one row per year, so anyone can redo the tests.
+    pd.DataFrame(annual).loc[1990:].round(5).to_csv(os.path.join(OUT, 'ffai_v4_annual.csv'), index_label='year')
     return winner, validated, res
 
 
@@ -266,7 +292,7 @@ def main():
     local = os.environ.get('FFAI_V4_LOCAL_CSV')
     if not local and not key:
         sys.exit('ERROR: NASS_API_KEY is not set.')
-    names = sorted({x for p in SECTORS.values() for x in p} | set(DRIVERS.values()) | {v[0] for v in FARM_PRICES.values()} | {USDA_RATIO})
+    names = sorted({x for p in SECTORS.values() for x in p} | set(DRIVERS.values()) | {v[0] for v in FARM_PRICES.values()} | {USDA_RATIO, FEEDER_CATTLE, FEED_PAID})
     m = nass_monthly(names, key, local)
     missing = [n for n in names if n not in m.columns]
     if missing:
@@ -275,7 +301,8 @@ def main():
     need = [x for p in SECTORS.values() for x in p]
     q = q[q[need].notna().all(axis=1)]
     sc = score(q)
-    md = ['# FFAI v4 build report (website unchanged)', '',
+    os.makedirs(OUT, exist_ok=True)
+    md = ['# FFAI v4 build report', '',
           f'- NASS data: {m.index.min():%b %Y} to {m.index.max():%b %Y}; complete quarters {qlabel(q.index[0])} to {qlabel(q.index[-1])} ({len(q)})',
           f'- USDA published ratio vs ours, last quarter: USDA {q[USDA_RATIO].iloc[-1]:.1f}, ours {sc["all_ratio"].iloc[-1]:.1f}']
     fr = {k: fred(v, fkey) for k, v in FRED_IDS.items()} if fkey else None
@@ -298,26 +325,38 @@ def main():
     md += ['', '## What moved (quarter average, % change)', '', '| Item | vs last quarter | vs a year ago |', '|---|---|---|']
     drivers = {}
     for lab, s in DRIVERS.items():
-        x = q[s]; qq = 100 * (x.iloc[-1] / x.iloc[-2] - 1); yy = 100 * (x.iloc[-1] / x.iloc[-5] - 1)
-        drivers[lab] = {'qoq_pct': round(qq, 1), 'yoy_pct': round(yy, 1)}
-        md.append(f'| {lab} | {qq:+.1f}% | {yy:+.1f}% |')
+        x = q[s]; qq, yy = pct_change(x, -1, -2), pct_change(x, -1, -5)
+        drivers[lab] = {'qoq_pct': qq, 'yoy_pct': yy}  # None = USDA has not published it for that quarter
+        f = lambda v: 'not published' if v is None else f'{v:+.1f}%'
+        md.append(f'| {lab} | {f(qq)} | {f(yy)} |')
     md += ['', '## Farm-gate prices (USDA, quarter average)', '', '| Item | ' + qlabel(q.index[-5]) + ' | ' + qlabel(q.index[-2]) + ' | ' + qlabel(last) + ' |', '|---|---|---|---|']
     prices = {}
     for lab, (s, unit) in FARM_PRICES.items():
-        x = q[s]; prices[lab] = {'unit': unit, 'value': round(float(x.iloc[-1]), 2), 'prev_q': round(float(x.iloc[-2]), 2), 'year_ago': round(float(x.iloc[-5]), 2)}
-        md.append(f'| {lab} ({unit}) | {x.iloc[-5]:.2f} | {x.iloc[-2]:.2f} | {x.iloc[-1]:.2f} |')
+        x = q[s]; prices[lab] = {'unit': unit, 'value': fin(x.iloc[-1], 2), 'prev_q': fin(x.iloc[-2], 2), 'year_ago': fin(x.iloc[-5], 2)}
+        f = lambda v: 'not published' if v is None else f'{v:.2f}'
+        md.append(f"| {lab} ({unit}) | {f(prices[lab]['year_ago'])} | {f(prices[lab]['prev_q'])} | {f(prices[lab]['value'])} |")
 
-    os.makedirs(OUT, exist_ok=True)
+    # Dairy cost-side check: USDA has no dairy-only cost index, so the dairy ratio uses the
+    # animal-sector index, which includes feeder cattle bought. Print how much that matters.
+    feed_ratio = 100 * q[SECTORS['dairy'][0]] / q[FEED_PAID]
+    dairy_check = {'from_quarter': qlabel(pd.Timestamp(DAIRY_CHECK_FROM)),
+                   'feeder_cattle_paid_pct': fin(100 * (q[FEEDER_CATTLE].iloc[-1] / q.loc[DAIRY_CHECK_FROM, FEEDER_CATTLE] - 1)),
+                   'feed_paid_pct': fin(100 * (q[FEED_PAID].iloc[-1] / q.loc[DAIRY_CHECK_FROM, FEED_PAID] - 1)),
+                   'dairy_vs_feed_score': fin(pct_in(feed_ratio.loc[BASE_A[0]:BASE_A[1]], feed_ratio.iloc[-1]))}
+    md += ['', f"Dairy cost check: since {dairy_check['from_quarter']}, feeder cattle prices paid {dairy_check['feeder_cattle_paid_pct']:+.1f}%, "
+               f"feed {dairy_check['feed_paid_pct']:+.1f}%. Dairy prices received against feed costs alone would score {dairy_check['dairy_vs_feed_score']:.0f}."]
+
     tab = sc.copy(); tab.insert(0, 'quarter', [qlabel(t) for t in tab.index])
     for lab, (s, unit) in FARM_PRICES.items():
         tab[f'price_{lab}'] = q[s]
+    tab['usda_ratio'] = q[USDA_RATIO]  # USDA's own published ratio, for the publish cross-check
     tab.round(3).to_csv(os.path.join(OUT, 'ffai_v4_quarterly.csv'))
     summary = {'quarter': qlabel(last), 'headline_method': winner, 'validated': bool(validated), 'tests': res,
                'sectors': {s: {'ratio': round(float(sc.loc[last, f'{s}_ratio']), 1),
                                'score': round(float(sc.loc[last, f'{s}_{winner}']), 1),
                                'regime': regime(sc.loc[last, f'{s}_{winner}'])} for s in SECTORS},
-               'drivers': drivers, 'farm_prices': prices}
-    json.dump(summary, open(os.path.join(OUT, 'ffai_v4_summary.json'), 'w'), indent=2)
+               'drivers': drivers, 'farm_prices': prices, 'dairy_cost_check': dairy_check}
+    json.dump(summary, open(os.path.join(OUT, 'ffai_v4_summary.json'), 'w'), indent=2, allow_nan=False)
     try:
         import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
         fig, ax = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
