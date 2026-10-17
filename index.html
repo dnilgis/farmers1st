@@ -252,7 +252,7 @@ footer{background:var(--t900);color:#888;padding:32px 24px 16px}
 <div class="hero-label"><i></i> FFAI v4 // QUARTERLY // USDA DATA // FARMERS1ST.COM</div>
 <h1>THE FARMERS FIRST <em>AG INDEX</em></h1>
 <p class="hdesc"><strong>What U.S. farms get paid, against what they pay.</strong> The FFAI compares USDA&rsquo;s national prices received with prices paid for everything farms buy, then splits it into crops, livestock and dairy so you know what it means for <em>your</em> operation.</p>
-<p class="hdesc" style="font-size:.92rem">Tested before launch: over 30 years, when this ratio rose or fell, inflation-adjusted USDA net farm income moved the same way that year. Prices only &mdash; yields and government payments are not in it. Not reviewed or endorsed by USDA, RMA, or FCIC.</p>
+<p class="hdesc" style="font-size:.92rem" id="heroTested">Tested before launch: over 30 years, when this ratio rose or fell, inflation-adjusted USDA net farm income moved the same way that year. Prices only &mdash; yields and government payments are not in it. Not reviewed or endorsed by USDA, RMA, or FCIC.</p>
 <div class="hlinks"><a href="#report" class="btn-a">This Quarter's Analysis</a><a href="#signup" class="btn-b">Get Updates</a><a href="tel:715-797-2428" class="btn-a hero-call" onclick="trackPhone('sig-hero')">Call Sig: 715-797-2428</a></div>
 </div>
 <div class="sp">
@@ -514,6 +514,7 @@ function hide(id){var e=document.getElementById(id);if(e)e.style.display='none'}
 if(!C){hide('report');hide('otlkFlash');}
 if(!D4){console.error('ffai-v4.js not loaded');var e=document.getElementById('spScore');if(e){e.style.fontSize='1rem';e.textContent='Index data did not load. Reload the page or call 715-797-2428.'}var ch0=document.querySelector('#index .cht');if(ch0)ch0.style.display='none';hide('moved');if(C)renderReport();return;}
 var H=D4.headline,sc=H.score,chg=sc-H.prev_score;
+if(!D4.validated){var ht0=document.getElementById('heroTested');if(ht0)ht0.innerHTML='Descriptive only: the latest engine run did not confirm the link between this ratio and net farm income. See the methodology. Prices only; yields and government payments are not in it. Not reviewed or endorsed by USDA, RMA, or FCIC.';}
 document.getElementById('spDate').textContent='FFAI v4 // ALL U.S. FARMS // '+D4.date;
 var sn=document.getElementById('spScore');sn.innerHTML=sc.toFixed(0)+'<span class="sp-of">/100</span>';sn.style.color=colHex(sc);sn.setAttribute('aria-label','Score '+sc.toFixed(0)+' out of 100');
 function dlt(c){return '<span class="delta '+(c>=0?'delta-up':'delta-dn')+'">'+(Math.abs(c)<0.5?'no change':(c>0?'up ':'down ')+Math.abs(c).toFixed(0))+'</span>'}
