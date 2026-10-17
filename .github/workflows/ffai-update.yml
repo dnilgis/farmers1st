@@ -6,6 +6,9 @@
 #   probe    = list the national USDA and FRED series available for FFAI v4 and save them to
 #              engine/v4probe/ in the repo. The website is unchanged.
 #   v4       = build FFAI v4 and run its pre-registered validation; saves to engine/v4/. Website unchanged.
+#   stress   = stress-test FFAI v4 (base periods, labels, seasonality, income tests under other
+#              start years, deflators and first-published income). Report in the run summary
+#              and the artifact (engine/stress/). Changes nothing.
 # Repository secrets (Settings > Secrets and variables > Actions): NASS_API_KEY and FRED_API_KEY (FRED is used for v4 validation).
 name: FFAI quarterly update
 
@@ -13,9 +16,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "preview = show results only. publish = update the website. experiment = compare scoring methods. probe = list v4 data. v4 = build and validate v4."
+        description: "preview = show results only. publish = update the website. experiment = compare scoring methods. probe = list v4 data. v4 = build and validate v4. stress = stress-test v4."
         type: choice
-        options: [preview, publish, experiment, probe, v4]
+        options: [preview, publish, experiment, probe, v4, stress]
         default: preview
 
 permissions:
@@ -40,6 +43,10 @@ jobs:
       # Versions pinned to the ones this was tested with (Oct 2026).
       - name: Install libraries
         run: pip install fredapi==0.5.2 pandas==3.0.6 numpy==2.5.3 scipy==1.18.1 matplotlib==3.11.2 pillow==12.3.0
+
+      - name: Selftests (engine, publish, stress)
+        if: inputs.mode == 'preview' || inputs.mode == 'publish' || inputs.mode == 'stress'
+        run: python -m unittest discover -s tests -v
 
       - name: Run FFAI v4 engine (pulls USDA NASS, validates against FRED)
         if: inputs.mode == 'preview' || inputs.mode == 'publish'
@@ -74,6 +81,13 @@ jobs:
           NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
         run: python -u ffai_v4.py
 
+      - name: Stress test FFAI v4 (publishes nothing)
+        if: inputs.mode == 'stress'
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
+        run: python -u tools/ffai_v4_stress.py
+
       - name: Keep engine output with the run
         uses: actions/upload-artifact@v4
         with:
@@ -85,6 +99,7 @@ jobs:
             engine/experiment/
             engine/v4probe/
             engine/v4/
+            engine/stress/
           if-no-files-found: ignore
 
       - name: Commit to main
