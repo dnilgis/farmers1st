@@ -76,6 +76,13 @@ footer a{color:var(--t400)}
 <div class="ep-desc">Every quarter since Q1 1995: ratio and score for all farms, crops, livestock and dairy.</div>
 </div>
 
+<h3>Historical Time Series (CSV)</h3>
+<div class="ep">
+<span class="tag tag-get">GET</span><span class="tag tag-json">CSV</span>
+<div class="ep-url">https://farmers1st.com/api/v4/history.csv</div>
+<div class="ep-desc">The same quarters and columns as history.json, as a spreadsheet file. Opens in Excel or Google Sheets. A blank cell means USDA had not published that value.</div>
+</div>
+
 <h3>Method &amp; Validation</h3>
 <div class="ep">
 <span class="tag tag-get">GET</span><span class="tag tag-json">JSON</span>
@@ -106,7 +113,11 @@ footer a{color:var(--t400)}
 <tr><td>sectors.dairy</td><td>object</td><td>Dairy prices received / prices paid by animal farms.</td></tr>
 <tr><td>quarter</td><td>string</td><td>Quarter label, e.g. "Q2'26"</td></tr>
 <tr><td>date</td><td>string</td><td>ISO date of quarter start (YYYY-MM-DD)</td></tr>
+<tr><td>year_ago</td><td>object</td><td>Same quarter one year earlier: quarter, score, ratio. Farm prices are seasonal, so this is the fairer comparison.</td></tr>
+<tr><td>to_reach</td><td>object</td><td>For all farms and each sector, the ratio at each regime line (40, 55, 70) and the % change in the ratio needed to get there. Arithmetic, not a forecast.</td></tr>
+<tr><td>generated</td><td>string</td><td>When the file was written (UTC). The data quarter is in <code>quarter</code>.</td></tr>
 </table>
+<p><strong>Stability:</strong> within v4, existing fields keep their names and meaning; new fields may be added, so ignore fields you do not know. A change in meaning gets a new version number and a new path.</p>
 <p>Only the all-farms score was validated (against USDA net farm income, year over year). Sector scores are descriptive. Details in <a href="/api/v4/meta.json">meta.json</a> and the <a href="/#methodology">methodology</a>.</p>
 
 <h2>Code Examples</h2>
@@ -167,7 +178,7 @@ plot(ffai$quarters$ratio, type=<span class="s">"l"</span>, main=<span class="s">
 <p><strong>Revisions:</strong> the score is measured against a fixed 1995-2019 base, so published values change only if USDA revises its own data.</p>
 
 <h2>FFAI v3 (retired, frozen)</h2>
-<p>FFAI v3 (Federal Reserve series, Q1 2008 &ndash; Q2 2026) was retired in October 2026 after testing showed its composite mostly followed the Fed Funds interest rate. As promised when v3 launched, its endpoints stay online and unchanged: <a href="/api/v3/current.json">/api/v3/current.json</a>, <a href="/api/v3/history.json">/api/v3/history.json</a>, <a href="/api/v3/meta.json">/api/v3/meta.json</a>, <a href="/api/v3/badge.js">/api/v3/badge.js</a>. They will not be updated.</p>
+<p>FFAI v3 (Federal Reserve series, Q1 2008 &ndash; Q2 2026) was retired in October 2026 after testing showed its composite mostly followed the Fed Funds interest rate. As promised when v3 launched, its endpoints stay online and unchanged: <a href="/api/v3/current.json">/api/v3/current.json</a>, <a href="/api/v3/history.json">/api/v3/history.json</a>, <a href="/api/v3/meta.json">/api/v3/meta.json</a>, <a href="/api/v3/badge.js">/api/v3/badge.js</a>. They will not be updated. The v3 badge now shows a short retirement notice instead of the frozen score, because the last v3 reading (Q2 2026, 70 FAVORABLE) disagrees with v4 for the same quarter.</p>
 
 <h2>Contact</h2>
 <p>Questions, integrations, or just want to say hi:<br>

@@ -21,6 +21,15 @@ var FFAI4 = {
   "T3_no_change": 0.221,
   "T3_last_year": 0.32,
   "T3_years": 20,
+  "T1_eff_n": 29.3,
+  "T1_ci": [
+   0.53,
+   0.88
+  ],
+  "T2_ci": [
+   0.69,
+   0.92
+  ],
   "T1_pass": true,
   "T2_pass": true,
   "T3_pass": true
@@ -47,7 +56,10 @@ var FFAI4 = {
    "pct": -1.9,
    "from": "Q2'16",
    "to": "Q1'26"
-  }
+  },
+  "year_ago_quarter": "Q2'25",
+  "year_ago_score": 24.0,
+  "year_ago_ratio": 93.4
  },
  "sectors": {
   "crops": {
@@ -101,84 +113,98 @@ var FFAI4 = {
    "item": "Prices: feed grains",
    "qoq_pct": 4.4,
    "yoy_pct": -4.8,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Prices: oilseeds",
    "qoq_pct": 6.7,
    "yoy_pct": 8.6,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Prices: food grains",
    "qoq_pct": 1.1,
    "yoy_pct": -3.7,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Prices: meat animals",
    "qoq_pct": 5.5,
    "yoy_pct": 14.1,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Prices: dairy",
    "qoq_pct": 13.9,
    "yoy_pct": -0.9,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Costs: feed",
    "qoq_pct": 4.5,
    "yoy_pct": 2.7,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Costs: fuel",
    "qoq_pct": 30.8,
    "yoy_pct": 37.5,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Costs: fertilizer",
    "qoq_pct": 12.9,
    "yoy_pct": 23.1,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Costs: chemicals",
    "qoq_pct": 0.8,
    "yoy_pct": -5.6,
+   "missing": false,
    "not_updated": false
   },
   {
    "item": "Costs: seed",
    "qoq_pct": 0.0,
    "yoy_pct": 0.0,
+   "missing": false,
    "not_updated": true
   },
   {
    "item": "Costs: interest",
    "qoq_pct": 0.0,
    "yoy_pct": -0.8,
+   "missing": false,
    "not_updated": true
   },
   {
    "item": "Costs: wages",
    "qoq_pct": 0.0,
    "yoy_pct": 0.0,
+   "missing": false,
    "not_updated": true
   },
   {
    "item": "Costs: cash rent",
    "qoq_pct": 0.0,
    "yoy_pct": 3.9,
+   "missing": false,
    "not_updated": true
   },
   {
    "item": "Costs: machinery",
    "qoq_pct": 0.3,
    "yoy_pct": 1.4,
+   "missing": false,
    "not_updated": false
   }
  ],
@@ -226,6 +252,101 @@ var FFAI4 = {
    "year_ago": 182.67
   }
  },
+ "to_reach": {
+  "all": [
+   {
+    "regime": "GUARDED",
+    "score": 40,
+    "ratio": 97.5,
+    "move_pct": 15.4,
+    "reached": false
+   },
+   {
+    "regime": "FAVORABLE",
+    "score": 55,
+    "ratio": 101.2,
+    "move_pct": 19.8,
+    "reached": false
+   },
+   {
+    "regime": "STRONG",
+    "score": 70,
+    "ratio": 104.3,
+    "move_pct": 23.4,
+    "reached": false
+   }
+  ],
+  "crops": [
+   {
+    "regime": "GUARDED",
+    "score": 40,
+    "ratio": 95.2,
+    "move_pct": 29.7,
+    "reached": false
+   },
+   {
+    "regime": "FAVORABLE",
+    "score": 55,
+    "ratio": 99.3,
+    "move_pct": 35.3,
+    "reached": false
+   },
+   {
+    "regime": "STRONG",
+    "score": 70,
+    "ratio": 103.1,
+    "move_pct": 40.5,
+    "reached": false
+   }
+  ],
+  "livestock": [
+   {
+    "regime": "GUARDED",
+    "score": 40,
+    "ratio": 96.0,
+    "move_pct": -15.7,
+    "reached": true
+   },
+   {
+    "regime": "FAVORABLE",
+    "score": 55,
+    "ratio": 98.9,
+    "move_pct": -13.2,
+    "reached": true
+   },
+   {
+    "regime": "STRONG",
+    "score": 70,
+    "ratio": 102.2,
+    "move_pct": -10.2,
+    "reached": true
+   }
+  ],
+  "dairy": [
+   {
+    "regime": "GUARDED",
+    "score": 40,
+    "ratio": 94.1,
+    "move_pct": 56.2,
+    "reached": false
+   },
+   {
+    "regime": "FAVORABLE",
+    "score": 55,
+    "ratio": 102.1,
+    "move_pct": 69.5,
+    "reached": false
+   },
+   {
+    "regime": "STRONG",
+    "score": 70,
+    "ratio": 108.5,
+    "move_pct": 80.1,
+    "reached": false
+   }
+  ]
+ },
+ "dairy_cost_check": null,
  "history": [
   [
    "Q1'95",

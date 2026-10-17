@@ -29,6 +29,93 @@
     "score": 0.0,
     "ratio": 79.2
   },
+  "year_ago": {
+    "quarter": "Q2'25",
+    "score": 24.0,
+    "ratio": 93.4
+  },
+  "to_reach": {
+    "all": [
+      {
+        "regime": "GUARDED",
+        "score": 40,
+        "ratio": 97.5,
+        "move_pct": 15.4
+      },
+      {
+        "regime": "FAVORABLE",
+        "score": 55,
+        "ratio": 101.2,
+        "move_pct": 19.8
+      },
+      {
+        "regime": "STRONG",
+        "score": 70,
+        "ratio": 104.3,
+        "move_pct": 23.4
+      }
+    ],
+    "crops": [
+      {
+        "regime": "GUARDED",
+        "score": 40,
+        "ratio": 95.2,
+        "move_pct": 29.7
+      },
+      {
+        "regime": "FAVORABLE",
+        "score": 55,
+        "ratio": 99.3,
+        "move_pct": 35.3
+      },
+      {
+        "regime": "STRONG",
+        "score": 70,
+        "ratio": 103.1,
+        "move_pct": 40.5
+      }
+    ],
+    "livestock": [
+      {
+        "regime": "GUARDED",
+        "score": 40,
+        "ratio": 96.0,
+        "move_pct": -15.7
+      },
+      {
+        "regime": "FAVORABLE",
+        "score": 55,
+        "ratio": 98.9,
+        "move_pct": -13.2
+      },
+      {
+        "regime": "STRONG",
+        "score": 70,
+        "ratio": 102.2,
+        "move_pct": -10.2
+      }
+    ],
+    "dairy": [
+      {
+        "regime": "GUARDED",
+        "score": 40,
+        "ratio": 94.1,
+        "move_pct": 56.2
+      },
+      {
+        "regime": "FAVORABLE",
+        "score": 55,
+        "ratio": 102.1,
+        "move_pct": 69.5
+      },
+      {
+        "regime": "STRONG",
+        "score": 70,
+        "ratio": 108.5,
+        "move_pct": 80.1
+      }
+    ]
+  },
   "regime_thresholds": {
     "STRONG": "70-100",
     "FAVORABLE": "55-70",

@@ -63,6 +63,18 @@
       }
     },
     "validated": true,
+    "r_95pct_range": {
+      "T1": [
+        0.53,
+        0.88
+      ],
+      "T2": [
+        0.69,
+        0.92
+      ],
+      "how": "Fisher z with the effective sample size"
+    },
+    "tests_run": "6 tests ran (2 candidate scores x 3 tests); 6 passed. All correlation tests stay below 0.05 after a Holm correction for running them together. The error tests (T3) have no p value; with 20 and 10 test years the gap is not tested for significance.",
     "scope": "year-over-year changes in the all-farms ratio; the 0-100 score level and the sector scores were not tested",
     "same_year_only": "the relationship is within the same year; it is not a forecast",
     "headline_lock": "A and B both passed 3/3; by the pre-registered tie rule A was chosen, and the engine was then set to keep A (HEADLINE_METHOD) so a later run cannot switch it",
@@ -83,5 +95,6 @@
   ],
   "source": "https://farmers1st.com",
   "api_docs": "https://farmers1st.com/api/",
-  "license": "CC BY 4.0"
+  "license": "CC BY 4.0",
+  "fields_stable": "Fields in current.json, history.json and history.csv keep their names and meaning within v4; new fields may be added. A change in meaning gets a new version number."
 }

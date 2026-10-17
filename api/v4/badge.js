@@ -46,6 +46,9 @@
 
   function render(d) {
     var comp = Math.round(d.score);
+    // Every size names the quarter and the comparison period, so a reader of an old
+    // or cached badge can tell what it measures and when.
+    var asOf = (d.quarter || '') + ' vs 1995-2019';
     function sv_(k) { return Math.round(d.sectors[k].score); }
     var rc = regimeColor(comp);
     var mono = "'Courier New',monospace";
@@ -58,6 +61,7 @@
         + '<span style="font-family:'+mono+';font-size:.6rem;letter-spacing:1px;color:'+c.sub+'">FFAI</span>'
         + '<span style="font-family:'+mono+';font-size:1.1rem;font-weight:800;color:'+rc+'">'+comp+'</span>'
         + '<span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+rc+';padding:2px 6px;border:1px solid '+rc+'">'+regime(comp)+'</span>'
+        + '<span style="font-family:'+mono+';font-size:.55rem;color:'+c.sub+';white-space:nowrap">'+asOf+'</span>'
         + '<a href="https://farmers1st.com/#index" target="_blank" rel="noopener" style="font-size:.6rem;color:'+c.link+';text-decoration:none;white-space:nowrap;font-family:'+mono+'">farmers1st.com</a>'
         + '</div>';
     }
@@ -79,7 +83,7 @@
 
       html = '<div style="max-width:100%;width:380px;box-sizing:border-box;background:'+c.bg+';border:1px solid '+c.border+';padding:16px;font-family:'+sans+'">'
         + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">'
-        + '<span style="font-family:'+mono+';font-size:.6rem;letter-spacing:2px;color:'+c.sub+'">FFAI v4 // '+d.quarter+'</span>'
+        + '<span style="font-family:'+mono+';font-size:.6rem;letter-spacing:2px;color:'+c.sub+'">FFAI v4 // '+asOf+'</span>'
         + '<a href="https://farmers1st.com/#index" target="_blank" rel="noopener" style="font-size:.6rem;color:'+c.link+';text-decoration:none;white-space:nowrap;font-family:'+mono+'">farmers1st.com</a>'
         + '</div>'
         + '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px">'
@@ -99,7 +103,7 @@
 
       html = '<div style="display:inline-flex;align-items:center;gap:12px;padding:10px 16px;background:'+c.bg+';border:1px solid '+c.border+';font-family:'+sans+'">'
         + '<div>'
-        + '<div style="font-family:'+mono+';font-size:.6rem;letter-spacing:1.5px;color:'+c.sub+'">FFAI'+(focusLabel?' // '+focusLabel:'')+'</div>'
+        + '<div style="font-family:'+mono+';font-size:.6rem;letter-spacing:1.5px;color:'+c.sub+'">FFAI'+(focusLabel?' // '+focusLabel:'')+' // '+asOf+'</div>'
         + '<div style="display:flex;align-items:baseline;gap:6px">'
         + '<span style="font-family:'+mono+';font-size:1.6rem;font-weight:800;color:'+regimeColor(focusVal)+'">'+focusVal+'</span>'
         + '<span style="font-family:'+mono+';font-size:.5rem;letter-spacing:.5px;color:'+regimeColor(focusVal)+';padding:2px 6px;border:1px solid '+regimeColor(focusVal)+';font-weight:700">'+regime(focusVal)+'</span>'
