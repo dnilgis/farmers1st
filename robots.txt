@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://farmers1st.com/sitemap.xml
